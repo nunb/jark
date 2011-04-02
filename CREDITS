@@ -1,6 +1,11 @@
+Thanks to
+
 Abhijit Hoskeri
 Abhijith Gopal
 Ambrose Bonnaire-Sergeant
+Chas Emerick (for nrepl)
 Kumar Shantanu
 Martin Demello
-Scottjad
+Rich Hickey (for clojure)
+Scott Jaderholm (for jark scripting)
+Stuart Sierra (for classpath manager)
