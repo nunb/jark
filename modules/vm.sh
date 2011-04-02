@@ -57,7 +57,7 @@ stop() {
     fi
     echo "Stopping JVM server with pid `cat /tmp/jark.pid`"
     $JARK_CLIENT ng-stop
-    rm -f /tmp/jark.*
+    rm -rf /tmp/jark.*
     exit 0
 }
 
