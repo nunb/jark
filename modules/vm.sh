@@ -51,7 +51,7 @@ start() {
 }
 
 stop() {
-    if [ $running == "no" ]; then
+    if [ $(is_jark_running) == "no" ]; then
         echo "JVM server has already been stopped"
         exit 0
     fi
@@ -79,5 +79,16 @@ connect() {
 
     FLAGS "$@" || exit 1
     eval set -- "${FLAGS_ARGV}"
+
+    cp /tmp/jark.client /tmp/jark.client.pre 2&> /dev/null
     echo "${CLJR_BIN}/ng --nailgun-server ${FLAGS_host} --nailgun-port ${FLAGS_port}" > /tmp/jark.client
+
+    if [ $(is_jark_running) == "no" ]; then 
+        echo "Failed to establish connection"
+        mv /tmp/jark.client.pre /tmp/jark.client 2&> /dev/null
+        exit 1
+    else
+        echo "Connection established successfully"
+        exit 0
+    fi
 }

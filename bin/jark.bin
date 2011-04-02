@@ -162,7 +162,7 @@ export JARK_CLIENT
 export CLJR_ROOT
 export CLJR_CP
 export CLJR_BIN
-export running
+export is_jark_running
 export VERSION
 export JARK_MODULES_DIR
 
