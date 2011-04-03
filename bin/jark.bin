@@ -219,6 +219,13 @@ MODULE_CLJ=${JARK_MODULES_DIR}/$MOD.clj
 
 if [ -e ${MODULE_SH} ]; then
     source ${MODULE_SH}
+    if [ -z $2 ]; then
+        echo "Available commands: " 
+        for i in `commands`; do
+            echo "  $i";
+        done
+        exit 1
+    fi
     ${2} "${@:3}"
     exit 0
 elif [ -e ${MODULE_CLJ} ]; then
