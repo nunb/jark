@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+   <title>icylisper.in</title>
+   <meta name="author" content="Isaac Praveen" />
+   <link rel="stylesheet" href="/css/master.css" type="text/css" media="screen" charset="utf-8"/>
+   <link rel="stylesheet" href="/css/syntax.css" type="text/css" />
+
+   <script type="text/javascript" src="http://use.typekit.com/hqz1dpo.js"></script>
+   <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+   <script src="/javascripts/jquery.js" type="text/javascript" charset="utf-8"></script>
+   <script src="/javascripts/jquery.github.js" type="text/javascript" charset="utf-8"></script>
+   <link href="http://feeds.feedburner.com/icylisper" rel="alternate" title="Isaac Praveen" type="application/atom+xml"/>
+</head>
+<body>
+
+<div id="site">
+    <div id="header">
+      <h1>Jark</h1>
+      <div id="menu">
+        <a href="/clojure/jark.html" id="blog_link">blog</a>
+        <a href="http://github.com/icylisper/jark" id="blog_link">code</a>
+        <a href="https://groups.google.com/group/clojure-jark" id="blog_link">group</a>
+        <img src="/images/clojure-icon.gif" height="55">
+      </div>
+   </div>
+<div id="content">
+ <div class="post">
+  <h1></h1>
+  <div class="body">
+    <table width="100%">
+      <tr>
+        <td width="15%" valign="top">
+
+         <a href="/jark/index.html">why jark</a><br>
+        <a href="/jark/start.html">start</a><br>
+         <a href="/jark/namespace.html">namespace</a><br>
+         <a href="/jark/package.html">packages</a><br>
+         <a href="/jark/classpath.html">classpath</a><br>
+         <a href="/jark/doc.html">docs</a><br>
+         <a href="/jark/editor.html">editors</a><br>
+         <a href="/jark/scripting.html">scripting</a><br>
+         <a href="/jark/vm.html">vm</a><br>
+         <a href="/jark/resource.html">resources</a><br>
+         <a href="/jark/wishlist.html">wishlist</a><br>
+         <a href="/jark/gitlive.html">git log</a><br>
+        </td>
+        <td width="85%" valign="top">
+          <i> A tool to manage classpaths and clojure namespaces on a persistent JVM</i>
+          <h2>Scripting with jark</h2>
+<p>An alternative to <code>jark ns load FILE</code> is using jark as a command interpreter (the shebang operator).</p>
+<p><u>file: src/test/script.clj</u></p>
+<div class="highlight"><pre><code class="clojure"><span class="o">#</span><span class="nv">!/usr/bin/env</span> <span class="nv">jark</span>
+
+<span class="p">(</span><span class="nf">ns</span> <span class="nv">test</span><span class="o">.</span><span class="nv">script</span>
+  <span class="p">(</span><span class="nf">:use</span> <span class="nv">clojure</span><span class="o">.</span><span class="nv">contrib</span><span class="o">.</span><span class="nv">command-line</span><span class="p">))</span>
+
+<span class="p">(</span><span class="k">defn </span><span class="nv">-main</span> <span class="p">[</span><span class="nv">&amp;</span> <span class="nv">args</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">with-command-line</span> <span class="nv">args</span>
+      <span class="s">&quot;example of jark script with args&quot;</span>
+      <span class="p">[[</span><span class="nv">foo</span> <span class="s">&quot;foo does foo&quot;</span> <span class="mi">1</span><span class="p">]</span>
+       <span class="p">[</span><span class="nv">bar</span> <span class="s">&quot;bar does bar&quot;</span> <span class="mi">2</span><span class="p">]</span>
+       <span class="nv">remaining</span><span class="p">]</span>
+    <span class="p">(</span><span class="nb">println </span><span class="s">&quot;foo: &quot;</span> <span class="nv">foo</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">println </span><span class="s">&quot;bar: &quot;</span> <span class="nv">bar</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">println </span><span class="s">&quot;remaining: &quot;</span> <span class="nv">remaining</span><span class="p">)))</span>
+</code></pre>
+</div><p>It can be run as follows: <br />
+<pre class="terminal"><code>$ cd src 
+$ test/script.clj --foo "a" --bar "b"
+=&gt; foo: "a"
+   bar: "b"
+   remaining: [] 
+</code></pre></p>
+<p>Note the following in the above snippet of code</p>
+<ul>
+	<li>The <span class="caps">JVM</span> is started if it is not already running. Otherwise, it just uses the current vm connection.</li>
+	<li>Do <strong><span class="caps">NOT</span></strong> call <i>-main</i> within the script.</li>
+	<li>A namespace has to be defined.</li>
+	<li>If namespace has a reverse domain in the name, call the script with the path corresponding do the reverse domain. For example, if ns is foo.bar.baz, run the script as foo/bar/baz.clj.<br />
+It would be idiomatic to <strong><span class="caps">NOT</span></strong> use reverse-domain type namespaces for scripts. The following should just be fine:</li>
+</ul>
+<p><u>file: factorial</u></p>
+<div class="highlight"><pre><code class="clojure"><span class="o">#</span><span class="nv">!/usr/bin/env</span> <span class="nv">jark</span>
+
+<span class="p">(</span><span class="nf">ns</span> <span class="nv">factorial</span>
+  <span class="p">(</span><span class="nf">:use</span> <span class="nv">clojure</span><span class="o">.</span><span class="nv">contrib</span><span class="o">.</span><span class="nv">command-line</span><span class="p">))</span>
+
+<span class="p">(</span><span class="k">defn </span><span class="nv">compute</span> <span class="p">[</span><span class="nv">n</span><span class="p">]</span> 
+  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">n</span> <span class="p">(</span><span class="nf">Integer</span><span class="o">.</span> <span class="nv">n</span><span class="p">)]</span>    
+    <span class="p">(</span><span class="nb">apply </span><span class="nv">*</span> <span class="p">(</span><span class="nb">take </span><span class="nv">n</span> <span class="p">(</span><span class="nb">iterate </span><span class="nv">inc</span> <span class="mi">1</span><span class="p">)))))</span>
+
+<span class="p">(</span><span class="k">defn </span><span class="nv">-main</span> <span class="p">[</span><span class="nv">&amp;</span> <span class="nv">args</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">with-command-line</span> <span class="nv">args</span>
+      <span class="s">&quot;Factorial of a number&quot;</span>
+      <span class="p">[[</span><span class="nv">n</span> <span class="s">&quot;Some number&quot;</span> <span class="mi">1</span><span class="p">]</span>
+       <span class="nv">remaining</span><span class="p">]</span>
+    <span class="p">(</span><span class="nb">println </span><span class="s">&quot;Factorial of&quot;</span> <span class="nv">n</span> <span class="s">&quot; :&quot;</span> <span class="p">(</span><span class="nf">factorial/compute</span> <span class="nv">n</span><span class="p">))))</span>
+</code></pre>
+</div><p>And then run it as:<br />
+<pre class="terminal"><code>$ ./factorial -n 10
+Factorial of 10  : 3628800
+</code></pre></p>
+        </td>
+      </tr>
+     </table>
+  </div>
+</div>
+
+
+</body>
+</html>
