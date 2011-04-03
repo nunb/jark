@@ -20,14 +20,24 @@ run() {
 }
 
 repl() {
-    which rlwrap &> /dev/null
     echo $* > /tmp/jark.ns
+    which rlwrap &> /dev/null
     if [ $? == "0" ]; then
         rlwrap --break-chars "\"\\'(){}[],^%$#@;:|" \
           --remember \
           -m -q'"' -c \
           -f ${CLJR_BIN}/clj_completions \
           $JARK _ns repl $* 
+    else
+        $JARK _ns repl $* 
+    fi
+}
+
+repl_no_rline() {
+    echo $* > /tmp/jark.ns
+    which rlwrap &> /dev/null
+    if [ $? == "0" ]; then
+        $JARK _ns repl $* 
     else
         $JARK _ns repl $* 
     fi
