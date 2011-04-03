@@ -1,0 +1,39 @@
+---
+layout: clojure
+head: Jark
+---
+
+h2. Namespace utilities
+
+Jark provides some interesting namespace utilities. Let us start by loading a file that has a namespace defined in it.
+
+{% highlight clojure %}
+(ns factorial)
+
+(defn compute [n] 
+  (let [n (Integer. n)]    
+    (apply * (take n (iterate inc 1)))))
+{% endhighlight %}
+
+<pre class="terminal"><code>$ jark ns load ./factorial.clj</code></pre>
+
+Running it is really simple:
+<pre class="terminal"><code>$ jark if cli factorial compute 10</code></pre>
+
+or simply 
+<pre class="terminal"><code>$ jark factorial compute 10</code></pre>
+
+Let us now define a fact-map function.
+
+<code>jark ns repl factorial</code> to get to the repl for the 'factorial' namespace. Let us now map the factorial function over a range 0 .. n.
+
+<pre class="terminal"><code>factorial>> (defn fact-map [n] 
+               (let [n (Integer. n)]
+                  (zipmap (take n (iterate inc 1))
+                          (map factorial/compute (take n (iterate inc 1))))))
+</code></pre>
+
+The interface(if) module provides cli and cli-json commands. The cli-json spits out JSON.
+<pre class="terminal"><code>$ jark if cli-json factorial fact-map 3
+ => {"3" : 6, "2" : 2, "1" : 1}
+</code></pre>

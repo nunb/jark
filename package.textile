@@ -1,0 +1,23 @@
+---
+layout: clojure
+head: Jark
+---
+
+h2. Package management
+
+Now, jark integrates well with exisiting clojure package management tools like cljr and lein.
+
+<pre class="terminal"><code>$ jark package search base64
+Libraries on Clojars.org that contain the term:  base64
+--------------------------------------------------------------------------------
+   clj-base64    0.0.0-SNAPSHOT
+   org.clojars.s450r1/dcm4che-base64    2.0.23
+</code></pre>
+
+<pre class="terminal"><code>$ jark package install clj-base64
+$ jark cp add ~/.cljr/lib/clj-base64-*.jar
+$ jark cp list
+$ jark remvee.base64 encode-str "clojure rocks"
+  => Y2xvanVyZSByb2Nrcw==
+</code></pre>
+There is also the <i>repo</i> module to search, list, add or remove maven repositories.

@@ -1,0 +1,69 @@
+---
+layout: clojure
+head: Jark
+---
+
+h2. Scripting with jark
+
+An alternative to <code>jark ns load FILE</code> is using jark as a command interpreter (the shebang operator).
+
+<u>file: src/test/script.clj</u>
+
+{% highlight clojure %}
+#!/usr/bin/env jark
+
+(ns test.script
+  (:use clojure.contrib.command-line))
+
+(defn -main [& args]
+  (with-command-line args
+      "example of jark script with args"
+      [[foo "foo does foo" 1]
+       [bar "bar does bar" 2]
+       remaining]
+    (println "foo: " foo)
+    (println "bar: " bar)
+    (println "remaining: " remaining)))
+{% endhighlight %}
+
+It can be run as follows: 
+<pre class="terminal"><code>$ cd src 
+$ test/script.clj --foo "a" --bar "b"
+=> foo: "a"
+   bar: "b"
+   remaining: [] 
+</code></pre>
+
+Note the following in the above snippet of code
+
+* The JVM is started if it is not already running. Otherwise, it just uses the current vm connection.
+* Do *NOT* call <i>-main</i> within the script.
+* A namespace has to be defined.
+* If namespace has a reverse domain in the name, call the script with the path corresponding do the reverse domain. For example, if ns is foo.bar.baz, run the script as foo/bar/baz.clj.
+It would be idiomatic to *NOT* use reverse-domain type namespaces for scripts. The following should just be fine:
+
+<u>file: factorial</u>
+
+{% highlight clojure %}
+#!/usr/bin/env jark
+
+(ns factorial
+  (:use clojure.contrib.command-line))
+
+(defn compute [n] 
+  (let [n (Integer. n)]    
+    (apply * (take n (iterate inc 1)))))
+
+(defn -main [& args]
+  (with-command-line args
+      "Factorial of a number"
+      [[n "Some number" 1]
+       remaining]
+    (println "Factorial of" n " :" (factorial/compute n))))
+{% endhighlight %}
+
+And then run it as:
+<pre class="terminal"><code>$ ./factorial -n 10
+Factorial of 10  : 3628800
+</code></pre>
+   

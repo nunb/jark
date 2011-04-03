@@ -1,0 +1,16 @@
+---
+layout: clojure
+head: Jark
+---
+
+h2. Why Jark
+
+Startup time of the Java Virtual Machine(JVM) is too slow and thereby command-line applications on the JVM are sluggish and very painful to use. And there is no existing simple way for multiple clients to access the same instance of the JVM. Jark is an attempt to run a persistent JVM daemon and provide a set of utilities to control and operate on it. 
+
+Jark is intended to 
+* deploy, maintain and debug clojure programs on remote hosts
+* provide an easy interface to run clojure programs on the command-line
+* provide a set of useful namespace and classpath utilities 
+* provide a secure and robust implementation of a JVM daemon that multiple clients can connect to, seamlessly
+* integrate with other clojure build tools (lein, cljr) to make them run faster on a persistent VM
+* be VM agnostic: support for all VMs that clojure runs on in the future
