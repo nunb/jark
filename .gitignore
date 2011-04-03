@@ -1,8 +1,0 @@
-pom.xml
-*.jar
-lib
-classes
-classpath
-package/pkg/
-package/src/
-*.tar.xz
