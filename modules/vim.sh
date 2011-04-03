@@ -13,6 +13,7 @@ DOC="Module to manage VimClojure instances"
 
 
 VIMCLOJURE_JAR="${CLJR_CP}/server-2.2.0.jar"
+OPEN_VMS="/tmp/vimclojure.open"
 
 commands() {
     echo -e "start stop cp install"
@@ -34,6 +35,7 @@ start() {
     DEFINE_string 'port' '2443' 'vimclojure port' 'p'
     FLAGS "$@" || exit 1
     eval set -- "${FLAGS_ARGV}"
+    host="127.0.0.1"
     port=${FLAGS_port}
 
     # Make sure jar is installed
@@ -45,7 +47,7 @@ start() {
         exit 1
     fi
 
-    VIMCLOJURE="${CLJR_BIN}/ng --nailgun-port ${port}"
+    VIMCLOJURE="${CLJR_BIN}/ng --nailgun-server ${host} --nailgun-port ${port}"
     TESTPORT="${VIMCLOJURE} ng-cp"
 
     # TODO must be a better way of testing the port ...
@@ -68,7 +70,8 @@ start() {
     echo "Starting VimClojure server on port ${port} ..."
     java -cp ${CLOJURE_JARS}:${VIMCLOJURE_JAR} -server vimclojure.nailgun.NGServer $port <&- & 2&> /dev/null
     pid=$!
-    echo ${pid} > /tmp/vimclojure.pid
+
+    echo -e "${pid}\t${host}\t${port}" >> ${OPEN_VMS}
 
     sleep 2
 
@@ -105,17 +108,25 @@ start() {
 # Change host with --host -o, default 127.0.0.1
 # Default port 2443, change with --port -p
 stop() {
-    DEFINE_string 'host' '127.0.0.1' 'vimclojure host' 'o'
-    DEFINE_string 'port' '2443' 'vimclojure port' 'p'
+    DEFINE_string 'ho' '127.0.0.1' 'vimclojure host' 's'
+    DEFINE_string 'po' '2443' 'vimclojure port' 'r'
     FLAGS "$@" || exit 1
     eval set -- "${FLAGS_ARGV}"
-    host=${FLAGS_host}
-    port=${FLAGS_port}
+    host=${FLAGS_ho}
+    port=${FLAGS_po}
 
     echo "Stopping VimClojure server at ${host}:${port} ..."
     echo ""
 
     VIMCLOJURE="${CLJR_BIN}/ng --nailgun-server ${host} --nailgun-port ${port}"
+
+    # Remove entry in open vms
+    echo "host = ${host}"
+    echo "port = ${port}"
+
+    awk '!($2 == h && $3 == p)' h=$host p=$port ${OPEN_VMS} > ${OPEN_VMS}.tmp
+    # for some reason redirecting directly didn't work... FIXME
+    cp ${OPEN_VMS}.tmp ${OPEN_VMS}
 
     $VIMCLOJURE ng-stop
 }
@@ -144,4 +155,14 @@ cp() {
     echo "VimClojure classpath ($host:${port})"
     echo ""
     $VIMCLOJURE ng-cp
+}
+
+
+# Lists current known vimclojure servers
+list() {
+    echo -e "Pid\tHost\tPort"
+    echo ""
+    cat ${OPEN_VMS} | while read line; do
+      echo $line | awk '{ print $1 "\t" $2 "\t" $3}'
+    done
 }
