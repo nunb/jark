@@ -104,17 +104,6 @@ is_jark_running() {
 running=`is_jark_running`
 JARK_CLIENT=$(get_client)
 
-if [ -e "$1" ]; then
-    if [ "$running" == "no" ]; then
-        jark vm start 2&> /dev/null
-        jark ns load $1
-    fi
-    LNS=`jark ns load $1`
-    NS=`echo $LNS | cut -d '/' -f 1 | cut -d "'" -f 2`
-    jark $NS  -main "${@:2}" 
-    exit 0
-fi
-
 if [ "$1"  == "repl" ]; then
     # TODO: remember last used repl
     if [ -z $2 ]; then
@@ -231,14 +220,25 @@ MODULE_CLJ=${JARK_MODULES_DIR}/$MOD.clj
 if [ -e ${MODULE_SH} ]; then
     source ${MODULE_SH}
     ${2} "${@:3}"
+    exit 0
 elif [ -e ${MODULE_CLJ} ]; then
     MODULE=`basename ${MODULE_CLJ} | cut -d '.' -f 1` 
     $JARK_CLIENT jark.core jark.core jark-load ${MODULE_CLJ} 2&> /dev/null
     $JARK_CLIENT jark.core jark.core jark-compile ${JARK_MODULES_DIR} jark.${MODULE} 2&> /dev/null
     $JARK_CLIENT jark.core jark.${MODULE} "${@:2}"
+    exit 0
+elif [ -e "$1" ]; then
+    if [ "$running" == "no" ]; then
+        jark vm start 2&> /dev/null
+    fi
+    LNS=`jark ns load $1`
+    NS=`echo $LNS | cut -d '/' -f 1 | cut -d "'" -f 2`
+    jark $NS  -main "${@:2}" 
+    exit 0
 else
     $JARK_CLIENT jark.core "${@:1}"
 fi
+
 
 exit 0
 
