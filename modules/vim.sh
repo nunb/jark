@@ -15,7 +15,15 @@ DOC="Module to manage VimClojure instances"
 VIMCLOJURE_JAR="${CLJR_CP}/server-2.2.0.jar"
 
 commands() {
-    echo -e "start stop cp"
+    echo -e "start stop cp install"
+}
+
+# Get vimclojure deps
+install() {
+    # Get vimclojure jar
+    echo "Installing VimClojure dependencies ..."
+    ${JARK} package install vimclojure/server 2.2.0
+    echo ""
 }
 
 # Start a vimclojure server. If the pwd looks like
@@ -28,11 +36,13 @@ start() {
     eval set -- "${FLAGS_ARGV}"
     port=${FLAGS_port}
 
-    # Get vimclojure jar
+    # Make sure jar is installed
     if [ ! -e ${VIMCLOJURE_JAR} ]; then
-      echo "Installing VimClojure dependencies ..."
-      ${JARK} package install vimclojure/server 2.2.0
-      echo ""
+        echo "FAILED VimClojure jar not installed"
+        echo ""
+        echo "Install instructions:"
+        echo "  jark vim install"
+        exit 1
     fi
 
     VIMCLOJURE="${CLJR_BIN}/ng --nailgun-port ${port}"
@@ -40,8 +50,8 @@ start() {
 
     # TODO must be a better way of testing the port ...
     #   this will do for now. Something like TESTPORT = "yes" ? "no"
-    # Also it seems stderr is not being ignored properly with 
-    # TESTPORT. I don't understand redirecting too well ... 
+    # Also it seems stderr is not being ignored properly with
+    # TESTPORT. I don't understand redirecting too well ...
 
     # Fail if port already responsive
     ${TESTPORT} &> /dev/null
@@ -90,7 +100,7 @@ start() {
     fi
 }
 
-# Stop a vimclojure server. 
+# Stop a vimclojure server.
 #
 # Default port 2443, change with --port -p
 stop() {
@@ -120,7 +130,7 @@ cp() {
     VIMCLOJURE="${CLJR_BIN}/ng --nailgun-port $port"
 
     # Add to cp
-    if [ $@ ]; then 
+    if [ $@ ]; then
       $VIMCLOJURE ng-cp $@
     fi
 
