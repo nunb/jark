@@ -26,7 +26,7 @@ To list classpath:
 <pre class="terminal"><code>$ jark vim cp [--port]</code></pre>
 
 To add a jar or directory to the classpath:
-<pre class="terminal"><code>$ jark vim cp [--port] something.jar
+<pre class="terminal"><code>$ jark vim cp something.jar [--port]
 </code></pre>
 
 Add the following to .vimrc
