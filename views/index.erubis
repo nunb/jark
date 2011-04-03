@@ -1,0 +1,31 @@
+<html>
+<head>
+   <title><%= title %></title>
+   <link href="/css/master.css" media="screen" rel="stylesheet"  type="text/css" />
+   <script type="text/javascript" src="http://use.typekit.com/hqz1dpo.js"></script>
+   <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+</head>
+<body>
+
+ <div id="site">
+  <div id="header">
+    <h1>Jark</h1>
+
+    <div id="menu">
+     <img src="clojure-icon.gif">
+    </div>
+   </div>
+
+  <div class="clearfix"/>
+
+  <div id="content">
+    <div class="post">
+     <i>Tool to manage classpaths and clojure namespaces on the JVM</i>
+      <%= resume %>
+     </div>
+  </div>
+
+ </div>
+</body>
+</html>
