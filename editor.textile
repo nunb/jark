@@ -10,6 +10,9 @@ We can connect from emacs: <code>M-x slime-connect 127.0.0.1 4005</code>
 
 h2. Vim support
 
+Install the vim server dependencies:
+<pre class="terminal"><code>$ jark vim install</code></pre>
+
 To start the vim server do the following. 
 <pre class="terminal"><code>$ jark vim start
 =>  Starting VimClojure server on port 2443 ...
