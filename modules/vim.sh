@@ -22,7 +22,7 @@ commands() {
 install() {
     # Get vimclojure jar
     echo "Installing VimClojure dependencies ..."
-    ${JARK} package install vimclojure/server 2.2.0
+    ${JARK} package install -p vimclojure/server -v 2.2.0
     echo ""
 }
 
