@@ -102,17 +102,20 @@ start() {
 
 # Stop a vimclojure server.
 #
+# Change host with --host -o, default 127.0.0.1
 # Default port 2443, change with --port -p
 stop() {
+    DEFINE_string 'host' '127.0.0.1' 'vimclojure host' 'o'
     DEFINE_string 'port' '2443' 'vimclojure port' 'p'
     FLAGS "$@" || exit 1
     eval set -- "${FLAGS_ARGV}"
+    host=${FLAGS_host}
     port=${FLAGS_port}
 
-    echo "Stopping VimClojure server on port ${port} ..."
+    echo "Stopping VimClojure server at ${host}:${port} ..."
     echo ""
 
-    VIMCLOJURE="${CLJR_BIN}/ng --nailgun-port $port"
+    VIMCLOJURE="${CLJR_BIN}/ng --nailgun-server ${host} --nailgun-port ${port}"
 
     $VIMCLOJURE ng-stop
 }
@@ -120,14 +123,17 @@ stop() {
 # cp is listed for VimClojure server at port.
 # Any arguments are added to the cp.
 #
+# Change host with --host -o, default 127.0.0.1
 # Change port with --port -p, default 2443
 cp() {
+    DEFINE_string 'host' '127.0.0.1' 'vimclojure host' 'o'
     DEFINE_string 'port' '2443' 'vimclojure port' 'p'
     FLAGS "$@" || exit 1
     eval set -- "${FLAGS_ARGV}"
+    host=${FLAGS_host}
     port=${FLAGS_port}
 
-    VIMCLOJURE="${CLJR_BIN}/ng --nailgun-port $port"
+    VIMCLOJURE="${CLJR_BIN}/ng --nailgun-server ${host} --nailgun-port ${port}"
 
     # Add to cp
     if [ $@ ]; then
@@ -135,7 +141,7 @@ cp() {
     fi
 
     # Print cp
-    echo "VimClojure classpath (port ${port})"
+    echo "VimClojure classpath ($host:${port})"
     echo ""
     $VIMCLOJURE ng-cp
 }
