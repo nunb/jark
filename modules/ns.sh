@@ -33,18 +33,8 @@ repl() {
     fi
 }
 
-repl_no_rline() {
-    echo $* > /tmp/jark.ns
-    which rlwrap &> /dev/null
-    if [ $? == "0" ]; then
-        $JARK _ns repl $* 
-    else
-        $JARK _ns repl $* 
-    fi
-}
-
 load() {
-    f=$(readlink -f $1)
+    f=$(readlink_f $1)
     if [ $f ]; then
         $JARK _ns load "$f"
         exit 0

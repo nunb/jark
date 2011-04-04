@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# build jark without renaming the project
+LEIN_SNAPSHOTS_IN_RELEASE="yes"
+
 javac modules/SystemThreadList.java
 if [ $? != 0 ]; then 
     echo "javac not installed, exiting"
@@ -40,8 +43,8 @@ DATE=`date`
 ARCH=`uname -m`
 TMPL_DATE="$ARCH | $DATE"
 echo "git hash: $COMMIT"
-sed -i "s/TMPL_VERSION/$COMMIT/g" jark
-sed -i "s/TMPL_DATE/${TMPL_DATE}/g" jark
+perl -pi -e "s/TMPL_VERSION/$COMMIT/g" jark
+perl -pi -e "s/TMPL_DATE/${TMPL_DATE}/g" jark
 
 chmod +x jark
 echo "jark self extracting script created"

@@ -21,6 +21,12 @@ readlink_e() {
     pwd
 }
 
+readlink_f() {
+    local f="$1"
+    cd "$(dirname $f)"
+    echo $(pwd)/`basename $f`
+}
+
 JARK=$(readlink_e)/jark || jark
 
 if [ -e "${CLJR_CP}/jark-${JARK_RELEASE_VERSION}.jar" ]; then
@@ -149,6 +155,7 @@ export CLJR_BIN
 export is_jark_running
 export VERSION
 export JARK_MODULES_DIR
+export readlink_f
 
 mkdir -p ${CLJR_CP}
 mkdir -p ${CLJR_BIN}

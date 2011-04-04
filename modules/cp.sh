@@ -1,16 +1,6 @@
 
 DOC="Classpath utilities"
 
-readlink_e() {
-    self="$0"
-    while test -h "$self"; do
-	cd "$(dirname $self)"
-	self=`readlink "$self"`
-    done
-    cd "$(dirname $self)"
-    pwd
-}
-
 commands() {
     echo -e "list add run"
     exit 0
@@ -22,7 +12,7 @@ remove() {
 }
 
 add() {
-    local jar=`readlink -f "$1"`
+    local jar=$(readlink_f $1)
     if [ -z $jar ]; then
         echo "USAGE jark cp add <jarpath>"
         exit 0
@@ -37,7 +27,7 @@ add() {
         exit 0
     fi
 
-    jp=$(readlink -f $jar)
+    jp=$(readlink_f $jar)
     if [ $? == "0" ]; then
         $JARK_CLIENT ng-cp $jp
         $JARK_CLIENT ng-cp
