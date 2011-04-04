@@ -27,6 +27,11 @@ readlink_f() {
     echo $(pwd)/`basename $f`
 }
 
+readlink_a() {
+    local f="$1"
+    echo $(basename $f | cut -d '.' -f 2)
+}
+
 JARK=$(readlink_e)/jark || jark
 
 if [ -e "${CLJR_CP}/jark-${JARK_RELEASE_VERSION}.jar" ]; then
@@ -105,6 +110,11 @@ is_jark_running() {
     else
         echo "no"
     fi
+}
+
+clj_temp_file() {
+    local f="$1"
+    echo "/tmp/$(basename $f).clj"
 }
 
 running=`is_jark_running`
@@ -245,14 +255,20 @@ elif [ -e "$1" ]; then
     if [ "$running" == "no" ]; then
         jark vm start 2&> /dev/null
     fi
-    LNS=`jark ns load $1`
+    if [ "$(readlink_a $1)" == `basename $1` ]; then
+        cp $(readlink_f $1) $(clj_temp_file $1)
+        LOAD_FILE=$(clj_temp_file $1)
+    else
+        LOAD_FILE=$(readlink_f $1)
+    fi
+    LNS=`jark ns load $LOAD_FILE`
     NS=`echo $LNS | cut -d '/' -f 1 | cut -d "'" -f 2`
-    jark $NS  -main "${@:2}" 
+    $JARK_CLIENT jark.core $NS -main "${@:2}"
+    rm -f $(clj_temp_file $1)
     exit 0
 else
     $JARK_CLIENT jark.core "${@:1}"
 fi
-
 
 exit 0
 
