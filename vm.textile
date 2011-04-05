@@ -5,7 +5,7 @@ head: Jark
 
 h2. VM utils
 
-We can pass options to the VM, when starting it. For example, the JVM minimum and maximum heap is set as follows:
+We can pass options to the VM, when starting it. For example, the JVM minimum and maximum heap size are set as follows:
 
 <pre class="terminal"><code>$ jark vm start [--port] -o "-Xms256m -Xmx512m"</code></pre>
 Any of the "JVM options":http://blogs.sun.com/watt/resource/jvm-options-list.html can be set.
