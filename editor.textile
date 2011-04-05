@@ -11,7 +11,7 @@ We can connect from emacs: <code>M-x slime-connect 127.0.0.1 4005</code>
 When writing clojure scripts using jark, add the following to .emacs to recognise it as clojure-mode.
 
 {% highlight cl %}
- (add-to-list 'interpreter-mode-alist '("jark" . clojure-mode))
+(add-to-list 'interpreter-mode-alist '("jark" . clojure-mode))
 {% endhighlight %}
 
 h2. Vim support
