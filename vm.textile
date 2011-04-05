@@ -13,13 +13,13 @@ We can switch between different instances of the JVM running on different hosts.
 
 To get the memory usage and other stats of the VM:
 <pre class="terminal"><code>$ jark vm stat
-     VM port     -   2113
-     swank port  -   4005
-     total mem   -   170 MB
-     used mem    -   20 MB
-     free mem    -   150 MB
-     start time  -   Tue Apr 05 16:24:33 IST 2011
-     uptime      -   1m | 117s
+=> VM port     -   2113
+   swank port  -   4005
+   total mem   -   170 MB
+   used mem    -   20 MB
+   free mem    -   150 MB
+   start time  -   Tue Apr 05 16:24:33 IST 2011
+   uptime      -   1m | 117s
 </code></pre>
 
 To do garbage collection on demand.
