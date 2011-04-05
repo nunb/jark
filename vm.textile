@@ -11,6 +11,20 @@ To list all the threads that are running on the VM:
 We can switch between different instances of the JVM running on different hosts. By default it connects to localhost on port 2113.
 <pre class="terminal"><code>$ jark vm connect [--host] [--port]</code></pre>
 
+To know memory usage of the VM:
+<pre class="terminal"><code>$ jark vm stat
+     VM port     -   2113
+     swank port  -   4005
+     total mem   -   170 MB
+     used mem    -   20 MB
+     free mem    -   150 MB
+     start time  -   Tue Apr 05 16:24:33 IST 2011
+     uptime      -   1m | 117s
+</code></pre>
+
+To do garbage collection on demand.
+<pre class="terminal"><code>$ jark vm gc</code></pre>
+
 The VM module currently uses nailgun which has serious limitations.
 There is a new module called nrepl that would eventually provide nailgun's functionality and more.
 It uses Chas Emerick's "nrepl":https://github.com/clojure/tools.nrepl
@@ -21,5 +35,8 @@ jark nrepl send [--host] [--port] --expression EXPRESSION
 eg: $ jark nrepl send -e "(take 6 (iterate inc 1))"
     => (1 2 3 4 5 6)
 </code></pre>
+
+
+
 
 In the future, jark would support other Virtual Machines that clojure runs on, apart from the JVM.
