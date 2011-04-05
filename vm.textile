@@ -22,7 +22,7 @@ To get the memory usage and other stats of the VM:
    uptime      -   1m | 117s
 </code></pre>
 
-To do garbage collection on demand.
+To do garbage collection on demand:
 <pre class="terminal"><code>$ jark vm gc</code></pre>
 
 The VM module currently uses nailgun which has serious limitations.
