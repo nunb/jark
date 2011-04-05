@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -eu 
+
 # build jark without renaming the project
 LEIN_SNAPSHOTS_IN_RELEASE="yes"
 
@@ -16,10 +18,10 @@ for i in `ls lib/*.jar`; do
     echo $i >> jark-deps.txt
 done
 
-tar cvf payload.tar bin/clj_completions bin/shflags bin/ng-i686 bin/ng-x86_64 bin/project-cljr.clj *.jar jark-deps.txt modules/
+tar cf payload.tar bin/clj_completions bin/shflags bin/ng-* bin/project-cljr.clj *.jar jark-deps.txt modules/
 
 for i in `ls lib/*.jar`; do
-    tar -vrf payload.tar $i
+    tar -rf payload.tar $i
 done
 
 if [ -e "payload.tar" ]; then
