@@ -8,7 +8,7 @@ commands() {
 }
 
 start() {
-    DEFINE_string 'port' '2113' 'remote jark port' 'p'
+    DEFINE_string 'port' '9000' 'remote jark port' 'p'
     DEFINE_string 'jvm_opts' '-Xms64m -Xmx256m' 'JVM Opts' 'o'
     FLAGS "$@" || exit 1
     eval set -- "${FLAGS_ARGV}"
@@ -16,7 +16,7 @@ start() {
 
     rm -f /tmp/jark.client
 
-    java ${FLAGS_jvm_opts} -cp ${JARK_CP}:${JARK_JAR} -server -main jark.core jark._vm start $port <&- & 2&> /dev/null 
+    java ${FLAGS_jvm_opts} -cp ${JARK_CP}:${JARK_JAR} -server jark.core jark._vm start $port <&- & 2&> /dev/null 
     pid=$!
     echo ${pid} > /tmp/jark.pid
     echo ${port} > /tmp/jark.port

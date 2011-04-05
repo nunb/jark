@@ -41,11 +41,11 @@ else
 fi
 
 CLOJURE_JARS="${CLJR_CP}/clojure-1.2.0.jar:${CLJR_CP}/clojure-contrib-1.2.0.jar"
-DEP_JARS="${CLJR_CP}/nailgun-0.7.1.jar:${CLJR_CP}/swank-clojure-1.2.0.jar:${CLJR_CP}/classpath-manager-1.1.0.jar"
+DEP_JARS="${CLJR_CP}/tools.nrepl-0.0.4.jar:${CLJR_CP}/swank-clojure-1.2.0.jar:${CLJR_CP}/classpath-manager-1.1.0.jar"
 
 JARK_CP="${CLOJURE_JARS}:${DEP_JARS}:${JARK_JAR}:"
 JARK_MODULES_DIR="${CLJR_CP}/jark"
-JARK_BIN="${CLJR_BIN}/ng"
+JARK_BIN="${CLJR_BIN}/jark-client"
 
 # some cleanups
 
@@ -180,7 +180,7 @@ extract() {
 
     cp -av lib/*.jar ${CLJR_CP}/
     cp -av *.jar ${CLJR_CP}/
-    cp -av bin/ng-${ARCH} ${JARK_BIN}
+    cp -av bin/jark-client ${JARK_BIN}
     cp -av bin/shflags ${CLJR_BIN}/
     cp -av bin/clj_completions ${CLJR_BIN}/
     cp -av bin/project-cljr.clj ${CLJR_ROOT}/project.clj
@@ -249,7 +249,7 @@ elif [ -e ${MODULE_CLJ} ]; then
     MODULE=`basename ${MODULE_CLJ} | cut -d '.' -f 1` 
     $JARK_CLIENT jark.core jark.core jark-load ${MODULE_CLJ} 2&> /dev/null
     $JARK_CLIENT jark.core jark.core jark-compile ${JARK_MODULES_DIR} jark.${MODULE} 2&> /dev/null
-    $JARK_CLIENT jark.core jark.${MODULE} "${@:2}"
+    #$JARK_CLIENT jark.core jark.${MODULE} "${@:2}"
     exit 0
 elif [ -e "$1" ]; then
     if [ "$running" == "no" ]; then
