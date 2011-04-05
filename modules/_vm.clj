@@ -1,4 +1,4 @@
-(ns jark._nrepl
+(ns jark._vm
   (:require [clojure.tools.nrepl :as nrepl]))
 
 (defn start [port]

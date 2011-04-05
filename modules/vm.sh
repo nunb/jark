@@ -7,14 +7,6 @@ commands() {
     echo -e "start stop connect threads uptime gc"
 }
 
-ng_server_start() {
-    local port="$0"
-    echo $port
-    java -cp ${JARK_CP}:${JARK_JAR} -server com.martiansoftware.nailgun.NGServer $port <&- & 
-    pid=$!
-    echo ${pid} > /tmp/ng.pid
-}
-
 start() {
     DEFINE_string 'port' '2113' 'remote jark port' 'p'
     DEFINE_string 'jvm_opts' '-Xms64m -Xmx256m' 'JVM Opts' 'o'
@@ -24,11 +16,10 @@ start() {
 
     rm -f /tmp/jark.client
 
-    java ${FLAGS_jvm_opts} -cp ${JARK_CP}:${JARK_JAR} -server com.martiansoftware.nailgun.NGServer $port <&- & 2&> /dev/null 
+    java ${FLAGS_jvm_opts} -cp ${JARK_CP}:${JARK_JAR} -server -main jark.core jark._vm start $port <&- & 2&> /dev/null 
     pid=$!
     echo ${pid} > /tmp/jark.pid
     echo ${port} > /tmp/jark.port
-    echo "${CLJR_BIN}/ng --nailgun-port $port" > /tmp/jark.client
 
     sleep 2
     echo "Loading modules ..."
