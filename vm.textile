@@ -11,7 +11,7 @@ To list all the threads that are running on the VM:
 We can switch between different instances of the JVM running on different hosts. By default it connects to localhost on port 2113.
 <pre class="terminal"><code>$ jark vm connect [--host] [--port]</code></pre>
 
-To know memory usage of the VM:
+To get the memory usage and other stats of the VM:
 <pre class="terminal"><code>$ jark vm stat
      VM port     -   2113
      swank port  -   4005
