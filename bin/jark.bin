@@ -46,6 +46,7 @@ DEP_JARS="${CLJR_CP}/tools.nrepl-0.0.4.jar:${CLJR_CP}/swank-clojure-1.2.0.jar:${
 JARK_CP="${CLOJURE_JARS}:${DEP_JARS}:${JARK_JAR}:"
 JARK_MODULES_DIR="${CLJR_CP}/jark"
 JARK_BIN="${CLJR_BIN}/jark-client"
+JARK_CLIENT=${JARK_BIN}
 
 # some cleanups
 
@@ -118,7 +119,6 @@ clj_temp_file() {
 }
 
 running=`is_jark_running`
-JARK_CLIENT=$(get_client)
 
 if [ "$1"  == "repl" ]; then
     # TODO: remember last used repl
@@ -266,8 +266,6 @@ elif [ -e "$1" ]; then
     $JARK_CLIENT jark.core $NS -main "${@:2}"
     rm -f $(clj_temp_file $1)
     exit 0
-else
-    $JARK_CLIENT jark.core "${@:1}"
 fi
 
 exit 0

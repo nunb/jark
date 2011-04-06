@@ -54,19 +54,24 @@ stop() {
 }
 
 threads() {
-    $JARK _stat threads
+    $JARK_CLIENT vm threads
 }
 
 stat() {
-    $JARK _stat stats
+    $JARK_CLIENT vm stats
 }
 
+stats() {
+    $JARK_CLIENT vm stats
+}
+
+
 gc() {
-    $JARK _stat gc
+    $JARK_CLIENT vm gc
 }
 
 uptime() {
-    $JARK _stat uptime
+    $JARK_CLIENT vm uptime
 }
 
 connect() {
@@ -76,16 +81,5 @@ connect() {
     FLAGS "$@" || exit 1
     eval set -- "${FLAGS_ARGV}"
     $JARK _nrepl connect ${FLAGS_host} ${FLAGS_port}
-    exit 0 
-}
-
-send() {
-    DEFINE_string 'port' '9000' 'nrepl port' 'p'
-    DEFINE_string 'host' 'localhost' 'nrepl host' 'r'
-    DEFINE_string 'expression' '(+ 2 2)' 'expression' 'e'
-
-    FLAGS "$@" || exit 1
-    eval set -- "${FLAGS_ARGV}"
-    $JARK _nrepl eval-expression ${FLAGS_host} ${FLAGS_port} "${FLAGS_expression}"
     exit 0 
 }

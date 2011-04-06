@@ -1,14 +1,15 @@
-#!/usr/bin/python2.7
+#!/usr/bin/env python
 
 import socket, sys
 
 c = socket.create_connection(("localhost", 9000));
 f = c.makefile('rw')
-f.writelines("(println (jark.vm/stats))\n")
+
+f.writelines('(println (jark.%s/%s))\n' % (sys.argv[1], sys.argv[2]))
 f.flush()
 
 for line in f:
-    print line ,
-sys.exit(0)
-
+    if line.strip() == 'nil':
+      break
+    print line,
 

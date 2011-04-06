@@ -12,11 +12,11 @@ list() {
 }
 
 find() {
-    $JARK _ns find $* 
+    $JARK_CLIENT ns find $* 
 }
 
 run() {
-    $JARK _ns run $* 
+    $JARK_CLIENT ns run $* 
 }
 
 repl() {

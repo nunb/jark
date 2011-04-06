@@ -9,6 +9,7 @@ if [ $? != 0 ]; then
     echo "javac not installed, exiting"
     exit 1
 fi
+echo "Getting dependencies.."
 lein jar
 
 touch jark-deps.txt
@@ -17,7 +18,7 @@ for i in `ls lib/*.jar`; do
     echo $i >> jark-deps.txt
 done
 
-tar cf payload.tar bin/clj_completions bin/shflags bin/project-cljr.clj *.jar jark-deps.txt modules/
+tar cf payload.tar bin/clj_completions bin/shflags bin/project-cljr.clj *.jar jark-deps.txt modules/ bin/jark-client
 
 for i in `ls lib/*.jar`; do
     tar -rf payload.tar $i
