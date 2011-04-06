@@ -21,16 +21,13 @@ add() {
         for i in `find ${jar} -name "*.jar" -print`
         do
             echo "Adding $i .."
-            $JARK_CLIENT ng-cp $i
         done
-        $JARK_CLIENT ng-cp ${jar}
         exit 0
     fi
 
     jp=$(readlink_f $jar)
     if [ $? == "0" ]; then
-        $JARK_CLIENT ng-cp $jp
-        $JARK_CLIENT ng-cp
+        echo "Adding $jp"
         exit 0
     else
         exit 1
@@ -38,19 +35,18 @@ add() {
 }
 
 list() {
-    $JARK_CLIENT ng-cp
-     exit 0
+    echo "Listing ..."
+    exit 0
 }
 
 ls() {
-    $JARK_CLIENT ng-cp
-     exit 0
+    echo "Listing .."
+    exit 0
 }
 
 run() {
     local mainclass="$1"
     touch classpath
-    $JARK_CLIENT ng-alias cm com.stuartsierra.ClasspathManager
     $JARK_CLIENT cm $mainclass
     exit 0
 }

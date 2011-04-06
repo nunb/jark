@@ -9,4 +9,4 @@
 
   :repositories  {"stuartsierra" "http://stuartsierra.com/maven2"}
 
-  :aot [jark.core]) 
+  :aot [jark.core jark.vm]) 

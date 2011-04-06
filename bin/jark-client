@@ -1,0 +1,14 @@
+#!/usr/bin/python2.7
+
+import socket, sys
+
+c = socket.create_connection(("localhost", 9000));
+f = c.makefile('rw')
+f.writelines("(println (jark.vm/stats))\n")
+f.flush()
+
+for line in f:
+    print line ,
+sys.exit(0)
+
+

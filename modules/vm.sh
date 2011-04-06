@@ -16,7 +16,7 @@ start() {
 
     rm -f /tmp/jark.client
 
-    java ${FLAGS_jvm_opts} -cp ${JARK_CP}:${JARK_JAR} -server jark.core jark._vm start $port <&- & 2&> /dev/null 
+    java -cp ${JARK_CP}:${JARK_JAR} jark.vm <&- & 2&> /dev/null
     pid=$!
     echo ${pid} > /tmp/jark.pid
     echo ${port} > /tmp/jark.port
@@ -48,7 +48,7 @@ stop() {
         exit 0
     fi
     echo "Stopping JVM server with pid `cat /tmp/jark.pid`"
-    $JARK_CLIENT ng-stop
+    $JARK_CLIENT stop
     rm -rf /tmp/jark.*
     exit 0
 }
@@ -70,21 +70,22 @@ uptime() {
 }
 
 connect() {
-    DEFINE_string 'port' '2113' 'remote jark port' 'p'
-    DEFINE_string 'host' 'localhost' 'remote host' 'r'
+    DEFINE_string 'port' '9000' 'nrepl port' 'p'
+    DEFINE_string 'host' 'localhost' 'nrepl host' 'r'
 
     FLAGS "$@" || exit 1
     eval set -- "${FLAGS_ARGV}"
+    $JARK _nrepl connect ${FLAGS_host} ${FLAGS_port}
+    exit 0 
+}
 
-    cp /tmp/jark.client /tmp/jark.client.pre 2&> /dev/null
-    echo "${CLJR_BIN}/ng --nailgun-server ${FLAGS_host} --nailgun-port ${FLAGS_port}" > /tmp/jark.client
+send() {
+    DEFINE_string 'port' '9000' 'nrepl port' 'p'
+    DEFINE_string 'host' 'localhost' 'nrepl host' 'r'
+    DEFINE_string 'expression' '(+ 2 2)' 'expression' 'e'
 
-    if [ $(is_jark_running) == "no" ]; then 
-        echo "Failed to establish connection"
-        mv /tmp/jark.client.pre /tmp/jark.client 2&> /dev/null
-        exit 1
-    else
-        echo "Connection established successfully"
-        exit 0
-    fi
+    FLAGS "$@" || exit 1
+    eval set -- "${FLAGS_ARGV}"
+    $JARK _nrepl eval-expression ${FLAGS_host} ${FLAGS_port} "${FLAGS_expression}"
+    exit 0 
 }

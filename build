@@ -5,16 +5,11 @@ set -eu
 # build jark without renaming the project
 LEIN_SNAPSHOTS_IN_RELEASE="yes"
 
-javac modules/SystemThreadList.java
-
-echo "Compiling jark client .."
-gcc -o bin/jark-client src/jark-client.c
-
 if [ $? != 0 ]; then 
     echo "javac not installed, exiting"
     exit 1
 fi
-lein deps && lein jar
+lein jar
 
 touch jark-deps.txt
 :> jark-deps.txt

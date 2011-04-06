@@ -12,5 +12,3 @@
 
 (defn stop []
   "stop a remote swank")
-
-

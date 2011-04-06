@@ -1,4 +1,4 @@
-(ns jark._ns
+(ns jark.ns
   (:use clojure.contrib.pprint)
   (:use clojure.contrib.ns-utils)
   (:use clojure.contrib.find-namespaces)

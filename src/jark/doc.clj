@@ -1,4 +1,4 @@
-(ns jark._doc
+(ns jark.doc
   (:refer-clojure :exclude [bytes])
   (:use jark.core)
   (:use clojure.contrib.json)
