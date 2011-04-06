@@ -72,6 +72,7 @@ gc() {
 
 uptime() {
     $JARK_CLIENT vm uptime
+    exit $?
 }
 
 connect() {

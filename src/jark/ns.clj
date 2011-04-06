@@ -4,7 +4,6 @@
   (:use clojure.contrib.find-namespaces)
   (:refer-clojure :exclude [list load find alias])
   (:import (java.io File FileNotFoundException))
-  (:import (com.stuartsierra ClasspathManager))
   (:import (java.io File FileNotFoundException))
   (:use clojure.contrib.json)
   (:use jark.core))

@@ -2,14 +2,27 @@
 
 import socket, sys
 
-c = socket.create_connection(("localhost", 9000));
+try:
+    c = socket.create_connection(("localhost", 9000));
+except:
+    sys.exit(1)
+
 f = c.makefile('rw')
 
-f.writelines('(println (jark.%s/%s))\n' % (sys.argv[1], sys.argv[2]))
+# for nrepl
+# f.writelines(["2\n", '"id"\n', '"foo"\n', '"code"\n', '"(println (jark.vm/stats)"\n'])
+
+# for contrib's socket repl
+f.writelines('(do (require \'jark.%s) (println (jark.%s/%s)))\n' % \
+                 (sys.argv[1], sys.argv[1], sys.argv[2]))
 f.flush()
 
+prefix="clojure.core=>"
 for line in f:
+    if line.startswith(prefix):
+        line = line[(len(prefix) + 1):]
     if line.strip() == 'nil':
-      break
+        break
     print line,
 
+sys.exit(0)

@@ -35,12 +35,12 @@ add() {
 }
 
 list() {
-    echo "Listing ..."
+    $JARK_CLIENT cp ls
     exit 0
 }
 
 ls() {
-    echo "Listing .."
+    $JARK_CLIENT cp ls
     exit 0
 }
 

@@ -89,6 +89,5 @@
     uptime))
 
 (defn -main [& args]
-  (create-repl-server 9000)
-  (start 9001))
-  
+  ;(nrepl/start-server 9000)
+  (create-repl-server 9000))
