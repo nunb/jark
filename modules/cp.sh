@@ -20,14 +20,16 @@ add() {
     if [ -d $jar ]; then
         for i in `find ${jar} -name "*.jar" -print`
         do
-            echo "Adding $i .."
+            $JARK_CLIENT cp add $jar
         done
+        $JARK_CLIENT cp list
         exit 0
     fi
 
     jp=$(readlink_f $jar)
     if [ $? == "0" ]; then
-        echo "Adding $jp"
+        $JARK_CLIENT cp add $jar
+        $JARK_CLIENT cp list
         exit 0
     else
         exit 1
