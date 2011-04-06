@@ -5,9 +5,9 @@ commands() {
 
 list() {
     if [ ! -n "${PAGER+x}" ]; then 
-        $JARK _ns list $* 
+        $JARK_CLIENT ns list 
     else
-        $JARK _ns list $* | $PAGER
+        $JARK_CLIENT ns list | $PAGER
     fi
 }
 
@@ -27,16 +27,16 @@ repl() {
           --remember \
           -m -q'"' -c \
           -f ${CLJR_BIN}/clj_completions \
-          $JARK _ns repl $* 
+          $JARK_CLIENT ns repl $* 
     else
-        $JARK _ns repl $* 
+        $JARK_CLIENT ns repl $* 
     fi
 }
 
 load() {
     f=$(readlink_f $1)
     if [ $f ]; then
-        $JARK _ns load "$f"
+        $JARK_CLIENT ns load "$f"
         exit 0
     else
         echo "No such file: $1"
