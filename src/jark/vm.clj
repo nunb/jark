@@ -10,9 +10,6 @@
 (defn start [port]
   (nrepl/start-server (Integer. port)))
 
-(defn stop []
-  (println "Stopping nrepl server"))
-
 (defn connect [host port]
   (nrepl/connect host (Integer. port)))
 
@@ -87,6 +84,9 @@
   (let [mx    (ManagementFactory/getRuntimeMXBean)
         uptime (str (.toString (.getUptime mx)) "ms")]
     uptime))
+
+(defn stop []
+  (. System (exit 0)))
 
 (defn -main [& args]
   ;(nrepl/start-server 9000)

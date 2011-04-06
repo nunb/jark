@@ -32,7 +32,7 @@
   "Find all namespaces containing the given name"
   [module]
   (doseq [i (starting-with module)]
-       (println " " i)))
+    (println " " i)))
 
 (defn load
   "Loads the given clj file, and adds relative classpath"

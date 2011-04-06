@@ -12,9 +12,11 @@ f = c.makefile('rw')
 # for nrepl
 # f.writelines(["2\n", '"id"\n', '"foo"\n', '"code"\n', '"(println (jark.vm/stats)"\n'])
 
+
 # for contrib's socket repl
 f.writelines('(do (require \'jark.%s) (println (jark.%s/%s)))\n' % \
                  (sys.argv[1], sys.argv[1], sys.argv[2]))
+    
 f.flush()
 
 prefix="clojure.core=>"

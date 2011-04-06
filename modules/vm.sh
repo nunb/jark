@@ -48,7 +48,7 @@ stop() {
         exit 0
     fi
     echo "Stopping JVM server with pid `cat /tmp/jark.pid`"
-    $JARK_CLIENT stop
+    $JARK_CLIENT vm stop
     rm -rf /tmp/jark.*
     exit 0
 }
