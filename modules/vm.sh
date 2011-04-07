@@ -7,6 +7,27 @@ commands() {
     echo -e "start stop connect threads uptime gc"
 }
 
+_doc() {
+    echo -e "jark vm start [--port -p (9000)] [--jvm_opts o]"
+    echo -e "\tStart a local Jark server. Takes optional JVM options as a \" delimited string."
+    echo -e "\tTakes optional JVM options as a \" delimited string."
+    echo -e ""
+    echo -e "jark vm stop"
+    echo -e "\tShuts down the current Jark server."
+    echo -e ""
+    echo -e "jark vm connect [--host -r (localhost)] [--port -p (9000)]"
+    echo -e "\tConnect to a JVM."
+    echo -e ""
+    echo -e "jark vm threads"
+    echo -e "\tPrint a summary of JVM threads."
+    echo -e ""
+    echo -e "jark vm uptime"
+    echo -e "\tThe uptime of the current Jark server."
+    echo -e ""
+    echo -e "jark vm uptime gc"
+    echo -e "\tAttempt to run some garbage collection on the current Jark server."
+}
+
 start() {
     DEFINE_string 'port' '9000' 'remote jark port' 'p'
     DEFINE_string 'jvm_opts' '-Xms64m -Xmx256m' 'JVM Opts' 'o'

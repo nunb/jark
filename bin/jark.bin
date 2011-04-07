@@ -238,9 +238,7 @@ if [ -e ${MODULE_SH} ]; then
     source ${MODULE_SH}
     if [ -z $2 ]; then
         echo "Available commands: " 
-        for i in `commands`; do
-            echo "  $i";
-        done
+        _doc
         exit 1
     fi
     ${2} "${@:3}"

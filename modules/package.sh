@@ -7,6 +7,26 @@ commands() {
     echo -e "install uninstall versions deps search installed latest"
 }
 
+_doc() {
+    echo -e "jark package install (--package -p PACKAGE) [--version -v]"
+    echo -e "\tInstall the relevant version of package from clojars."
+    echo -e ""
+    echo -e "jark package uninstall (--package -p PACKAGE)"
+    echo -e "\tUninstall the package."
+    echo -e ""
+    echo -e "jark package versions (--package -p PACKAGE)"
+    echo -e "\tList the versions of package installed."
+    echo -e ""
+    echo -e "jark package deps (--package -p PACKAGE) [--version -v]"
+    echo -e "\tPrint the library dependencies of package."
+    echo -e ""
+    echo -e "jark package search (--package -p PACKAGE)"
+    echo -e "\tSearch clojars for package."
+    echo -e ""
+    echo -e "jark package installed"
+    echo -e "\tList all packages installed."
+}
+
 install() {
     DEFINE_string 'version' '0' 'version' 'v'
     DEFINE_string 'package' '0' 'package' 'p'

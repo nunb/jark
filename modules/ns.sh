@@ -3,6 +3,23 @@ commands() {
     echo -e "list find load run repl"
 }
 
+_doc() {
+    echo -e "jark ns list (prefix)?"
+    echo -e "\tList all namespaces in the classpath. Optionally takes a namespace prefix."
+    echo -e ""
+    echo -e "jark ns find prefix"
+    echo -e "\tFind all namespaces starting with the given name"
+    echo -e ""
+    echo -e "jark ns load file"
+    echo -e "\tLoads the given clj file, and adds relative classpath"
+    echo -e ""
+    echo -e "jark ns run main-ns args*"
+    echo -e "\tRuns the given main function with args."
+    echo -e ""
+    echo -e "jark ns repl namespace"
+    echo -e "\tLaunch a repl at given ns."
+}
+
 list() {
     if [ ! -n "${PAGER+x}" ]; then 
         $JARK_CLIENT ns list 
