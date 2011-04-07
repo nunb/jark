@@ -16,6 +16,10 @@ _doc() {
     echo -e "\tReturn Jark version."
 }
 
+install() {
+    $JARK install
+}
+
 version() {
     $JARK version
 }
