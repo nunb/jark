@@ -25,6 +25,7 @@ remove() {
 
 add() {
     local jar=$(readlink_f $1)
+    exit 0
     if [ -z $jar ]; then
         echo "USAGE jark cp add <jarpath>"
         exit 0
