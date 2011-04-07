@@ -16,16 +16,16 @@ _doc() {
     echo -e "\tShuts down the current Jark server."
     echo -e ""
     echo -e "jark vm connect [--host -r (localhost)] [--port -p (9000)]"
-    echo -e "\tConnect to a JVM."
+    echo -e "\tConnect to a remote JVM."
     echo -e ""
     echo -e "jark vm threads"
-    echo -e "\tPrint a summary of JVM threads."
+    echo -e "\tPrint a list of JVM threads."
     echo -e ""
     echo -e "jark vm uptime"
     echo -e "\tThe uptime of the current Jark server."
     echo -e ""
-    echo -e "jark vm uptime gc"
-    echo -e "\tAttempt to run some garbage collection on the current Jark server."
+    echo -e "jark vm gc"
+    echo -e "\tRun garbage collection on the current Jark server."
 }
 
 start() {

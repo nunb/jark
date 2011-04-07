@@ -5,7 +5,7 @@ commands() {
     echo -e "install uninstall version"
 }
 
-commands() {
+_doc() {
     echo -e "jark self install"
     echo -e "\tInstall jark."
     echo -e ""
