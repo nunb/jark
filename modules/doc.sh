@@ -4,6 +4,17 @@ commands() {
     echo -e "search examples comments"
 }
 
+_doc() {
+    echo -e "jark doc search function"
+    echo -e "\tFind the docstring for function."
+    echo -e ""
+    echo -e "jark doc examples function"
+    echo -e "jark doc examples function namespace"
+    echo -e ""
+    echo -e "jark doc comments function"
+    echo -e "jark doc comments function namespace"
+}
+
 examples() {
     if [ ! -n "${PAGER+x}" ]; then 
         $JARK _doc examples $* 

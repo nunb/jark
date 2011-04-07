@@ -6,6 +6,18 @@ commands() {
     exit 0
 }
 
+_doc() {
+    echo -e "jark cp list"
+    echo -e "\tList the classpath for the current Jark server."
+    echo -e ""
+    echo -e "jark cp add args+"
+    echo -e "\tAdd to the classpath for the current Jark server."
+    echo -e ""
+    echo -e "jark cp run main-class"
+    echo -e "\tRun main-class on the current Jark server."
+    exit 0
+}
+
 remove() {
      echo "command not implemented yet"
      exit 1

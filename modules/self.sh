@@ -5,6 +5,17 @@ commands() {
     echo -e "install uninstall version"
 }
 
+commands() {
+    echo -e "jark self install"
+    echo -e "\tInstall jark."
+    echo -e ""
+    echo -e "jark self uninstall"
+    echo -e "\tUninstall jark."
+    echo -e ""
+    echo -e "jark self version"
+    echo -e "\tReturn Jark version."
+}
+
 version() {
     $JARK version
 }
