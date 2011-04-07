@@ -50,12 +50,12 @@ add() {
 }
 
 list() {
-    $JARK_CLIENT cp ls
+    $JARK_CLIENT jark.cp/ls
     exit 0
 }
 
 ls() {
-    $JARK_CLIENT cp ls
+    list
     exit 0
 }
 

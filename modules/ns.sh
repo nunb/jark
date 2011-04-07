@@ -22,14 +22,15 @@ _doc() {
 
 list() {
     if [ ! -n "${PAGER+x}" ]; then 
-        $JARK_CLIENT ns list 
+        $JARK_CLIENT jark.ns/list $*
     else
-        $JARK_CLIENT ns list | $PAGER
+        $JARK_CLIENT jark.ns/list $* | $PAGER
     fi
 }
 
 find() {
-    $JARK_CLIENT ns find $* 
+    $JARK_CLIENT jark.ns/find swank
+    exit 0
 }
 
 run() {
@@ -37,6 +38,7 @@ run() {
 }
 
 repl() {
+    $JARK_CLIENT "(require 'jark.ns)"
     echo $* > /tmp/jark.ns
     which rlwrap &> /dev/null
     if [ $? == "0" ]; then
@@ -44,9 +46,9 @@ repl() {
           --remember \
           -m -q'"' -c \
           -f ${CLJR_BIN}/clj_completions \
-          $JARK_CLIENT ns repl $* 
+          $JARK_CLIENT jark.ns/repl $* 
     else
-        $JARK_CLIENT ns repl $* 
+        $JARK_CLIENT jark.ns/repl $* 
     fi
 }
 

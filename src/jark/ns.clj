@@ -5,8 +5,7 @@
   (:refer-clojure :exclude [list load find alias])
   (:import (java.io File FileNotFoundException))
   (:import (java.io File FileNotFoundException))
-  (:use clojure.contrib.json)
-  (:use jark.core))
+  (:use clojure.contrib.json))
 
 (defn- ns-doc [] "Namespace utilities")
 
@@ -21,26 +20,21 @@
 (defn list
   "List all namespaces in the classpath. Optionally takes a namespace prefix"
   ([]
-     (let [names (namespaces)]
-       (doseq [i (sort names)]
-         (println " " i))))
+     (sort (namespaces)))
   ([module]
-     (doseq [i (starting-with module)]
-       (println " " i))))
+     (starting-with module)))
 
 (defn find
   "Find all namespaces containing the given name"
   [module]
-  (doseq [i (starting-with module)]
-    (println " " i)))
+  (starting-with module))
 
 (defn load
   "Loads the given clj file, and adds relative classpath"
   [file]
   (let [basename (.getParentFile (File. file))]
-    (cmdout (cmd (str (. System getProperty "user.home")
-                      "/.cljr/bin/ng ng-cp " (.toString basename))))
-    (load-file file)))
+    (jark.cp/add (str (. System getProperty "user.home") (.toString basename))))
+    (load-file file))
 
 (defn run
   "runs the given main function"

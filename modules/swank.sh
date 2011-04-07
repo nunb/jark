@@ -14,10 +14,17 @@ _doc() {
 }
 
 start() {
-    $JARK_CLIENT swank start
+    $JARK_CLIENT jark.swank/start
+    if [ "$?" == "0" ]; then
+        echo "Started swank server on port 4005"
+        exit 0
+    else
+        echo "Failed to start swank server"
+        exit 1
+    fi
 }
 
 stop() {
-    $JARK_CLIENT swank stop
+    $JARK_CLIENT jark.swank/stop
 }
 

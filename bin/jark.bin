@@ -118,6 +118,11 @@ clj_temp_file() {
     echo "/tmp/$(basename $f).clj"
 }
 
+require() {
+    local module="$1"
+    $JARK_CLIENT require "'jark.$module"
+}
+
 running=`is_jark_running`
 
 if [ "$1"  == "repl" ]; then
@@ -166,6 +171,7 @@ export is_jark_running
 export VERSION
 export JARK_MODULES_DIR
 export readlink_f
+export require
 
 mkdir -p ${CLJR_CP}
 mkdir -p ${CLJR_BIN}
@@ -194,10 +200,6 @@ extract() {
     echo "Installed successfully."
     exit 0
 }
-
-if [ $MOD == "install" ]; then
-    extract
-fi
 
 
 if [ -z $1 ]; then
@@ -230,6 +232,10 @@ if [ -z $1 ]; then
     exit 0
 
 fi    
+
+if [ $MOD == "install" ]; then
+    extract
+fi
 
 
 MODULE_SH=${JARK_MODULES_DIR}/$MOD.sh

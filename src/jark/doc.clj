@@ -1,6 +1,5 @@
 (ns jark.doc
   (:refer-clojure :exclude [bytes])
-  (:use jark.core)
   (:use clojure.contrib.json)
   (:use clojure.contrib.http.agent))
 

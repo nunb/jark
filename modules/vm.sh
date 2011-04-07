@@ -42,9 +42,8 @@ start() {
     echo ${pid} > /tmp/jark.pid
     echo ${port} > /tmp/jark.port
 
-    sleep 2
-    echo "Loading modules ..."
-    $JARK &> /dev/null
+    sleep 5
+
     if [ -e $CLJR_CP/jark-deps.txt ]; then
         echo "Adding dependencies to classpath ..."
         for dep in `cat $CLJR_CP/jark-deps.txt`; do
@@ -55,11 +54,24 @@ start() {
         $JARK cp add `pwd`/src
         $JARK cp add `pwd`/lib
     fi
+
+    echo "Started jark-nrepl server on port $port"
+
+        
+    for i in `ls ${JARK_MODULES_DIR}/*.*`; do 
+        MODULE=`basename $i | cut -d '.' -f 1` 
+        EXT=`basename $i | cut -d '.' -f 2` 
+        if [ "$EXT" == "sh" ]; then
+            $(require $MODULE)
+            echo "Loaded module $MODULE"
+        fi
+    done    
+
+
         
     if [ -e $HOME/.jarkrc ]; then
         source $HOME/.jarkrc
     fi
-    echo "Started JVM server on port $port"
     exit 0
 }
 
@@ -69,30 +81,30 @@ stop() {
         exit 0
     fi
     echo "Stopping JVM server with pid `cat /tmp/jark.pid`"
-    $JARK_CLIENT vm stop
+    $JARK_CLIENT jark.vm/stop
     rm -rf /tmp/jark.*
     exit 0
 }
 
 threads() {
-    $JARK_CLIENT vm threads
+    $JARK_CLIENT jark.vm/threads
 }
 
 stat() {
-    $JARK_CLIENT vm stats
+    $JARK_CLIENT jark.vm/stats
 }
 
 stats() {
-    $JARK_CLIENT vm stats
+    $JARK_CLIENT jark.vm/stats
 }
 
 
 gc() {
-    $JARK_CLIENT vm gc
+    $JARK_CLIENT jark.vm/gc
 }
 
 uptime() {
-    $JARK_CLIENT vm uptime
+    $JARK_CLIENT jark.vm/uptime
     exit $?
 }
 

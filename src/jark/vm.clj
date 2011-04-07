@@ -3,25 +3,8 @@
   (:use clojure.contrib.server-socket)
   (:require [clojure.tools.nrepl :as nrepl])
   (:use clojure.contrib.pprint)
-  (:require [jark.core :as core])
   (:import (java.lang.management RuntimeMXBean ManagementFactory))
   (:import (java.util Date)))
-
-(defn start [port]
-  (nrepl/start-server (Integer. port)))
-
-(defn connect [host port]
-  (nrepl/connect host (Integer. port)))
-
-(defn eval-expression [host port exp]
-  (let [connection     (connect host port)
-        repl           (:send connection)
-        repl-seq       (comp nrepl/response-seq repl)
-        repl-receive   (comp (fn [r#] (r#)) repl)
-        repl-read      (comp nrepl/read-response-value repl-receive)
-        repl-value     (comp :value repl-read)]
-    (println (repl-value exp))
-    (:close connection)))
 
 (defn used-mem []
   (let [rt (. Runtime getRuntime)]
@@ -66,17 +49,16 @@
   "Display current statistics of the JVM"
   []
   (let [mx    (ManagementFactory/getRuntimeMXBean)
-        props {"VM port"      (read-string (slurp "/tmp/jark.port"))
-               "swank port"   4005
-               "total mem"    (str (mb (total-mem)) " MB")
-               "used mem"     (str (mb (used-mem))  " MB")
-               "free mem"     (str (mb (free-mem))  " MB")
-               "start time"   (.toString (Date. (.getStartTime mx)))
-               "uptime"       (str
+        props {"Port (vm)"    (read-string (slurp "/tmp/jark.port"))
+               "Port (swank)" 4005
+               "Mem total"    (str (mb (total-mem)) " MB")
+               "Mem used"     (str (mb (used-mem))  " MB")
+               "Mem free"     (str (mb (free-mem))  " MB")
+               "Start time"   (.toString (Date. (.getStartTime mx)))
+               "Uptime"       (str
                                (.toString (mins (.getUptime mx))) "m" " | "
-                               (.toString (secs (.getUptime mx))) "s")}
-        p     (mapcat #(vector (key %) (val %)) props)]
-        (core/pp-plist p)))
+                               (.toString (secs (.getUptime mx))) "s")}]
+    props))
 
 (defn uptime
   "Display uptime of the JVM"
@@ -89,5 +71,5 @@
   (. System (exit 0)))
 
 (defn -main [& args]
-  ;(nrepl/start-server 9000)
-  (create-repl-server 9000))
+  (create-repl-server 9500)
+  (nrepl/start-server 9000))

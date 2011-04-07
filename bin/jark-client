@@ -1,30 +1,51 @@
 #!/usr/bin/env python
 
 import socket, sys
+import simplejson
 
 try:
-    c = socket.create_connection(("localhost", 9000));
+    c = socket.create_connection(("localhost", 9500));
 except:
     sys.exit(1)
 
 f = c.makefile('rw')
 
-# for nrepl
-# f.writelines(["2\n", '"id"\n', '"foo"\n', '"code"\n', '"(println (jark.vm/stats)"\n'])
+try:
+    args = sys.argv[2]
+except:
+    args = None
 
-
-# for contrib's socket repl
-f.writelines('(do (require \'jark.%s) (println (jark.%s/%s)))\n' % \
-                 (sys.argv[1], sys.argv[1], sys.argv[2]))
+if args:
+    f.writelines('(do (require \'jark.client) (println (jark.client/send "(%s %s)")))\n' % \
+                     (sys.argv[1], sys.argv[2]))
+else:
+    f.writelines('(do (require \'jark.client) (println (jark.client/send "(%s)")))\n' % sys.argv[1])
     
 f.flush()
 
 prefix="clojure.core=>"
 for line in f:
+
     if line.startswith(prefix):
         line = line[(len(prefix) + 1):]
-    if line.strip() == 'nil':
+    if line.startswith('#<nrepl'):
         break
-    print line,
+    if line.strip() in ['nil', 'null']:
+        break
+    
+    try:
+        a = simplejson.loads(line)
+    except simplejson.decoder.JSONDecodeError:
+        break
+
+    if type(a).__name__=='list':
+        for i in a:
+            if not i == "":
+                print i
+    elif type(a).__name__=='dict':
+        for k, v in sorted(a.items()):
+            print '%-15s : %15s' % (k, v)
+    else:
+        print a
 
 sys.exit(0)

@@ -5,9 +5,7 @@
 
 (defn ls []
   (let [cps (distinct (split (System/getProperty "java.class.path") #":"))]
-    (doseq [i cps]
-      (when-not (= i "")
-        (println i)))))
+    cps))
 
 (defn add [path]
   (let [url (URL. (str "file://" path))]
