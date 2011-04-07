@@ -112,6 +112,6 @@ connect() {
     FLAGS "$@" || exit 1
     eval set -- "${FLAGS_ARGV}"
     echo ${FLAGS_host} > ${JARK_CONFIG_DIR}/jark.host
-    echo ${FLAGS_post} > ${JARK_CONFIG_DIR}/jark.port
+    echo ${FLAGS_port} > ${JARK_CONFIG_DIR}/jark.port
     exit 0 
 }

@@ -3,8 +3,8 @@
 import socket, sys, os
 import simplejson
 
-host_file = '~/.cljr/config/jark.host'
-port_file = '~/.cljr/config/jark.port'
+host_file = '%s/.cljr/config/jark.host' % os.getenv('HOME')
+port_file = '%s/.cljr/config/jark.port' % os.getenv('HOME')
 
 if os.path.exists(host_file):
     host = open(host_file).read().strip()
@@ -54,10 +54,12 @@ for line in f:
     except simplejson.decoder.JSONDecodeError:
         break
 
+    
     if type(a).__name__=='list':
         for i in a:
             if not i == "":
                 print i
+
     elif type(a).__name__=='dict':
         for k, v in sorted(a.items()):
             print '%-15s : %15s' % (k, v)
