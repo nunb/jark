@@ -29,7 +29,7 @@ _doc() {
 }
 
 start() {
-    DEFINE_string 'port' '9000' 'remote jark port' 'p'
+    DEFINE_string 'port' '9500' 'remote jark port' 'p'
     DEFINE_string 'jvm_opts' '-Xms64m -Xmx256m' 'JVM Opts' 'o'
     FLAGS "$@" || exit 1
     eval set -- "${FLAGS_ARGV}"
@@ -106,11 +106,12 @@ uptime() {
 }
 
 connect() {
-    DEFINE_string 'port' '9000' 'nrepl port' 'p'
-    DEFINE_string 'host' 'localhost' 'nrepl host' 'r'
+    DEFINE_string 'port' '9500' 'jark port' 'p'
+    DEFINE_string 'host' 'localhost' 'jark host' 'r'
 
     FLAGS "$@" || exit 1
     eval set -- "${FLAGS_ARGV}"
-    $JARK _nrepl connect ${FLAGS_host} ${FLAGS_port}
+    echo ${FLAGS_host} > ${JARK_CONFIG_DIR}/jark.host
+    echo ${FLAGS_post} > ${JARK_CONFIG_DIR}/jark.port
     exit 0 
 }

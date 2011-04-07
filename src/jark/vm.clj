@@ -70,6 +70,14 @@
 (defn stop []
   (. System (exit 0)))
 
+(defn threads []
+  (let [group (. (Thread/currentThread) getThreadGroup)
+        th (loop [t [] g group]
+             (if (not (. g getParent)) 
+               t
+               (recur (conj t g) (. g getParent))))]
+    th))
+
 (defn -main [& args]
   (create-repl-server 9500)
   (nrepl/start-server 9000))
