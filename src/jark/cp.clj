@@ -12,7 +12,3 @@
 (defn add [path]
   (let [url (URL. (str "file://" path))]
     (clojure.lang.RT/addURL url)))
-
-(defn run []
-  (com.stuartsierra.ClasspathManager "jark.ns"))
-

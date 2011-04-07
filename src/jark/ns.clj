@@ -36,8 +36,8 @@
   "Loads the given clj file, and adds relative classpath"
   [file]
   (let [basename (.getParentFile (File. file))]
-    (jark.cp/add (str (. System getProperty "user.home") (.toString basename))))
-    (load-file file))
+    ;(jark.cp/add (str (. System getProperty "user.home") (.toString basename))))
+    (load-file file)))
 
 (defn run
   "runs the given main function"
