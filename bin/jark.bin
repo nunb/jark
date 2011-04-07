@@ -197,6 +197,8 @@ extract() {
     cp -av modules/* ${JARK_MODULES_DIR}/
     cp jark-deps.txt ${CLJR_CP}/
     
+    mkdir -p ${JARK_CONFIG_DIR}
+    
     cd $CDIR
     rm -rf $TMPDIR
     echo "Installed successfully."
