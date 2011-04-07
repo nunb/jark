@@ -1,12 +1,15 @@
 
 DOC="Module to manage jark itself"
 
+
+. ${CLJR_BIN}/shflags
+
 commands() {
     echo -e "start stop"
 }
 
 _doc() {
-    echo -e "jark swank start"
+    echo -e "jark swank start [--port -p (4005)]"
     echo -e "\tStart a local swank server on the default port"
     echo -e ""
     echo -e "jark swank stop"
@@ -14,9 +17,13 @@ _doc() {
 }
 
 start() {
-    $JARK_CLIENT jark.swank/start
+    DEFINE_string 'port' '4005' 'swank port' 'p'
+    FLAGS "$@" || exit 1
+    eval set -- "${FLAGS_ARGV}"
+    
+    $JARK_CLIENT jark.swank/start ${FLAGS_port}
     if [ "$?" == "0" ]; then
-        echo "Started swank server on port 4005"
+        echo "Started swank server on port ${FLAGS_port}"
         exit 0
     else
         echo "Failed to start swank server"

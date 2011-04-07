@@ -1,5 +1,6 @@
 (ns jark.client
   (:use clojure.contrib.json)
+  (:refer-clojure :exclude [send])
   (:require [clojure.tools.nrepl :as nrepl]))
 
 ;; TODO: Write this client in C

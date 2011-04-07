@@ -41,11 +41,11 @@ start() {
     pid=$!
     echo ${pid} > /tmp/jark.pid
     echo ${port} > /tmp/jark.port
+    echo "Started jark-nrepl server on port $port"
 
     sleep 5
 
     if [ -e $CLJR_CP/jark-deps.txt ]; then
-        echo "Adding dependencies to classpath ..."
         for dep in `cat $CLJR_CP/jark-deps.txt`; do
            $JARK cp add ${CLJR_ROOT}/$dep &> /dev/null
         done;
@@ -54,19 +54,16 @@ start() {
         $JARK cp add `pwd`/src
         $JARK cp add `pwd`/lib
     fi
-
-    echo "Started jark-nrepl server on port $port"
-
-        
+    echo "Added dependencies to classpath"
+    
     for i in `ls ${JARK_MODULES_DIR}/*.*`; do 
         MODULE=`basename $i | cut -d '.' -f 1` 
         EXT=`basename $i | cut -d '.' -f 2` 
         if [ "$EXT" == "sh" ]; then
             $(require $MODULE)
-            echo "Loaded module $MODULE"
         fi
     done    
-
+    echo "Loaded modules"
 
         
     if [ -e $HOME/.jarkrc ]; then
