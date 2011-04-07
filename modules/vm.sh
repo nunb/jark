@@ -35,12 +35,12 @@ start() {
     eval set -- "${FLAGS_ARGV}"
     port=${FLAGS_port}
 
-    rm -f /tmp/jark.client
+    rm -f ${JARK_CONFIG_DIR}/jark.client
 
     java -cp ${JARK_CP}:${JARK_JAR} jark.vm <&- & 2&> /dev/null
     pid=$!
-    echo ${pid} > /tmp/jark.pid
-    echo ${port} > /tmp/jark.port
+    echo ${pid} > ${JARK_CONFIG_DIR}/jark.pid
+    echo ${port} > ${JARK_CONFIG_DIR}/jark.port
     echo "Started jark-nrepl server on port $port"
 
     sleep 5
@@ -77,9 +77,9 @@ stop() {
         echo "JVM server has already been stopped"
         exit 0
     fi
-    echo "Stopping JVM server with pid `cat /tmp/jark.pid`"
+    echo "Stopping JVM server with pid `cat ${JARK_CONFIG_DIR}/jark.pid`"
     $JARK_CLIENT jark.vm/stop
-    rm -rf /tmp/jark.*
+    rm -rf ${JARK_CONFIG_DIR}/jark.*
     exit 0
 }
 

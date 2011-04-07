@@ -83,7 +83,7 @@ start() {
     echo "Starting VimClojure server on port ${port} ..."
     java -cp ${CLOJURE_JARS}:${VIMCLOJURE_JAR} -server vimclojure.nailgun.NGServer $port <&- & 2&> /dev/null
     pid=$!
-    echo ${pid} > /tmp/vimclojure.pid
+    echo ${pid} > ${JARK_CONFIG_DIR}/vimclojure.pid
 
     sleep 2
 

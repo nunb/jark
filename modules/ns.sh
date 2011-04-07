@@ -34,12 +34,12 @@ find() {
 }
 
 run() {
-    $JARK_CLIENT ns run $* 
+    $JARK_CLIENT jark.cp/run
 }
 
 repl() {
     $JARK_CLIENT "(require 'jark.ns)"
-    echo $* > /tmp/jark.ns
+    echo $* > ${JARK_CONFIG_DIR}/jark.ns
     which rlwrap &> /dev/null
     if [ $? == "0" ]; then
         rlwrap --break-chars "\"\\'(){}[],^%$#@;:|" \

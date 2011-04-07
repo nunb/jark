@@ -62,6 +62,6 @@ ls() {
 run() {
     local mainclass="$1"
     touch classpath
-    $JARK_CLIENT cm $mainclass
+    $JARK_CLIENT jark.cp/run $mainclass
     exit 0
 }

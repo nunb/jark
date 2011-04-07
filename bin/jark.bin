@@ -6,8 +6,8 @@ BUILD_DATE="TMPL_DATE"
 
 MOD=$1
 CLJR_ROOT="$HOME/.cljr"
-CLJR_CP="$HOME/.cljr/lib"
-CLJR_BIN="$HOME/.cljr/bin"
+CLJR_CP="${CLJR_ROOT}/lib"
+CLJR_BIN="${CLJR_ROOT}/bin"
 
 ARCH=`uname -m`
 
@@ -45,14 +45,15 @@ DEP_JARS="${CLJR_CP}/tools.nrepl-0.0.4.jar:${CLJR_CP}/swank-clojure-1.2.0.jar:${
 
 JARK_CP="${CLOJURE_JARS}:${DEP_JARS}:${JARK_JAR}:"
 JARK_MODULES_DIR="${CLJR_CP}/jark"
+JARK_CONFIG_DIR="${CLJR_ROOT}/config"
 JARK_BIN="${CLJR_BIN}/jark-client"
 JARK_CLIENT=${JARK_BIN}
 
 # some cleanups
 
 get_pid() {
-    if [ -e /tmp/jark.pid ]; then
-        p=$(cat /tmp/jark.pid)
+    if [ -e ${JARK_CONFIG_DIR}/jark.pid ]; then
+        p=$(cat ${JARK_CONFIG_DIR}/jark.pid)
         if [ $p ]; then
             echo $p
         else
@@ -64,8 +65,8 @@ get_pid() {
 }
 
 get_port() {
-    if [ -e /tmp/jark.port ]; then
-        p=$(cat /tmp/jark.port)
+    if [ -e ${JARK_CONFIG_DIR}/jark.port ]; then
+        p=$(cat ${JARK_CONFIG_DIR}/jark.port)
         if [ $p ]; then
             echo $p
         else
@@ -77,8 +78,8 @@ get_port() {
 }
 
 get_client() {
-    if [ -e /tmp/jark.client ]; then
-        p=$(cat /tmp/jark.client)
+    if [ -e ${JARK_CONFIG_DIR}/jark.client ]; then
+        p=$(cat ${JARK_CONFIG_DIR}/jark.client)
         if [ "$p" ]; then
             echo "$p"
         else
@@ -91,8 +92,8 @@ get_client() {
 
 
 get_ns() {
-    if [ -e /tmp/jark.ns ]; then
-        p=$(cat /tmp/jark.ns)
+    if [ -e ${JARK_CONFIG_DIR}/jark.ns ]; then
+        p=$(cat ${JARK_CONFIG_DIR}/jark.ns)
         if [ "$p" ]; then
             echo "$p"
         else
@@ -170,6 +171,7 @@ export CLJR_BIN
 export is_jark_running
 export VERSION
 export JARK_MODULES_DIR
+export JARK_CONFIG_DIR
 export readlink_f
 export require
 

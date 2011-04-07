@@ -17,6 +17,9 @@
     (sort (filter #(. (str %) startsWith module) (namespaces)))
     (sort (filter #(. (str %) startsWith module) (map #(ns-name %) (all-ns))))))
 
+(defn require-ns [n]
+  (require (symbol n)))
+
 (defn list
   "List all namespaces in the classpath. Optionally takes a namespace prefix"
   ([]
@@ -65,31 +68,6 @@
               (print "\033[m")
               (flush))))
 
-(defn cli
-  ([n]
-     (dispatch-ns n))
-  ([n f & args]
-     (if (or (= (first args) "help") (= f "help"))
-       (explicit-help n f)
-       (do
-         (require-ns n)
-         (try
-           (let [ret (apply (resolve (symbol (str n "/" f))) args)]
-             (when ret (println ret)))
-           (catch IllegalArgumentException e (help n f))
-           (catch NullPointerException e (println "No such command")))))))
 
-(defn cli-json
-  ([n]
-     (dispatch-ns n))
-  ([n f & args]
-     (if (or (= (first args) "help") (= f "help"))
-       (explicit-help n f)
-       (do
-         (require-ns n)
-         (try
-           (let [ret (apply (resolve (symbol (str n "/" f))) args)]
-             (when ret (do
-                         (json-str ret))))
-           (catch IllegalArgumentException e (help n f))
-           (catch NullPointerException e (println "No such command")))))))
+(defn -main []
+  (+  2 2))
