@@ -11,6 +11,10 @@ if [ $? != 0 ]; then
     echo "javac not installed, exiting"
     exit 1
 fi
+
+javac -d classes/ src/jark/SystemThreadList.java 
+javac -d classes/ src/jark/ClassPath.java
+
 echo "Getting dependencies.."
 lein deps && lein jar
 

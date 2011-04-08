@@ -47,11 +47,13 @@ for line in f:
     if line.startswith('#<nrepl'):
         break
     if line.strip() in ['nil', 'null']:
+        print 3
         break
     
     try:
         a = simplejson.loads(line)
     except simplejson.decoder.JSONDecodeError:
+        print 'oh'
         break
 
     

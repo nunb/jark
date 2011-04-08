@@ -25,7 +25,6 @@ remove() {
 
 add() {
     local jar=$(readlink_f $1)
-    exit 0
     if [ -z $jar ]; then
         echo "USAGE jark cp add <jarpath>"
         exit 0
@@ -33,18 +32,20 @@ add() {
     if [ -d $jar ]; then
         for i in `find ${jar} -name "*.jar" -print`
         do
-            $JARK_CLIENT cp add $jar
+            $JARK_CLIENT jark.cp/add $jar
         done
-        $JARK_CLIENT cp list
+        $JARK_CLIENT jark.cp/list
         exit 0
     fi
 
     jp=$(readlink_f $jar)
     if [ $? == "0" ]; then
-        $JARK_CLIENT cp add $jar
-        $JARK_CLIENT cp list
+        echo "Adding $jar"
+        $JARK_CLIENT jark.cp/add $jar
+        list
         exit 0
     else
+        echo exiting
         exit 1
     fi
 }

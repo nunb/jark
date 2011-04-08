@@ -84,7 +84,7 @@ stop() {
 }
 
 threads() {
-    $JARK_CLIENT jark.vm/threads
+    $JARK_CLIENT jark.vm/threads | grep -v "Thread" | grep -v "pool-"
 }
 
 stat() {

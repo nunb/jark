@@ -3,6 +3,7 @@
   (:use clojure.contrib.server-socket)
   (:require [clojure.tools.nrepl :as nrepl])
   (:use clojure.contrib.pprint)
+  (:import (jark SystemThreadList))
   (:import (java.lang.management RuntimeMXBean ManagementFactory))
   (:import (java.util Date)))
 
@@ -49,7 +50,7 @@
   "Display current statistics of the JVM"
   []
   (let [mx    (ManagementFactory/getRuntimeMXBean)
-        props {"Port (vm)"    (read-string (slurp "/tmp/jark.port"))
+        props {"Port (vm)"    9500
                "Port (swank)" 4005
                "Mem total"    (str (mb (total-mem)) " MB")
                "Mem used"     (str (mb (used-mem))  " MB")
@@ -70,13 +71,11 @@
 (defn stop []
   (. System (exit 0)))
 
-(defn threads []
-  (let [group (. (Thread/currentThread) getThreadGroup)
-        th (loop [t [] g group]
-             (if (not (. g getParent)) 
-               t
-               (recur (conj t g) (. g getParent))))]
-    th))
+(defn threads
+  "Display all running threads"
+  []
+  (let [stl (SystemThreadList.)]
+    (map #(.getName %) (.getAllThreads stl))))
 
 (defn -main [& args]
   (create-repl-server 9500)
