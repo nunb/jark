@@ -29,6 +29,9 @@ def require(ns):
     message += '(println (jark.client/send "(require \'%s)")))\n' % args
     return message
 
+def longest_key_length(d):
+    return len(max(d.keys(), key=lambda s:len(s.split())))
+
 def decode_response(f):
     prefix="clojure.core=>"
     for line in f:
@@ -58,8 +61,10 @@ def format_response(r):
                 print i
                 
     elif type(r).__name__=='dict':
+        tab = longest_key_length(r)
+        tab = tab + 5
         for k, v in sorted(r.items()):
-            print '%-5s : %5s' % (k, v)
+            print '%-12s : %10s' % (k, v)
     else:
         print r
     return True
