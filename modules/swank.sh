@@ -20,7 +20,8 @@ start() {
     DEFINE_string 'port' '4005' 'swank port' 'p'
     FLAGS "$@" || exit 1
     eval set -- "${FLAGS_ARGV}"
-    
+
+    $(require swank)    
     $JARK_CLIENT jark.swank/start ${FLAGS_port}
     if [ "$?" == "0" ]; then
         echo "Started swank server on port ${FLAGS_port}"

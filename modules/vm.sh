@@ -65,7 +65,7 @@ start() {
     done    
     echo "Loaded modules"
 
-        
+    sleep 2
     if [ -e $HOME/.jarkrc ]; then
         source $HOME/.jarkrc
     fi

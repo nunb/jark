@@ -8,9 +8,14 @@
   (let [cps (distinct (split (System/getProperty "java.class.path") #":"))]
     cps))
 
+(defn exists? [path]
+  (some #(= path %) (ls)))
+
 (defn add [path]
   (let [paths (System/getProperty "java.class.path")
         newcp (str paths ":" path)]
-    (do 
-      (System/setProperty "java.class.path" newcp)
-      nil)))
+    (if-not (exists? path)
+      (do 
+        (System/setProperty "java.class.path" newcp)
+        nil))))
+

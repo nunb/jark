@@ -1,10 +1,12 @@
 (ns jark.ns
+  (:gen-class)
   (:use clojure.contrib.pprint)
   (:use clojure.contrib.ns-utils)
   (:use clojure.contrib.find-namespaces)
-  (:refer-clojure :exclude [list load find alias])
+  (:refer-clojure :exclude [list find alias])
   (:import (java.io File FileNotFoundException))
   (:import (java.io File FileNotFoundException))
+  (:require jark.cp)
   (:use clojure.contrib.json))
 
 (defn- ns-doc [] "Namespace utilities")
@@ -32,7 +34,7 @@
   [module]
   (starting-with module))
 
-(defn load
+(defn load-clj
   "Loads the given clj file, and adds relative classpath"
   [file]
   (let [basename (.getParentFile (File. file))]

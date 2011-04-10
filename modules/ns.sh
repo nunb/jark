@@ -54,8 +54,11 @@ repl() {
 
 load() {
     f=$(readlink_f $1)
+    echo "Loading $f .."
     if [ $f ]; then
-        $JARK_CLIENT ns load "$f"
+        $(require cp)
+        $(require ns)
+        $JARK_CLIENT jark.ns/load-clj $f
         exit 0
     else
         echo "No such file: $1"
