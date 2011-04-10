@@ -40,7 +40,7 @@ def decode_response(f):
             line = line[(len(prefix) + 1):]
         if line.startswith('#<nrepl'):
             break
-        if line.strip() in ['nil', 'null']:
+        if line.strip() in ['nil', 'null', None]:
             break
     
         try:
@@ -50,6 +50,8 @@ def decode_response(f):
         return a
 
 def format_response(r):
+    if r == None:
+        return 
     if type(r).__name__=='list':
         for i in r:
             if not i == "":
@@ -65,12 +67,19 @@ def format_response(r):
 if __name__ == '__main__':
     parser = OptionParser(usage="usage: %prog [options] namespace function args",
                           version="%prog 1.0")
+
+    parser.add_option("-r", "--require",
+                      action="store",
+                      dest="require",
+                      default=None,
+                      help="whether to require ns")
     
     parser.add_option("-s", "--host",
                       action="store",
                       dest="host",
                       default="localhost",
                       help="nrepl server hostname")
+
     parser.add_option("-p", "--port",
                       action="store",
                       dest="port",
@@ -78,13 +87,18 @@ if __name__ == '__main__':
                       help="nrepl server port",)
     (options, args) = parser.parse_args()
 
-    if len(args) < 1:
+    if len(args) < 1 and not options.require:
         parser.error("wrong number of arguments")
 
-    message = dispatch(escape_args(args))
+    if options.require:
+        message = require(options.require)
+    else:
+        message = dispatch(escape_args(args))
+
     f = send(options.host, options.port, message)
 
-    r = decode_response(f)
-    format_response(r)
+    if not options.require:
+        r = decode_response(f)
+        format_response(r)
 
     sys.exit(0)

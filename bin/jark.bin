@@ -121,7 +121,7 @@ clj_temp_file() {
 
 require() {
     local module="$1"
-    $JARK_CLIENT require "'jark.$module"
+    $JARK_CLIENT -r "jark.$module"
 }
 
 running=`is_jark_running`
