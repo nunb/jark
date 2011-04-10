@@ -16,7 +16,7 @@ add() {
     for JAR in `find ${CLJR_CP} -name "*.jar" -print`
     do
         echo "Adding $JAR .."
-        $JARK_CLIENT ng-cp $JAR
+        $JARK cp add $JAR
     done
     exit 0
 }

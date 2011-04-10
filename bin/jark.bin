@@ -260,7 +260,7 @@ elif [ -e ${MODULE_CLJ} ]; then
     $JARK_CLIENT jark.core jark.core jark-compile ${JARK_MODULES_DIR} jark.${MODULE} 2&> /dev/null
     #$JARK_CLIENT jark.core jark.${MODULE} "${@:2}"
     exit 0
-elif [ -e "$1" ]; then
+elif [ -e "$1" ] && [ ! -d "$1" ]; then
     if [ "$running" == "no" ]; then
         jark vm start 2&> /dev/null
     fi
@@ -274,6 +274,9 @@ elif [ -e "$1" ]; then
     NS=`echo $LNS | cut -d '/' -f 1 | cut -d "'" -f 2`
     $JARK_CLIENT jark.core $NS -main "${@:2}"
     rm -f $(clj_temp_file $1)
+    exit 0
+else
+    ${JARK_CLIENT} "${@:1}"
     exit 0
 fi
 

@@ -21,8 +21,7 @@ start() {
     FLAGS "$@" || exit 1
     eval set -- "${FLAGS_ARGV}"
 
-    $(require swank)    
-    $JARK_CLIENT jark.swank/start ${FLAGS_port}
+    $JARK_CLIENT jark.swank start
     if [ "$?" == "0" ]; then
         echo "Started swank server on port ${FLAGS_port}"
         exit 0
@@ -33,6 +32,6 @@ start() {
 }
 
 stop() {
-    $JARK_CLIENT jark.swank/stop
+    $JARK_CLIENT jark.swank stop
 }
 

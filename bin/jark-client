@@ -2,67 +2,89 @@
 
 import socket, sys, os
 import simplejson
+from optparse import OptionParser
 
-host_file = '%s/.cljr/config/jark.host' % os.getenv('HOME')
-port_file = '%s/.cljr/config/jark.port' % os.getenv('HOME')
-
-if os.path.exists(host_file):
-    host = open(host_file).read().strip()
-else:
-    host = "localhost"
-
-if os.path.exists(port_file):
-    port = open(port_file).read().strip()
-else:
-    port = 9500
-
-port = int(port)
-
-
-try:
-    c = socket.create_connection((host, port));
-except:
-    sys.exit(1)
-
-f = c.makefile('rw')
-
-try:
-    args = sys.argv[2]
-except:
-    args = None
-
-if args:
-    f.writelines('(do (require \'jark.client) (println (jark.client/send "(%s \\"%s\\")")))\n' % \
-                     (sys.argv[1], sys.argv[2]))
-else:
-    f.writelines('(do (require \'jark.client) (println (jark.client/send "(%s)")))\n' % sys.argv[1])
-    
-f.flush()
-
-prefix="clojure.core=>"
-for line in f:
-
-    if line.startswith(prefix):
-        line = line[(len(prefix) + 1):]
-    if line.startswith('#<nrepl'):
-        break
-    if line.strip() in ['nil', 'null']:
-        break
-    
+def send(host, port, message):
     try:
-        a = simplejson.loads(line)
-    except simplejson.decoder.JSONDecodeError:
-        break
+        c = socket.create_connection((host, port));
+    except:
+        return False
+    f = c.makefile('rw')
+    f.writelines(message)
+    f.flush()
+    return f
 
-    if type(a).__name__=='list':
-        for i in a:
+def escape_args(a):
+    args = ['\\"%s\\"' % x for x in a]
+    args = " ".join(args)
+    return args
+
+def dispatch(args):
+    message = '(do (require \'jark.client)'
+    message += '(println (jark.client/send "(jark.ns/dispatch %s)")))\n' % args
+    return message
+
+def require(ns):
+    message = '(do (require \'jark.client)'
+    message += '(println (jark.client/send "(require \'%s)")))\n' % args
+    return message
+
+def decode_response(f):
+    prefix="clojure.core=>"
+    for line in f:
+        if "Exception" in line:
+            print message
+            print line
+
+        if line.startswith(prefix):
+            line = line[(len(prefix) + 1):]
+        if line.startswith('#<nrepl'):
+            break
+        if line.strip() in ['nil', 'null']:
+            break
+    
+        try:
+            a = simplejson.loads(line)
+        except simplejson.decoder.JSONDecodeError:
+            break
+        return a
+
+def format_response(r):
+    if type(r).__name__=='list':
+        for i in r:
             if not i == "":
                 print i
-
-    elif type(a).__name__=='dict':
-        for k, v in sorted(a.items()):
-            print '%-15s : %15s' % (k, v)
+                
+    elif type(r).__name__=='dict':
+        for k, v in sorted(r.items()):
+            print '%-5s : %5s' % (k, v)
     else:
-        print a
+        print r
+    return True
 
-sys.exit(0)
+if __name__ == '__main__':
+    parser = OptionParser(usage="usage: %prog [options] namespace function args",
+                          version="%prog 1.0")
+    
+    parser.add_option("-s", "--host",
+                      action="store",
+                      dest="host",
+                      default="localhost",
+                      help="nrepl server hostname")
+    parser.add_option("-p", "--port",
+                      action="store",
+                      dest="port",
+                      default=9500,
+                      help="nrepl server port",)
+    (options, args) = parser.parse_args()
+
+    if len(args) < 1:
+        parser.error("wrong number of arguments")
+
+    message = dispatch(escape_args(args))
+    f = send(options.host, options.port, message)
+
+    r = decode_response(f)
+    format_response(r)
+
+    sys.exit(0)

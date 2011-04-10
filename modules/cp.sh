@@ -32,16 +32,16 @@ add() {
     if [ -d $jar ]; then
         for i in `find ${jar} -name "*.jar" -print`
         do
-            $JARK_CLIENT jark.cp/add $jar
+            $JARK_CLIENT jark.cp add $jar
         done
-        $JARK_CLIENT jark.cp/list
+        $JARK_CLIENT jark.cp list
         exit 0
     fi
 
     jp=$(readlink_f $jar)
     if [ $? == "0" ]; then
         echo "Adding $jar"
-        $JARK_CLIENT jark.cp/add $jar
+        $JARK_CLIENT jark.cp add $jar
         exit 0
     else
         echo exiting
@@ -50,7 +50,7 @@ add() {
 }
 
 list() {
-    $JARK_CLIENT jark.cp/ls
+    $JARK_CLIENT jark.cp ls
     exit 0
 }
 
@@ -62,6 +62,6 @@ ls() {
 run() {
     local mainclass="$1"
     touch classpath
-    $JARK_CLIENT jark.cp/run $mainclass
+    $JARK_CLIENT jark.cp run $mainclass
     exit 0
 }

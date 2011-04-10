@@ -78,30 +78,30 @@ stop() {
         exit 0
     fi
     echo "Stopping JVM server with pid `cat ${JARK_CONFIG_DIR}/jark.pid`"
-    $JARK_CLIENT jark.vm/stop
+    $JARK_CLIENT jark.vm stop
     rm -rf ${JARK_CONFIG_DIR}/jark.*
     exit 0
 }
 
 threads() {
-    $JARK_CLIENT jark.vm/threads | grep -v ^Thread | grep -v "pool-"
+    $JARK_CLIENT jark.vm threads | grep -v ^Thread | grep -v "pool-"
 }
 
 stat() {
-    $JARK_CLIENT jark.vm/stats
+    $JARK_CLIENT jark.vm stats
 }
 
 stats() {
-    $JARK_CLIENT jark.vm/stats
+    $JARK_CLIENT jark.vm stats
 }
 
 
 gc() {
-    $JARK_CLIENT jark.vm/gc
+    $JARK_CLIENT jark.vm gc
 }
 
 uptime() {
-    $JARK_CLIENT jark.vm/uptime
+    $JARK_CLIENT jark.vm uptime
     exit $?
 }
 

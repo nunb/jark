@@ -17,24 +17,24 @@ _doc() {
 
 examples() {
     if [ ! -n "${PAGER+x}" ]; then 
-        $JARK _doc examples $* 
+        $JARK_CLIENT jark.doc examples $* 
     else
-        $JARK _doc examples $* | $PAGER
+        $JARK_CLIENT jark.doc examples $* | $PAGER
     fi
 }
 
 search() {
     if [ ! -n "${PAGER+x}" ]; then 
-        $JARK _doc search $* 
+        $JARK_CLIENT jark.doc search $* 
     else
-        $JARK _doc search $* | $PAGER
+        $JARK_CLIENT jark.doc search $* | $PAGER
     fi
 }
 
 comments() {
     if [ ! -n "${PAGER+x}" ]; then 
-        $JARK _doc comments $* 
+        $JARK_CLIENT jark.doc comments $* 
     else
-        $JARK _doc comments $* | $PAGER
+        $JARK_CLIENT jark.doc comments $* | $PAGER
     fi
 }

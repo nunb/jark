@@ -22,19 +22,19 @@ _doc() {
 
 list() {
     if [ ! -n "${PAGER+x}" ]; then 
-        $JARK_CLIENT jark.ns/list $*
+        $JARK_CLIENT jark.ns list $*
     else
-        $JARK_CLIENT jark.ns/list $* | $PAGER
+        $JARK_CLIENT jark.ns list $* | $PAGER
     fi
 }
 
 find() {
-    $JARK_CLIENT jark.ns/find swank
+    $JARK_CLIENT jark.ns find swank
     exit 0
 }
 
 run() {
-    $JARK_CLIENT jark.cp/run
+    $JARK_CLIENT jark.cp run
 }
 
 repl() {
@@ -46,9 +46,9 @@ repl() {
           --remember \
           -m -q'"' -c \
           -f ${CLJR_BIN}/clj_completions \
-          $JARK_CLIENT jark.ns/repl $* 
+          $JARK_CLIENT jark.ns repl $* 
     else
-        $JARK_CLIENT jark.ns/repl $* 
+        $JARK_CLIENT jark.ns repl $* 
     fi
 }
 
@@ -58,7 +58,7 @@ load() {
     if [ $f ]; then
         $(require cp)
         $(require ns)
-        $JARK_CLIENT jark.ns/load-clj $f
+        $JARK_CLIENT jark.ns load-clj $f
         exit 0
     else
         echo "No such file: $1"
