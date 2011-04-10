@@ -1,7 +1,6 @@
 (ns jark.cp
   (:use [clojure.string :only (split)])
   (:import (java.net URL URLClassLoader))
-  (:import (jark ClassPath))
   (:import (com.stuartsierra ClasspathManager))
   (:gen-class))
 
@@ -10,8 +9,8 @@
     cps))
 
 (defn add [path]
-  (let [url (URL. (str "file://" path))]
-    (println url)
-    (. (new ClassPath) url)))
-    
-
+  (let [paths (System/getProperty "java.class.path")
+        newcp (str paths ":" path)]
+    (do 
+      (System/setProperty "java.class.path" newcp)
+      nil)))

@@ -37,7 +37,7 @@ start() {
 
     rm -f ${JARK_CONFIG_DIR}/jark.client
 
-    java -cp ${JARK_CP}:${JARK_JAR} jark.vm <&- & 2&> /dev/null
+    java -Djava.security.policy=/home/icylisper/.cljr/config/jark.policy -cp ${JARK_CP}:${JARK_JAR} jark.vm <&- & 2&> /dev/null
     pid=$!
     echo ${pid} > ${JARK_CONFIG_DIR}/jark.pid
     echo ${port} > ${JARK_CONFIG_DIR}/jark.port
@@ -84,7 +84,7 @@ stop() {
 }
 
 threads() {
-    $JARK_CLIENT jark.vm/threads | grep -v "Thread" | grep -v "pool-"
+    $JARK_CLIENT jark.vm/threads | grep -v ^Thread | grep -v "pool-"
 }
 
 stat() {

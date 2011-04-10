@@ -42,7 +42,6 @@ add() {
     if [ $? == "0" ]; then
         echo "Adding $jar"
         $JARK_CLIENT jark.cp/add $jar
-        list
         exit 0
     else
         echo exiting

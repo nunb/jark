@@ -32,7 +32,7 @@ except:
     args = None
 
 if args:
-    f.writelines('(do (require \'jark.client) (println (jark.client/send "(%s %s)")))\n' % \
+    f.writelines('(do (require \'jark.client) (println (jark.client/send "(%s \\"%s\\")")))\n' % \
                      (sys.argv[1], sys.argv[2]))
 else:
     f.writelines('(do (require \'jark.client) (println (jark.client/send "(%s)")))\n' % sys.argv[1])
@@ -47,16 +47,13 @@ for line in f:
     if line.startswith('#<nrepl'):
         break
     if line.strip() in ['nil', 'null']:
-        print 3
         break
     
     try:
         a = simplejson.loads(line)
     except simplejson.decoder.JSONDecodeError:
-        print 'oh'
         break
 
-    
     if type(a).__name__=='list':
         for i in a:
             if not i == "":

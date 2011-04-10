@@ -79,4 +79,5 @@
 
 (defn -main [& args]
   (create-repl-server 9500)
-  (nrepl/start-server 9000))
+  (nrepl/start-server 9000)
+  (System/setSecurityManager nil))
