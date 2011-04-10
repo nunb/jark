@@ -13,7 +13,6 @@ if [ $? != 0 ]; then
 fi
 
 javac -d classes/ src/jark/SystemThreadList.java 
-javac -d classes/ src/jark/SystemClassPath.java
 
 echo "Getting dependencies.."
 lein jar
