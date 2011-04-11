@@ -1,7 +1,6 @@
 (ns jark.cp
   (:use [clojure.string :only (split)])
   (:import (java.net URL URLClassLoader))
-  (:import (com.stuartsierra ClasspathManager))
   (:import (java.lang.reflect Method))
   (:import (java.io File))
   (:use clojure.contrib.classpath)
