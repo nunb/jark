@@ -30,20 +30,21 @@ _doc() {
 
 start() {
     DEFINE_string 'port' '9500' 'remote jark port' 'p'
-    DEFINE_string 'jvm_opts' '-Xms64m -Xmx256m' 'JVM Opts' 'o'
+    DEFINE_string 'jvm_opts' '-Xms64m -Xmx256m -DNOSECURITY=true' 'JVM Opts' 'o'
     FLAGS "$@" || exit 1
     eval set -- "${FLAGS_ARGV}"
     port=${FLAGS_port}
 
     rm -f ${JARK_CONFIG_DIR}/jark.client
 
-    java -cp ${JARK_CP}:${JARK_JAR} jark.vm <&- & 2&> /dev/null
+    java ${FLAGS_jvm_opts} -cp ${JARK_CP}:${JARK_JAR} jark.vm <&- & 2&> /dev/null
     pid=$!
     echo ${pid} > ${JARK_CONFIG_DIR}/jark.pid
     echo ${port} > ${JARK_CONFIG_DIR}/jark.port
     echo "Started jark-nrepl server on port $port"
 
     sleep 5
+    $JARK vm connect
 
     if [ -e $CLJR_CP/jark-deps.txt ]; then
         for dep in `cat $CLJR_CP/jark-deps.txt`; do

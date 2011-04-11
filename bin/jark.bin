@@ -231,17 +231,6 @@ if [ -z $1 ]; then
             echo -en "$MODULE\t- $(commands)\n"
             
         fi
-
-        if [ "$EXT" == "clj" ]; then
-            if [[ $MODULE == _* ]]; then 
-                continue 
-            fi
-            if [ $running == "yes" ]; then
-                $JARK_CLIENT jark.core jark.core jark-load $i 2&> /dev/null
-                echo -en "$MODULE\t- `$JARK_CLIENT jark.core jark.core about jark.${MODULE} | head -n1 | awk 'sub("....$", "")'`\n"
-            fi
-        fi
-
     done
     exit 0
 
@@ -255,8 +244,8 @@ if [ $MOD == "install" ]; then
 fi
 
 
+# FIXME: Windows: use .bat
 MODULE_SH=${JARK_MODULES_DIR}/$MOD.sh
-MODULE_CLJ=${JARK_MODULES_DIR}/$MOD.clj
 
 if [ -e ${MODULE_SH} ]; then
     source ${MODULE_SH}
@@ -267,12 +256,7 @@ if [ -e ${MODULE_SH} ]; then
     fi
     ${2} "${@:3}"
     exit 0
-elif [ -e ${MODULE_CLJ} ]; then
-    MODULE=`basename ${MODULE_CLJ} | cut -d '.' -f 1` 
-    $JARK_CLIENT jark.core jark.core jark-load ${MODULE_CLJ} 2&> /dev/null
-    $JARK_CLIENT jark.core jark.core jark-compile ${JARK_MODULES_DIR} jark.${MODULE} 2&> /dev/null
-    #$JARK_CLIENT jark.core jark.${MODULE} "${@:2}"
-    exit 0
+
 elif [ -e "$1" ] && [ ! -d "$1" ]; then
     if [ "$running" == "no" ]; then
         jark vm start 2&> /dev/null
@@ -288,6 +272,7 @@ elif [ -e "$1" ] && [ ! -d "$1" ]; then
     $JARK_CLIENT jark.core $NS -main "${@:2}"
     rm -f $(clj_temp_file $1)
     exit 0
+
 else
     ${JARK_CLIENT} "${@:1}"
     exit 0
