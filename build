@@ -1,60 +1,100 @@
 #!/bin/bash
 
-set -eu 
+set -eu
 
 # build jark without renaming the project
 export LEIN_SNAPSHOTS_IN_RELEASE="yes"
 export LEIN_ROOT="yes"
 
+COMMON_COMPONENTS="bin/clj_completions bin/shflags modules/ bin/jark-client"
+SERVER_COMPONENTS="bin/project-cljr.clj *.jar jark-deps.txt"
+CLIENT_COMPONENTS="bin/jark-client"
 
-if [ $? != 0 ]; then 
-    echo "javac not installed, exiting"
-    exit 1
-fi
+build_server() {
+    mkdir -p classes
+    javac -d classes/ src/jark/SystemThreadList.java 
+    if [ $? != 0 ]; then 
+        echo "javac not installed, exiting"
+        exit 1
+    fi
+    echo "Getting dependencies.."
+    lein jar
 
-mkdir -p classes
+    touch jark-deps.txt
+    :> jark-deps.txt
+    for i in `ls lib/*.jar`; do
+        echo $i >> jark-deps.txt
+    done
 
-javac -d classes/ src/jark/SystemThreadList.java 
+    for i in `ls lib/*.jar`; do
+        tar -rvf payload.tar $i
+    done
+    tar -rvf payload.tar ${SERVER_COMPONENTS}
+}
 
-echo "Getting dependencies.."
-lein jar
+build_client() {
+    tar -rvf payload.tar ${CLIENT_COMPONENTS}
+}
 
-touch jark-deps.txt
-:> jark-deps.txt
-for i in `ls lib/*.jar`; do
-    echo $i >> jark-deps.txt
-done
+update_version() {
+    local TMPL_COMPONENT="$1"
+    echo "Updating build information"
+    COMMIT=`git rev-parse --verify --short HEAD`
+    DATE=`date`
+    ARCH=`uname -m`
+    TMPL_DATE="$ARCH | $DATE"
+    echo "git hash  : $COMMIT"
+    echo "date      : ${TMPL_DATE}"
+    echo "component : ${TMPL_COMPONENT}"
+    perl -pi -e "s/TMPL_VERSION/$COMMIT/g" jark
+    perl -pi -e "s/TMPL_DATE/${TMPL_DATE}/g" jark
+    perl -pi -e "s/TMPL_COMPONENT/${TMPL_COMPONENT}/g" jark
+    exit 0
+}
 
-tar cf payload.tar bin/clj_completions bin/shflags bin/project-cljr.clj *.jar jark-deps.txt modules/ bin/jark-client
-
-for i in `ls lib/*.jar`; do
-    tar -rf payload.tar $i
-done
-
-if [ -e "payload.tar" ]; then
-    gzip payload.tar
-
-    if [ -e "payload.tar.gz" ]; then
+generate_jark() {
+    if [ -e "payload.tar" ]; then
+        gzip payload.tar
         cat bin/jark.bin payload.tar.gz > jark
         rm payload.tar.gz
+        chmod +x jark
+        echo "jark self extracting script created"
     else
         echo "payload.tar.gz does not exist"
         exit 1
     fi
-else
-    echo "payload.tar does not exist"
-    exit 1
+}
+
+# begin building
+
+echo "Adding common components ..."
+tar cf payload.tar ${COMMON_COMPONENTS}
+
+TMPL_COMPONENT="client"
+
+if [ -z "$1" ]; then
+    echo "building both server and client components"
+    TMPL_COMPONENT="server"
+    build_server
+    build_client
 fi
 
-echo "Updating build information"
-COMMIT=`git rev-parse --verify --short HEAD`
-DATE=`date`
-ARCH=`uname -m`
-TMPL_DATE="$ARCH | $DATE"
-echo "git hash: $COMMIT"
-perl -pi -e "s/TMPL_VERSION/$COMMIT/g" jark
-perl -pi -e "s/TMPL_DATE/${TMPL_DATE}/g" jark
+if [ "$1" == "--client" ] || [ "$1" == "client" ]; then
+    echo "building client components"
+    TMPL_COMPONENT="client"
+    build_client
+fi
 
-chmod +x jark
-echo "jark self extracting script created"
+if [ "$1" == "--server" ] || [ "$1" == "server" ]; then
+    echo "building server components"
+    TMPL_COMPONENT="server"
+    build_server
+fi
+
+generate_jark
+update_version ${TMPL_COMPONENT}
 exit 0
+
+
+
+
