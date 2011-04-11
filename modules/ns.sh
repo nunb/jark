@@ -29,7 +29,7 @@ list() {
 }
 
 find() {
-    $JARK_CLIENT jark.ns find swank
+    $JARK_CLIENT jark.ns find $*
     exit 0
 }
 
