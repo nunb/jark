@@ -105,7 +105,7 @@ get_ns() {
     fi
 }
 
-JARK_CLIENT=${JARK_BIN} --host $(get_host) --port $(get_port)
+JARK_CLIENT="${JARK_BIN} --host $(get_host) --port $(get_port)"
 
 
 is_jark_running() {
