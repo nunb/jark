@@ -34,7 +34,9 @@ find() {
 }
 
 run() {
-    $JARK_CLIENT jark.cp run
+    echo $1
+    $JARK_CLIENT $1 main
+    exit 0
 }
 
 repl() {

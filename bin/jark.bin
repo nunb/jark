@@ -255,6 +255,8 @@ if [ -e ${MODULE_SH} ]; then
         exit 1
     fi
     ${2} "${@:3}"
+    _doc
+    
     exit 0
 
 elif [ -e "$1" ] && [ ! -d "$1" ]; then
