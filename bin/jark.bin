@@ -48,7 +48,7 @@ JARK_CP="${CLOJURE_JARS}:${DEP_JARS}:${JARK_JAR}:"
 JARK_MODULES_DIR="${CLJR_CP}/jark"
 JARK_CONFIG_DIR="${CLJR_ROOT}/config"
 JARK_BIN="${CLJR_BIN}/jark-client"
-JARK_CLIENT=${JARK_BIN}
+
 
 # some cleanups
 
@@ -71,23 +71,23 @@ get_port() {
         if [ $p ]; then
             echo $p
         else
-            echo 0
+            echo 9500
         fi
     else
-        echo 0
+        echo 9500
     fi
 }
 
-get_client() {
-    if [ -e ${JARK_CONFIG_DIR}/jark.client ]; then
-        p=$(cat ${JARK_CONFIG_DIR}/jark.client)
-        if [ "$p" ]; then
-            echo "$p"
+get_host() {
+    if [ -e ${JARK_CONFIG_DIR}/jark.host ]; then
+        p=$(cat ${JARK_CONFIG_DIR}/jark.host)
+        if [ $p ]; then
+            echo $p
         else
-            echo 0
+            echo "localhost"
         fi
     else
-        echo 0
+        echo "localhost"
     fi
 }
 
@@ -104,6 +104,8 @@ get_ns() {
         echo "user"
     fi
 }
+
+JARK_CLIENT=${JARK_BIN} --host $(get_host) --port $(get_port)
 
 
 is_jark_running() {
