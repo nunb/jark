@@ -6,7 +6,7 @@ set -eu
 export LEIN_SNAPSHOTS_IN_RELEASE="yes"
 export LEIN_ROOT="yes"
 
-COMMON_COMPONENTS="bin/clj_completions bin/shflags modules/ bin/jark-client"
+COMMON_COMPONENTS="bin/clj_completions bin/shflags modules/ bin/jark-client bin/simplejson.py"
 SERVER_COMPONENTS="bin/project-cljr.clj *.jar jark-deps.txt"
 CLIENT_COMPONENTS="bin/jark-client"
 
@@ -77,18 +77,18 @@ if [ -z "$1" ]; then
     TMPL_COMPONENT="server"
     build_server
     build_client
-fi
+else
+    if [ "$1" == "--client" ] || [ "$1" == "client" ]; then
+        echo "building client components"
+        TMPL_COMPONENT="client"
+        build_client
+    fi
 
-if [ "$1" == "--client" ] || [ "$1" == "client" ]; then
-    echo "building client components"
-    TMPL_COMPONENT="client"
-    build_client
-fi
-
-if [ "$1" == "--server" ] || [ "$1" == "server" ]; then
-    echo "building server components"
-    TMPL_COMPONENT="server"
-    build_server
+    if [ "$1" == "--server" ] || [ "$1" == "server" ]; then
+        echo "building server components"
+        TMPL_COMPONENT="server"
+        build_server
+    fi
 fi
 
 generate_jark
