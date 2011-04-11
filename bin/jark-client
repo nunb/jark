@@ -66,6 +66,7 @@ def format_response(r):
         tab = longest_key_length(r)
         tab = tab + 5
         for k, v in sorted(r.items()):
+            if v == None: v = '-'
             print '%-12s : %10s' % (k, v)
     else:
         print r

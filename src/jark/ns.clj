@@ -34,7 +34,7 @@
   "Loads the given clj file, and adds relative classpath"
   [file]
   (let [basename (.getParentFile (File. file))]
-    (jark.cp/add (str (. System getProperty "user.home") (.toString basename))))
+    (jark.cp/add (.toString basename)))
   (load-file file))
 
 (defn repl
@@ -88,13 +88,10 @@
 (defn help
   ([n]
      (require-ns n)
-     (let [p (mapcat #(vector % (fn-doc n %)) (fns n))]
-       p))
+     (into {} (map #(vector % (fn-doc n %)) (fns n))))
   
   ([n f]
-     (do
-       (println (fn-doc n f))
-       (fn-usage n f))))
+     (fn-usage n f)))
 
 (defn about
   [n]
