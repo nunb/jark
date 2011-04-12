@@ -3,6 +3,7 @@
 VERSION="TMPL_VERSION"
 JARK_RELEASE_VERSION="1.0"
 BUILD_DATE="TMPL_DATE"
+BUILD_ARCH="TMPL_ARCH"
 BUILD_COMPONENT="TMPL_COMPONENT"
 
 MOD=$1
@@ -151,8 +152,10 @@ if [ "$1"  == "run" ]; then
 fi
 
 if [ "$1"  == "version" ]; then
-    echo "git hash: $VERSION"
-    echo "build: $BUILD_DATE"
+    echo "git hash  : $VERSION"
+    echo "arch      : $BUILD_ARCH"
+    echo "date      : $BUILD_DATE"
+    echo "component : $BUILD_COMPONENT"
     exit 0
 fi
 
