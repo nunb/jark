@@ -28,7 +28,7 @@ def dispatch(args):
 
 def require(ns):
     message = '(do (require \'jark.client)'
-    message += '(println (jark.client/send "(require \'%s)")))\n' % args
+    message += '(println (jark.client/send "(require \'%s)")))\n' % ns
     return message
 
 def longest_key_length(d):
