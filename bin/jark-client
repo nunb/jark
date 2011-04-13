@@ -4,7 +4,7 @@ import socket, sys, os
 from optparse import OptionParser
 
 sys.path.append('%s/.cljr/bin/' % os.getenv('HOME'))
-import simplejson
+from simplejson import loads, dumps
 
 def send(host, port, message):
     try:
@@ -22,40 +22,28 @@ def escape_args(a):
     return args
 
 def dispatch(args):
-    message = '(do (require \'jark.client)'
-    message += '(println (jark.client/send "(jark.ns/dispatch %s)")))\n' % args
+    message = ["2", '"id"', '"foo"', '"code"', '"(jark.ns/dispatch %s)"' % args]
     return message
 
 def require(ns):
     message = '(do (require \'jark.client)'
-    message += '(println (jark.client/send "(require \'%s)")))\n' % ns
+    message += '(require \'%s)\n' % args
     return message
 
 def longest_key_length(d):
     return len(max(d.keys(), key=lambda s:len(s.split())))
 
 def decode_response(f):
-    prefix="clojure.core=>"
+    res = dict()
     for line in f:
-        if "Exception" in line:
-            print message
-            print line
-
-        if line.startswith(prefix):
-            line = line[(len(prefix) + 1):]
-        if line.startswith('#<nrepl'):
-            break
-        if line.strip() in ['nil', 'null', None]:
-            break
-    
-        try:
-            a = simplejson.loads(line)
-        except simplejson.decoder.JSONDecodeError:
-            break
-        return a
+        if not line.strip() == "3":
+            res[loads(line)] = loads((next(f, line).strip()))
+        if res.has_key('status') and res['status'] == "done":
+            break;
+    return res['value'].strip() 
 
 def format_response(r):
-    if r == None:
+    if r in [None, 'nil']:
         return 
     if type(r).__name__=='list':
         for i in r:
@@ -71,6 +59,10 @@ def format_response(r):
     else:
         print r
     return True
+
+def prenext(l,v) : 
+    i = l.index(v)
+    return l[i+1] if i < (len(l) - 1) else None
 
 if __name__ == '__main__':
     parser = OptionParser(usage="usage: %prog [options] namespace function args",
@@ -91,7 +83,7 @@ if __name__ == '__main__':
     parser.add_option("-p", "--port",
                       action="store",
                       dest="port",
-                      default=9500,
+                      default=9000,
                       help="nrepl server port",)
     (options, args) = parser.parse_args()
 
@@ -102,11 +94,15 @@ if __name__ == '__main__':
         message = require(options.require)
     else:
         message = dispatch(escape_args(args))
-
+        
     f = send(options.host, options.port, message)
 
     if not options.require:
         r = decode_response(f)
-        format_response(r)
+        try:
+            response = loads(loads(r))
+        except ValueError:
+            response = r
+        format_response(response)
 
     sys.exit(0)

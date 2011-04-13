@@ -50,7 +50,7 @@
   "Display current statistics of the JVM"
   []
   (let [mx    (ManagementFactory/getRuntimeMXBean)
-        props {"Port (vm)"    9500
+        props {"Port (vm)"    9000
                "Port (swank)" 4005
                "Mem total"    (str (mb (total-mem)) " MB")
                "Mem used"     (str (mb (used-mem))  " MB")

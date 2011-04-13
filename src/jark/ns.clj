@@ -124,7 +124,8 @@
          (require-ns n)
          (try
            (let [ret (apply (resolve (symbol (str n "/" f))) args)]
-             (when ret ret))
+             (when ret
+               (json-str ret)))
            (catch IllegalArgumentException e (help n f))
            (catch NullPointerException e (println "No such command")))))))
 

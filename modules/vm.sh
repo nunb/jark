@@ -29,7 +29,7 @@ _doc() {
 }
 
 start() {
-    DEFINE_string 'port' '9500' 'remote jark port' 'p'
+    DEFINE_string 'port' '9000' 'remote jark port' 'p'
     DEFINE_string 'jvm_opts' '-Xms64m -Xmx256m -DNOSECURITY=true' 'JVM Opts' 'o'
     FLAGS "$@" || exit 1
     eval set -- "${FLAGS_ARGV}"
@@ -86,19 +86,23 @@ stop() {
 
 threads() {
     $JARK_CLIENT jark.vm threads | grep -v ^Thread | grep -v "pool-"
+    exit 0
 }
 
 stat() {
     $JARK_CLIENT jark.vm stats
+    exit 0
 }
 
 stats() {
     $JARK_CLIENT jark.vm stats
+    exit 0
 }
 
 
 gc() {
     $JARK_CLIENT jark.vm gc
+    exit 0
 }
 
 uptime() {
@@ -107,7 +111,7 @@ uptime() {
 }
 
 connect() {
-    DEFINE_string 'port' '9500' 'jark port' 'p'
+    DEFINE_string 'port' '9000' 'jark port' 'p'
     DEFINE_string 'host' 'localhost' 'jark host' 'r'
 
     FLAGS "$@" || exit 1

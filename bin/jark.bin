@@ -72,10 +72,10 @@ get_port() {
         if [ $p ]; then
             echo $p
         else
-            echo 9500
+            echo 9000
         fi
     else
-        echo 9500
+        echo 9000
     fi
 }
 
