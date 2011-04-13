@@ -56,7 +56,6 @@ repl() {
 
 load() {
     f=$(readlink_f $1)
-    echo "Loading $f .."
     if [ $f ]; then
         $(require cp)
         $(require ns)
