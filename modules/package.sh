@@ -81,6 +81,7 @@ search() {
 
 installed() {
     $JARK_CLIENT cljr.App list
+    exit 0
 }
 
 latest() {

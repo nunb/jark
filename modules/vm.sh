@@ -52,20 +52,12 @@ start() {
         done;
     fi
     if [ -e `pwd`/project.clj ] && [ -d `pwd`/src ] && [ -d `pwd`/lib ]; then
-        $JARK cp add `pwd`/src
+        # FIXME: gives no command!
+        $JARK cp add `pwd`/src 
         $JARK cp add `pwd`/lib
     fi
     echo "Added dependencies to classpath"
     
-    for i in `ls ${JARK_MODULES_DIR}/*.*`; do 
-        MODULE=`basename $i | cut -d '.' -f 1` 
-        EXT=`basename $i | cut -d '.' -f 2` 
-        if [ "$EXT" == "sh" ]; then
-            $(require $MODULE)
-        fi
-    done    
-    echo "Loaded modules"
-
     sleep 2
     if [ -e $HOME/.jarkrc ]; then
         source $HOME/.jarkrc

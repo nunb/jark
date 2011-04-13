@@ -66,9 +66,11 @@ def format_response(r):
     elif type(r).__name__=='dict':
         tab = longest_key_length(r)
         tab = tab + 5
+        format = '%%-%ds : %%%ds' % (tab, tab)
+
         for k, v in sorted(r.items()):
             if v == None: v = '-'
-            print '%-12s : %10s' % (k, v)
+            print format % (k, v) 
     else:
         print r
     return True

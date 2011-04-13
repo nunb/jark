@@ -43,7 +43,7 @@ else
 fi
 
 CLOJURE_JARS="${CLJR_CP}/clojure-1.2.0.jar:${CLJR_CP}/clojure-contrib-1.2.0.jar"
-DEP_JARS="${CLJR_CP}/tools.nrepl-0.0.4.jar:${CLJR_CP}/swank-clojure-1.2.0.jar:${CLJR_CP}/classpath-manager-1.1.0.jar"
+DEP_JARS="${CLJR_CP}/tools.nrepl-0.0.4.jar:${CLJR_CP}/swank-clojure-1.2.0.jar"
 
 JARK_CP="${CLOJURE_JARS}:${DEP_JARS}:${JARK_JAR}:"
 JARK_MODULES_DIR="${CLJR_CP}/jark"

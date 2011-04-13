@@ -116,7 +116,7 @@
 
 (defn dispatch
   ([n]
-     (dispatch-ns n))
+     (json-str (dispatch-ns n)))
   ([n f & args]
      (if (or (= (first args) "help") (= f "help"))
        (explicit-help n f)

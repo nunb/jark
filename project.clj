@@ -8,4 +8,4 @@
 
   :repositories  {"stuartsierra" "http://stuartsierra.com/maven2"}
 
-  :aot [jark.vm jark.cp jark.ns jark.swank]) 
+  :aot [jark.vm jark.cp jark.ns jark.swank jark.doc]) 

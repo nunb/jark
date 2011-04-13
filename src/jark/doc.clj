@@ -10,15 +10,17 @@
       (println (:body i)))))
 
 (defn- pp-search [res]
-  (let [p (mapcat #(vector (:name %) (:ns %)) res)]
-    (pp-plist p)))
+  
+  (let [p (into {} (map #(vector (:name %) (:ns %)) res))]
+    p))
 
 (defn- pp-comments [res]
   res)
 
 (defn search [function]
-  (pp-search (read-json
-              (string (http-agent (str "http://api.clojuredocs.org/search/" function))))))
+  (pp-search
+   (read-json
+   (string (http-agent (str "http://api.clojuredocs.org/search/" function))))))
 
 (defn examples
   ([sym]

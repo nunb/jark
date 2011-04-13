@@ -13,6 +13,7 @@ _doc() {
     echo -e ""
     echo -e "jark doc comments function"
     echo -e "jark doc comments function namespace"
+    exit 0
 }
 
 examples() {
@@ -21,6 +22,7 @@ examples() {
     else
         $JARK_CLIENT jark.doc examples $* | $PAGER
     fi
+    exit 0
 }
 
 search() {
@@ -29,6 +31,7 @@ search() {
     else
         $JARK_CLIENT jark.doc search $* | $PAGER
     fi
+    exit 0
 }
 
 comments() {
@@ -37,4 +40,5 @@ comments() {
     else
         $JARK_CLIENT jark.doc comments $* | $PAGER
     fi
+    exit 0
 }

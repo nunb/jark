@@ -26,6 +26,7 @@ list() {
     else
         $JARK_CLIENT jark.ns list $* | $PAGER
     fi
+    exit 0
 }
 
 find() {
@@ -35,7 +36,7 @@ find() {
 
 run() {
     echo $1
-    $JARK_CLIENT $1 main
+    $JARK_CLIENT -- $1 -main
     exit 0
 }
 
