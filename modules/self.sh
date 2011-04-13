@@ -18,10 +18,12 @@ _doc() {
 
 install() {
     $JARK install
+    exit 0
 }
 
 version() {
     $JARK version
+    exit 0
 }
 
 uninstall() {
@@ -30,4 +32,5 @@ uninstall() {
     rm -rf ${CLJR_CP}/jark*.jar
     rm -rf ${CLJR_CP}/jark.jar
     rm -rf ${CLJR_CP}/jark
+    exit 0
 }

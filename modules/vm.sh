@@ -43,7 +43,7 @@ start() {
     echo ${port} > ${JARK_CONFIG_DIR}/jark.port
     echo "Started jark-nrepl server on port $port"
 
-    sleep 5
+    sleep 8
     $JARK vm connect
 
     if [ -e $CLJR_CP/jark-deps.txt ]; then
@@ -53,6 +53,7 @@ start() {
     fi
     if [ -e `pwd`/project.clj ] && [ -d `pwd`/src ] && [ -d `pwd`/lib ]; then
         # FIXME: gives no command!
+        exit 0
         $JARK cp add `pwd`/src 
         $JARK cp add `pwd`/lib
     fi

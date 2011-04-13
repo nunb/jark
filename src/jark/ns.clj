@@ -125,7 +125,7 @@
          (try
            (let [ret (apply (resolve (symbol (str n "/" f))) args)]
              (when ret
-               (if (var? ret)
+               (if (or (var? ret) (= (type ret) java.lang.Class))
                  ret
                  (json-str ret))))
            (catch IllegalArgumentException e (help n f))

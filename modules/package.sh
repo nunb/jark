@@ -38,9 +38,9 @@ install() {
     fi
         
     if [ ${FLAGS_version} == "0" ]; then
-        $JARK_CLIENT cljr.App install ${FLAGS_package}
+        $JARK_CLIENT cljr.clojars clojars-install ${FLAGS_package}
     else
-        $JARK_CLIENT cljr.App install ${FLAGS_package} ${FLAGS_version}
+        $JARK_CLIENT cljr.clojars clojars-install ${FLAGS_package} ${FLAGS_version}
     fi
     exit 0
 }
@@ -54,6 +54,7 @@ uninstall() {
         exit 1
     fi
     $JARK_CLIENT cljr.App uninstall ${FLAGS_package}
+    exit 0
 }
 
 versions() {
@@ -64,7 +65,7 @@ versions() {
         echo "USAGE: jark package versions --package PACKAGE"
         exit 1
     fi
-    $JARK_CLIENT cljr.App versions ${FLAGS_package}
+    $JARK_CLIENT cljr.clojars clojars-versions ${FLAGS_package}
     exit 0
 }
 
@@ -76,11 +77,17 @@ search() {
         echo "USAGE: jark package search --package PACKAGE"
         exit 1
     fi
-    $JARK_CLIENT cljr.App search ${FLAGS_package}
+    $JARK_CLIENT cljr.clojars clojars-search ${FLAGS_package}
+    exit 0
 }
 
 installed() {
-    $JARK_CLIENT cljr.App list
+    $JARK_CLIENT cljr.main cljr-list
+    exit 0
+}
+
+list() {
+    $JARK_CLIENT cljr.main cljr-list
     exit 0
 }
 
