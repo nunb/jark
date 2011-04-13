@@ -22,7 +22,7 @@ def escape_args(a):
     return args
 
 def dispatch(args):
-    message = ["2", '"id"', '"foo"', '"code"', '"(jark.ns/dispatch %s)"' % args]
+    message = ["2", '"id"\n', '"foo"\n', '"code"\n', '"(jark.ns/dispatch %s)"\n' % args]
     return message
 
 def require(ns):
@@ -35,12 +35,25 @@ def longest_key_length(d):
 
 def decode_response(f):
     res = dict()
+    outs = []
     for line in f:
         if not line.strip() == "3":
             res[loads(line)] = loads((next(f, line).strip()))
+
         if res.has_key('status') and res['status'] == "done":
             break;
-    return res['value'].strip() 
+        
+        if line.strip() == '"out"':
+            outs.append(res['out'].strip())
+
+    if res.has_key('err'):
+        return res['err'].strip()
+
+    if res.has_key('out'):
+        return outs
+
+    if res.has_key('value'):
+        return res['value'].strip() 
 
 def format_response(r):
     if r in [None, 'nil']:
@@ -60,7 +73,7 @@ def format_response(r):
         print r
     return True
 
-def prenext(l,v) : 
+def prevnext(l,v): 
     i = l.index(v)
     return l[i+1] if i < (len(l) - 1) else None
 
@@ -73,6 +86,12 @@ if __name__ == '__main__':
                       dest="require",
                       default=None,
                       help="whether to require ns")
+
+    parser.add_option("-d", "--debug",
+                      action="store",
+                      dest="debug",
+                      default=None,
+                      help="debug mode")
     
     parser.add_option("-s", "--host",
                       action="store",
@@ -94,14 +113,19 @@ if __name__ == '__main__':
         message = require(options.require)
     else:
         message = dispatch(escape_args(args))
-        
+
     f = send(options.host, options.port, message)
+    
+    if options.debug:
+        for line in f:
+            print line,
+        sys.exit(0)
 
     if not options.require:
         r = decode_response(f)
         try:
             response = loads(loads(r))
-        except ValueError:
+        except:
             response = r
         format_response(response)
 

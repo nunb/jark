@@ -125,7 +125,9 @@
          (try
            (let [ret (apply (resolve (symbol (str n "/" f))) args)]
              (when ret
-               (json-str ret)))
+               (if (var? ret)
+                 ret
+                 (json-str ret))))
            (catch IllegalArgumentException e (help n f))
            (catch NullPointerException e (println "No such command")))))))
 
