@@ -34,7 +34,6 @@ add() {
         do
             $JARK_CLIENT jark.cp add $jar
         done
-        $JARK_CLIENT jark.cp list
         exit 0
     fi
 
