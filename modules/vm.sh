@@ -52,8 +52,6 @@ start() {
         done;
     fi
     if [ -e `pwd`/project.clj ] && [ -d `pwd`/src ] && [ -d `pwd`/lib ]; then
-        # FIXME: gives no command!
-        exit 0
         $JARK cp add `pwd`/src 
         $JARK cp add `pwd`/lib
     fi

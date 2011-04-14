@@ -32,8 +32,9 @@ add() {
     if [ -d $jar ]; then
         for i in `find ${jar} -name "*.jar" -print`
         do
-            $JARK_CLIENT jark.cp add $jar
+            $JARK_CLIENT jark.cp add $i
         done
+        $JARK_CLIENT jark.cp add $jar
         exit 0
     fi
 
