@@ -50,6 +50,7 @@ def decode_response(f):
         return res['err'].strip()
 
     if res.has_key('out'):
+        outs.remove('nil')
         return outs
 
     if res.has_key('value'):

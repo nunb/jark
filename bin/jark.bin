@@ -274,7 +274,12 @@ elif [ -e "$1" ] && [ ! -d "$1" ]; then
     fi
     LNS=`jark ns load $LOAD_FILE`
     NS=`echo $LNS | cut -d '/' -f 1 | cut -d "'" -f 2`
-    $JARK_CLIENT -- $NS -main "${@:2}"
+
+    if [[ $LNS == \#* ]]; then
+        $JARK_CLIENT -- $NS -main "${@:2}"
+    else
+        $JARK ns load $1
+    fi
     rm -f $(clj_temp_file $1)
     exit 0
 
