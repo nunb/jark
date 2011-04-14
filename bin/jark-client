@@ -42,20 +42,21 @@ def decode_response(f):
 
         if res.has_key('status') and res['status'] == "done":
             break;
-        
-        if line.strip() == '"out"':
+
+        if "out" in line:
             outs.append(res['out'].strip())
 
     if res.has_key('err'):
         return res['err'].strip()
+
+    if res.has_key('value'):
+        return res['value'].strip() 
 
     if res.has_key('out'):
         if 'nil' in outs:
             outs.remove('nil')
         return outs
 
-    if res.has_key('value'):
-        return res['value'].strip() 
 
 def format_response(r):
     if r in [None, 'nil']:
