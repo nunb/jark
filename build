@@ -14,7 +14,7 @@ fi
 export LEIN_SNAPSHOTS_IN_RELEASE="yes"
 export LEIN_ROOT="yes"
 
-COMMON_COMPONENTS="bin/clj_completions bin/shflags modules/ bin/jark-client bin/simplejson.py"
+COMMON_COMPONENTS="bin/clj_completions bin/shflags modules/ bin/jark-client bin/simplejson.py bin/termcolor.py"
 SERVER_COMPONENTS="bin/project-cljr.clj *.jar jark-deps.txt"
 CLIENT_COMPONENTS="bin/jark-client"
 

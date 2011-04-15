@@ -195,6 +195,7 @@ extract_common() {
     cp -av bin/jark-client ${JARK_BIN}
     cp -av bin/shflags ${CLJR_BIN}/
     cp -av bin/simplejson.py ${CLJR_BIN}/
+    cp -av bin/termcolor.py ${CLJR_BIN}/
     cp -av bin/clj_completions ${CLJR_BIN}/
     chmod +x ${JARK_BIN}
     cp -av modules/* ${JARK_MODULES_DIR}/
