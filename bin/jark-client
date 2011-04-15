@@ -35,7 +35,10 @@ class Repl(cmd.Cmd):
             if "out" in line:
                 outs.append(res['out'].strip())
 
-        self.prompt = repl_prompt(res['ns'])
+        # FIXME: check for compilerException
+        if res['ns'] != "user":
+            self.prompt = repl_prompt(res['ns'])
+            self.ns = res['ns']
         if res.has_key('err'):
             return res['err'].strip()
 
@@ -46,8 +49,6 @@ class Repl(cmd.Cmd):
             if 'nil' in outs:
                 outs.remove('nil')
             return outs
-
-
 
 def send(host, port, message):
     try:
@@ -105,7 +106,6 @@ def decode_response(f):
             outs.remove('nil')
         return outs
 
-
 def format_response(r):
     if r in [None, 'nil']:
         return 
@@ -131,7 +131,7 @@ def prevnext(l,v):
     return l[i+1] if i < (len(l) - 1) else None
 
 def repl_prompt(ns):
-    return "%s%s" % (colored(ns, 'cyan', attrs=['bold']), colored(">> ", 'red'))
+    return "%s%s" % (colored(ns, 'cyan', attrs=['bold']), colored(">> ", 'green'))
 
 def repl(ns):
     r = Repl()

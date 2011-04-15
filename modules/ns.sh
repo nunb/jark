@@ -46,6 +46,7 @@ repl() {
     which rlwrap &> /dev/null
     if [ $? == "0" ]; then
         rlwrap --break-chars "\"\\'(){}[],^%$#@;:|" \
+          --ansi-colour-aware \
           --remember \
           -m -q'"' -c \
           -f ${CLJR_BIN}/clj_completions \
