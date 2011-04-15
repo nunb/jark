@@ -49,10 +49,11 @@ repl() {
           --remember \
           -m -q'"' -c \
           -f ${CLJR_BIN}/clj_completions \
-          $JARK_CLIENT jark.ns repl $* 
+          $JARK_CLIENT --repl $* 
     else
-        $JARK_CLIENT jark.ns repl $* 
+        $JARK_CLIENT --repl $* 
     fi
+    exit 0
 }
 
 load() {
