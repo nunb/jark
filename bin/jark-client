@@ -131,7 +131,7 @@ def prevnext(l,v):
     return l[i+1] if i < (len(l) - 1) else None
 
 def repl_prompt(ns):
-    return "%s%s" % (colored(ns, 'cyan', attrs=['bold']), colored(">> ", 'green'))
+    return "%s%s" % (colored(ns, 'blue', attrs=['bold']), colored(">> ", 'cyan'))
 
 def repl(ns):
     r = Repl()
