@@ -37,7 +37,7 @@ class Repl(cmd.Cmd):
                 break;
 
             if "out" in line:
-                outs.append(res['out'].strip())
+                outs.append(res['out'])
 
         # FIXME: check for compilerException
         if res['ns'] != "user":
@@ -47,7 +47,8 @@ class Repl(cmd.Cmd):
             return res['err'].strip()
 
         if res.has_key('value'):
-            return res['value'].strip() 
+             if not 'nil' in res['value']:
+                 return res['value'].strip() 
 
         if res.has_key('out'):
             if 'nil' in outs:
