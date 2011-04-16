@@ -94,11 +94,11 @@ def escape_args(a):
     return args
 
 def dispatch(args):
-    message = ["2", '"id"\n', '"foo"\n', '"code"\n', '"(jark.ns/dispatch %s)"\n' % args]
+    message = ["2", '"id"\n', '"jark-client"\n', '"code"\n', '"(jark.ns/dispatch %s)"\n' % args]
     return message
 
 def eval_exp(args):
-    message = ["2", '"id"\n', '"foo"\n', '"code"\n', '"%s"\n' % args]
+    message = ["2", '"id"\n', '"jark-repl"\n', '"code"\n', '"%s"\n' % args]
     f = send(options.host, options.port, message)
     return f
 
