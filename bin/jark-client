@@ -4,7 +4,8 @@ import socket, sys, os
 from optparse import OptionParser
 import cmd
 
-sys.path.append('%s/.cljr/bin/' % os.getenv('HOME'))
+BIN_PATH = '%s/.cljr/bin/' % os.getenv('HOME')
+sys.path.append(BIN_PATH)
 from simplejson import loads, dumps
 from termcolor import colored
 
@@ -12,6 +13,9 @@ class Repl(cmd.Cmd):
     ns = 'user'
 
     def default(self, exp):
+        if exp.startswith('##'):
+            self.handle_cmd(exp)
+            return (0)
         exp = '(do (in-ns \'%s) %s)' % (self.ns, exp)
         f = eval_exp(exp)
         r = self.decode(f)
@@ -49,6 +53,13 @@ class Repl(cmd.Cmd):
             if 'nil' in outs:
                 outs.remove('nil')
             return outs
+
+    def handle_cmd(self, exp):
+        c = 'jark ' + exp.strip('##')
+        p = os.popen(c)
+        for i in p:
+            print i,
+        return None
 
 def send(host, port, message):
     try:
