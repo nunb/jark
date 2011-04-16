@@ -34,6 +34,38 @@
   `(def ~name ^{:doc ~doc} 
      ~actions))
 
+;; TODO ideally we want to automate the function definition
+;; in the script, along with any arguments, short/long arguments,
+;; and a USAGE function.
+;;
+;; These should be defined only once with a defaction. Will probably
+;; have to make a short wrapper around defimpl that wraps the script
+;; in a sh/bat function definition like defactimpl
+(defmacro defactimpl
+  [script-name specialisers & body]
+  (when (some #{:windows} specialisers)
+  `(defimpl ~script-name ~specialisers [] 
+     ~(str ":" script-name)
+     ~@body
+     GOTO:EOF))
+  (when (some #{:linux} specialisers)
+   (let [required-args (-> (meta (resolve script-name)) :required-args)
+         args (-> (meta (resolve script-name)) :args-info)
+         vars (map :var args)
+         decargs (map (fn [a]
+                        (str "DEFINE_string '" (name (:var a)) "' "
+                             "'" (:default a) "' "
+                             "'" (:description a) "' "
+                             "'" (:short a) "' ")) args)
+         assignargs (map (fn [n] (str n "=${FLAGS_" n "}")) vars)]
+  `(defimpl ~script-name ~specialisers [] 
+     (defn ~script-name [~@required-args]
+       ~@decargs
+       "FLAGS $@ || exit 1"
+       "eval set -- \"${FLAGS_ARGV}\""
+       ~@assignargs
+       ~@body)))))
+
 
 ;;;; Define scripts ;;;;
 
@@ -41,34 +73,37 @@
 (defaction cp-remove 
   {:examples ["jark cp remove <jar>"]
    :doc "Remove from the classpath for the current Jark server"
-   :args [{:var 'path :long ["--path"] :short ["-p"]}]}
+   :required-args ["path"]
+   :args-info [{:var "path" :default "." :long "path" :short "p"
+                :description "Path to remove"}]}
   [])
 
-(defimpl cp-remove [:linux] []
-  (defn remove [path]
-    (echo "command not implemented yet")
-    (exit 1)))
 
-(defimpl cp-remove [:windows] []
-  (defn remove [path]
-    (echo "command not implemented yet (in windows)")
-    (exit 1)))
+(defactimpl cp-remove [:linux]
+  (echo "command not implemented yet")
+  (exit 1))
+
+(defactimpl cp-remove [:windows]
+  echo "command not implemented yet")
+
 
 
 ;; cp-ls ;;
 
 (defaction cp-ls
   {:examples ["jark cp ls"]
-   :doc "List the classpath for the current Jark server"}
+   :doc "List the classpath for the current Jark server"
+   :required-args []
+   :args-info []}
   [])
-(defimpl cp-ls [:linux] []
-  (defn ls []
-    (jark jark.cp ls)
-    (exit 0)))
-(defimpl cp-ls [:windows] []
-  (defn ls []
-    (echo "command not implemented yet (in windows)")
-    (exit 1)))
+(defactimpl cp-ls [:linux] 
+  jark jark.cp ls
+  exit 0)
+
+(defactimpl cp-ls [:windows]
+  ":ls"
+  echo "command not implemented yet (in windows)"
+  GOTO:EOF)
 
 
 ;;; define modules ;;;
