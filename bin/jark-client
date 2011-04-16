@@ -13,7 +13,7 @@ class Repl(cmd.Cmd):
     ns = 'user'
 
     def default(self, exp):
-        if exp.startswith('#'):
+        if exp.startswith('##'):
             self.handle_cmd(exp)
             return (0)
         exp = '(do (in-ns \'%s) %s)' % (self.ns, exp)
