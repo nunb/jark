@@ -50,6 +50,7 @@
      GOTO:EOF))
   (when (some #{:linux} specialisers)
    (let [required-args (-> (meta (resolve script-name)) :required-args)
+         function-name (-> (meta (resolve script-name)) :function-name)
          args (-> (meta (resolve script-name)) :args-info)
          vars (map :var args)
          decargs (map (fn [a]
@@ -59,7 +60,7 @@
                              "'" (:short a) "' ")) args)
          assignargs (map (fn [n] (str n "=${FLAGS_" n "}")) vars)]
   `(defimpl ~script-name ~specialisers [] 
-     (defn ~script-name [~@required-args]
+     (defn ~function-name [~@required-args]
        ~@decargs
        "FLAGS $@ || exit 1"
        "eval set -- \"${FLAGS_ARGV}\""
@@ -73,6 +74,7 @@
 (defaction cp-remove 
   {:examples ["jark cp remove <jar>"]
    :doc "Remove from the classpath for the current Jark server"
+   :function-name "remove"
    :required-args ["path"]
    :args-info [{:var "path" :default "." :long "path" :short "p"
                 :description "Path to remove"}]}
@@ -93,18 +95,18 @@
 (defaction cp-ls
   {:examples ["jark cp ls"]
    :doc "List the classpath for the current Jark server"
+   :function-name "ls"
    :required-args []
    :args-info []}
   [])
+
 (defactimpl cp-ls [:linux] 
   jark jark.cp ls
   exit 0)
 
 (defactimpl cp-ls [:windows]
-  ":ls"
   echo "command not implemented yet (in windows)"
-  GOTO:EOF)
-
+)
 
 ;;; define modules ;;;
 
