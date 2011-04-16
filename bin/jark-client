@@ -10,13 +10,17 @@ from simplejson import loads, dumps
 from termcolor import colored
 
 class Repl(cmd.Cmd):
-    ns = 'user'
+    ns          =  'user'
+    debug       =  False
+    current_exp =  None
 
     def default(self, exp):
         if exp.startswith('#') and not exp.startswith('#\''):
             self.handle_cmd(exp)
             return (0)
+        self.current_exp = exp
         exp = '(do (in-ns \'%s) %s)' % (self.ns, exp)
+        exp = exp.replace('"', '\\"')
         f = eval_exp(exp)
         r = self.decode(f)
         try:
@@ -39,6 +43,9 @@ class Repl(cmd.Cmd):
             if "out" in line:
                 outs.append(res['out'])
 
+        if self.debug:
+            print 'put :', self.current_exp
+            print 'got :', res
         # FIXME: check for compilerException
         if res['ns'] != "user":
             self.prompt = repl_prompt(res['ns'])
@@ -56,6 +63,15 @@ class Repl(cmd.Cmd):
             return outs
 
     def handle_cmd(self, exp):
+        if exp.startswith('#debug on') or exp.startswith('#debug true'):
+            self.debug = True
+            print 'debug is turned on'
+            return None
+        if exp.startswith('#debug off') or exp.startswith('#debug false'):
+            self.debug = False        
+            print 'debug is turned off'
+            return None
+        
         c = 'jark ' + exp.strip('#')
         p = os.popen(c)
         for i in p:
