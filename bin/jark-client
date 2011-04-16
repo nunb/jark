@@ -137,7 +137,11 @@ def repl(ns):
     r = Repl()
     r.ns = ns
     r.prompt = repl_prompt(ns)
-    r.cmdloop()
+    try:
+        r.cmdloop()
+    except KeyboardInterrupt:
+        print
+        sys.exit(0)
 
 if __name__ == '__main__':
     parser = OptionParser(usage="usage: %prog [options] namespace function args",
