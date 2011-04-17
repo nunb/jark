@@ -2,7 +2,6 @@
   (:refer-clojure :exclude [remove])
   (:use jark.script))
 
-;; cp-remove ;;
 (defaction remove 
   {:examples ["jark cp remove <jar>"]
    :doc "Remove from the classpath for the current Jark server"
@@ -20,8 +19,6 @@
   echo "command not implemented yet")
 
 
-
-;;; cp-ls ;;;
 (defaction ls
   {:examples ["jark cp ls"]
    :doc "List the classpath for the current Jark server"
