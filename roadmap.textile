@@ -42,7 +42,7 @@ h3. 0.3 (nrepl protocol)
 ** Handle *out*, *err* and value coming from remote JVM
 * License: EPL (that of clojure's)
 
-h3. 0.4 (Other OS platforms)
+h3. 0.4 (platforms)
 
 * Support jark on common OS platforms (Windows, GNU/Linux, Mac)
 ** Generate wrapper scripts during build-time
