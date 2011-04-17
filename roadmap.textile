@@ -1,0 +1,76 @@
+---
+layout: clojure
+head: Jark
+---
+
+h2. Roadmap
+
+<hr>
+h2. Previous releases
+
+h3. 0.1 (proof of concept)
+
+* Nailgun-based system to manage classpaths and namespaces on a persistent JVM
+* Add classpaths dynamically
+* Install clojure packages from maven repositories with ease (cljr integration)
+* Lookup clojure documentation on the web
+* Command-line interface to NFA (Namespace Function Args)
+* Build only on GNU/Linux
+* License   : Apache License 2
+* Released  : 7 March 2011
+
+<hr>
+h2. Current release
+
+h3. 0.2 (Scripting)
+
+* Start and connect to multiple JVM instances 
+* Scripting with jark (Connect to a running JVM or start one when running clojure scripts)
+* Vimclojure integration
+* Vm utilities - gc, threads, stats
+
+<hr>
+h2. Upcoming releases
+
+h3. 0.3 (nrepl protocol)
+
+* jark-nrepl-server that implements the nrepl protocol (replaces nailgun server)
+* Proof-of-concept nrepl-client written in python (replaces the nailgun client)
+* Rich client REPL (jark repl)
+** support jark commands within the repl
+** completions - filenames and symbols on remote JVM
+** Handle *out*, *err* and value coming from remote JVM
+* License: EPL (that of clojure's)
+
+h3. 0.4 (Other OS platforms)
+
+* Support jark on common OS platforms (Windows, GNU/Linux, Mac)
+** Generate wrapper scripts during build-time
+** The scripts are generated for all common OS Platforms
+** Rewrite jark-client in haskell to generate native binaries. Has minimum runtime dependencies.
+* Support jark-client to run on the Android
+* Improved build system (lein build-jark plugin), such that it builds on all OS platforms.
+
+h3. 0.5 (security)
+
+* Trap System exits
+* Cookie-based authentication
+* Named VM connections 
+* Scripts can specify a VM that they can be run on (#!/usr/bin/env jark [--name])
+* Blacklisting of clients on remote host
+
+h3. 0.6 (extensions)
+
+* Var inspector module
+* Interactive stacktraces in the repl
+* Support slime-nrepl/vim-nrepl (if any) clients
+* APIs to write/extend jark modules
+* monitor module (jark monitor)
+** monitor resources on all connected JVMs
+** GUI to display the above
+* Display GUI programs on the client 
+
+h3. 0.7 (Packaging)
+
+* Debian/Arch/Fedora packaging
+* Packaging for Windows, Mac, Android
