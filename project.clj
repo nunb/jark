@@ -6,6 +6,7 @@
                  [org.clojure/clojure-contrib "1.2.0"]
                  [swank-clojure "1.2.0"]
                  [cljr "1.0.0-SNAPSHOT"]
+                 [midje "1.1"]
                  [org.clojure/tools.nrepl "0.0.4"]
                  [org.cloudhoist/pallet "0.4.15"]
                  [org.cloudhoist/pallet-crates-standalone "0.4.2"]]

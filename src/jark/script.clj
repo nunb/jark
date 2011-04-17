@@ -1,29 +1,41 @@
 (ns jark.script
   (:require clojure.contrib.pprint
             pallet.resource.directory)
-  (:use pallet.stevedore))
+  (:use [midje.sweet]
+    [pallet.stevedore]))
 
 
 
 ;; TODO get fname from module's symbol name
+
+(defmulti gen-module (fn [env _] env))
+
+(defmethod gen-module [:linux]
+  [env module]
+  (let [functions (let [s (for [act module]
+                            (pallet.script/with-template env
+                              (script (~(-> (meta act) :name)))))]
+                    (apply str (interpose "\n" s)))
+        docs (format "DOC= \" %s \"" (-> (meta module) :doc))
+        includes [". ${CLJR_BIN}/shflags"]
+        script (map (fn [& t] (->> (concat includes t)
+                                   (interpose "\n")
+                                   (apply str)))
+                    docs functions)]
+    script))
+
+(defmethod gen-module [:windows]
+  [env module]
+  "TODO")
+
 (defn gen-module-set
   "Outputs a set of module scripts according to the environment."
   [dir env suffix & modules]
   (.mkdirs (clojure.java.io/file dir))
-  (let [file-names (map second modules)
-        functions (for [[module _] modules]
-                    (let [s (for [act module]
-                              (pallet.script/with-template env
-                                (script (~(-> (meta act) :name)))))]
-                      (apply str (interpose "\n" s))))
-        docs (map #(let [d (-> (meta (first %)) :doc)]
-                     (str "DOC=" \" d \")) 
-                  (map first modules))
-        scripts (map (fn [& t] (apply str (interpose "\n" t))) 
-                     docs functions)]
-    (doseq [[script file-name] (map vector scripts file-names)]
-      (spit (str dir "/" file-name "." suffix)
-            script))))
+  (doseq [[script file-name] (map (fn [[m f]] [(gen-module env m) f]) 
+                                  modules)]
+    (spit (str dir "/" file-name "." suffix)
+          script)))
 
 (defmacro defmodule
   "Declare a jark module. Takes a doc string and a vector
@@ -38,6 +50,18 @@
   [name m & args]
   (let [name (with-meta name (merge (meta name) (or m {})))]
     `(pallet.script/defscript ~name ~@args)))
+
+(let [examples ["test1 test2"]
+      doc "test1 doc"
+      args []]
+  (defaction test1
+             {:examples examples
+              :doc doc
+              :args args}
+             [])
+  (fact (-> (meta test1) :examples) => examples)
+  (fact (-> (meta test1) :doc) => doc)
+  (fact (-> (meta test1) :args) => args))
 
 (defmacro defactimpl
   "Define an implementation of an action (function)"

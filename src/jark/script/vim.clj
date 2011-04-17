@@ -10,7 +10,7 @@
   [])
 
 (defactimpl start [:linux] 
-  (echo "todo")
+   
   exit 0
   )
 
