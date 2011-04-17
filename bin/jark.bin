@@ -1,7 +1,7 @@
 #!/bin/bash
 
 VERSION="TMPL_VERSION"
-JARK_RELEASE_VERSION="1.0"
+JARK_RELEASE_VERSION="0.3"
 BUILD_DATE="TMPL_DATE"
 BUILD_ARCH="TMPL_ARCH"
 BUILD_COMPONENT="TMPL_COMPONENT"
@@ -152,10 +152,11 @@ if [ "$1"  == "run" ]; then
 fi
 
 if [ "$1"  == "version" ]; then
-    echo "git hash  : $VERSION"
-    echo "arch      : $BUILD_ARCH"
-    echo "date      : $BUILD_DATE"
-    echo "component : $BUILD_COMPONENT"
+    echo "git hash      : $VERSION"
+    echo "arch          : $BUILD_ARCH"
+    echo "date          : $BUILD_DATE"
+    echo "component     : $BUILD_COMPONENT"
+    echo "jark version  : $JARK_RELEASE_VERSION"
     exit 0
 fi
 
