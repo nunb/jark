@@ -1,7 +1,7 @@
 
 DOC="Module to manage the JVM server"
 
-. ${CLJR_BIN}/shflags
+. ${JARK_BIN}/shflags
 
 commands() {
     echo -e "start stop connect threads uptime gc"

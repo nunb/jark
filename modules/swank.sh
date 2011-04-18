@@ -2,7 +2,7 @@
 DOC="Module to manage jark itself"
 
 
-. ${CLJR_BIN}/shflags
+. ${JARK_BIN}/shflags
 
 commands() {
     echo -e "start stop"

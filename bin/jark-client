@@ -4,7 +4,7 @@ import socket, sys, os
 from optparse import OptionParser
 import cmd
 
-BIN_PATH = '%s/.cljr/bin/' % os.getenv('HOME')
+BIN_PATH = '%s/.config/jark/bin/' % os.getenv('HOME')
 sys.path.append(BIN_PATH)
 from simplejson import loads, dumps
 from termcolor import colored

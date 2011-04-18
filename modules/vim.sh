@@ -9,7 +9,7 @@
 
 DOC="Module to manage VimClojure instances"
 
-. ${CLJR_BIN}/shflags
+. ${JARK_BIN}/shflags
 
 
 VIMCLOJURE_JAR="${CLJR_CP}/server-2.2.0.jar"
@@ -60,7 +60,7 @@ start() {
         exit 1
     fi
 
-    VIMCLOJURE="${CLJR_BIN}/ng --nailgun-port ${port}"
+    VIMCLOJURE="${JARK_BIN}/ng --nailgun-port ${port}"
     TESTPORT="${VIMCLOJURE} ng-cp"
 
     # TODO must be a better way of testing the port ...
@@ -130,7 +130,7 @@ stop() {
     echo "Stopping VimClojure server at ${host}:${port} ..."
     echo ""
 
-    VIMCLOJURE="${CLJR_BIN}/ng --nailgun-server ${host} --nailgun-port ${port}"
+    VIMCLOJURE="${JARK_BIN}/ng --nailgun-server ${host} --nailgun-port ${port}"
 
     $VIMCLOJURE ng-stop
 }
@@ -148,7 +148,7 @@ cp() {
     host=${FLAGS_host}
     port=${FLAGS_port}
 
-    VIMCLOJURE="${CLJR_BIN}/ng --nailgun-server ${host} --nailgun-port ${port}"
+    VIMCLOJURE="${JARK_BIN}/ng --nailgun-server ${host} --nailgun-port ${port}"
 
     # Add to cp
     if [ $@ ]; then

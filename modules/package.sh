@@ -1,7 +1,7 @@
 
 DOC="Module for working with cljr build system"
 
-. ${CLJR_BIN}/shflags
+. ${JARK_BIN}/shflags
 
 commands() {
     echo -e "install uninstall versions deps search installed latest"
