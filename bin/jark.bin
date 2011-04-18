@@ -38,8 +38,8 @@ readlink_a() {
 
 JARK=$(readlink_e)/jark || jark
 
-if [ -e "${CLJR_CP}/jark-${JARK_RELEASE_VERSION}.jar" ]; then
-    JARK_JAR="${CLJR_CP}/jark-${JARK_RELEASE_VERSION}.jar"
+if [ -e "${CLJR_CP}/jark-server-${JARK_RELEASE_VERSION}.jar" ]; then
+    JARK_JAR="${CLJR_CP}/jark-server-${JARK_RELEASE_VERSION}.jar"
 else
     JARK_JAR="${CLJR_CP}/jark.jar"
 fi
@@ -48,7 +48,7 @@ CLOJURE_JARS="${CLJR_CP}/clojure-1.2.0.jar:${CLJR_CP}/clojure-contrib-1.2.0.jar"
 DEP_JARS="${CLJR_CP}/tools.nrepl-0.0.4.jar:${CLJR_CP}/swank-clojure-1.2.0.jar"
 
 JARK_CP="${CLOJURE_JARS}:${DEP_JARS}:${JARK_JAR}:"
-JARK_MODULES_DIR="${JARK_ROOT}/modules"
+JARK_MODULES_DIR="${JARK_ROOT}/wrappers/linux"
 JARK_CONFIG_DIR="${JARK_ROOT}"
 
 # some cleanups
@@ -199,15 +199,15 @@ extract_common() {
     cp -av bin/termcolor.py ${JARK_BIN}/
     cp -av bin/clj_completions ${JARK_BIN}/
     chmod +x ${JARK_BIN}
-    cp -av modules/* ${JARK_MODULES_DIR}/
+    cp -av src/wrappers/linux/* ${JARK_MODULES_DIR}/
     mkdir -p ${JARK_CONFIG_DIR}
 }
 
 extract_server() {
-    cp -av lib/*.jar ${CLJR_CP}/
-    cp -av *.jar ${CLJR_CP}/
+    cp -av jark-server/lib/*.jar ${CLJR_CP}/
+    cp -av jark-server/*.jar ${CLJR_CP}/
     cp -av bin/project-cljr.clj ${CLJR_ROOT}/project.clj
-    cp jark-deps.txt ${CLJR_CP}/
+    cp jark-server/jark-deps.txt ${CLJR_CP}/
 }
 
 extract_client() {

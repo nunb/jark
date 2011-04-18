@@ -3,8 +3,8 @@
   (:require [jark.script.cp :as cp]
             [jark.script.vim :as vim]))
 
-(def windows-dir "modules/windows")
-(def linux-dir "modules/linux")
+(def windows-dir "src/wrappers/windows")
+(def linux-dir "src/wrappers/linux")
 
 ;;; define modules ;;;
 
@@ -30,5 +30,5 @@
 
 (comment 
 (gen-module-sets cp-module
-  ["modules/mac" [:mac] "sh"]
-  ["modules/linux" [:linux] "sh"]))
+  ["src/wrappers/mac" [:mac] "sh"]
+  ["src/wrappers/linux" [:linux] "sh"]))

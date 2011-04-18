@@ -4,4 +4,4 @@ import System.Environment
 main :: IO ()
 main = getArgs >>= print . message . head
  
-message s = "The beginnings of a superfast jark client" ++ s
+message s = "The beginnings of a superfast jark client " ++ s

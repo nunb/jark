@@ -10,49 +10,49 @@ else
     CUSTOM="yes"
 fi
 
-# build jark without renaming the project
 export LEIN_SNAPSHOTS_IN_RELEASE="yes"
 export LEIN_ROOT="yes"
 
-COMMON_COMPONENTS="bin/clj_completions bin/shflags modules/ bin/jark-client bin/simplejson.py bin/termcolor.py"
-SERVER_COMPONENTS="bin/project-cljr.clj *.jar jark-deps.txt"
+COMMON_COMPONENTS="bin/clj_completions bin/shflags src/wrappers bin/jark-client bin/simplejson.py bin/termcolor.py"
+SERVER_COMPONENTS="bin/project-cljr.clj jark-server/*.jar jark-server/jark-deps.txt"
 CLIENT_COMPONENTS="bin/jark-client"
 
 build_server() {
-    mkdir -p classes
-    javac -d classes/ src/jark/SystemThreadList.java 
+    echo "Building jark server"
+    mkdir -p jark-server/classes
+    javac -d jark-server/classes/ jark-server/src/jark/SystemThreadList.java 
     if [ $? != 0 ]; then 
         echo "javac not installed, exiting"
         exit 1
     fi
+    cd jark-server/
     echo "Getting dependencies.."
     lein jar
 
-    touch jark-deps.txt
-    :> jark-deps.txt
-    for i in `ls lib/*.jar`; do
-        echo $i >> jark-deps.txt
-    done
+    cd -
+    touch jark-server/jark-deps.txt
+    :> jark-server/jark-deps.txt
 
-    for i in `ls lib/*.jar`; do
-        tar -rvf payload.tar $i
+    for i in `ls jark-server/lib/*.jar`; do
+        echo $i >> jark-server/jark-deps.txt
+        tar -rf payload.tar $i
     done
-    tar -rvf payload.tar ${SERVER_COMPONENTS}
+    tar -rf payload.tar ${SERVER_COMPONENTS}
 }
 
 build_jarkc() {
-    p=`pwd`
+    CD=$(pwd)
     cd src/client
     runhaskell setup configure --prefix=$HOME --user
     runhaskell setup build
-    cd $p
+    cd $CD
     cp src/client/dist/build/jarkc/jarkc bin/jarkc
     chmod +x bin/jarkc
     rm -rf src/client/dist
 }
 
 build_client() {
-    tar -rvf payload.tar ${CLIENT_COMPONENTS}
+    tar -rf payload.tar ${CLIENT_COMPONENTS}
 }
 
 update_version() {
@@ -95,7 +95,6 @@ if [ "$1" == "--jarkc" ] || [ "$1" == "jarkc" ]; then
     build_jarkc
     exit 0
 fi
-
 
 echo "Adding common components ..."
 tar cf payload.tar ${COMMON_COMPONENTS}
