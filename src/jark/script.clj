@@ -17,7 +17,7 @@
                               (script (~(-> (meta act) :name)))))]
                     (apply str (interpose "\n" s)))
         docs (format "DOC= \" %s \"" (-> (meta module) :doc))
-        includes [". ${CLJR_BIN}/shflags"]
+        includes [". ${JARK_BIN}/shflags"]
         script (map (fn [& t] (->> (concat includes t)
                                    (interpose "\n")
                                    (apply str)))

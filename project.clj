@@ -9,8 +9,10 @@
                  [midje "1.1"]
                  [org.clojure/tools.nrepl "0.0.4"]
                  [org.cloudhoist/pallet "0.4.15"]
-                 [org.cloudhoist/pallet-crates-standalone "0.4.2"]]
+                 [org.cloudhoist/pallet-crates-all "0.4.2"]]
 
-  :repositories  {"stuartsierra" "http://stuartsierra.com/maven2"}
+  :repositories  {"stuartsierra"       "http://stuartsierra.com/maven2"
+                  "sonatype"           "http://oss.sonatype.org/content/repositories/releases/"}
 
-  :aot [jark.vm jark.cp jark.ns jark.swank jark.doc]) 
+  :aot [jark.vm jark.cp jark.ns
+        jark.swank jark.doc leiningen.build-jark]) 
