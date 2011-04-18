@@ -1,6 +1,6 @@
 (defproject jark "0.4"
   :description "JARK build system"
-  ;;:dev-dependencies [[org.clojars.autre/lein-vimclojure "1.0.0"]]
+  :dev-dependencies [[org.clojars.autre/lein-vimclojure "1.0.0"]]
 
   :dependencies [[org.clojure/clojure "1.2.0"]
                  [org.clojure/clojure-contrib "1.2.0"]
