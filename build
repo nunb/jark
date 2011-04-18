@@ -51,10 +51,12 @@ update_version() {
     DATE=`date`
     ARCH=`uname -m`
     TMPL_DATE="$DATE"
-    echo "git hash  : $COMMIT"
-    echo "arch      : $ARCH"
-    echo "date      : $DATE"
-    echo "component : ${TMPL_COMPONENT}"
+    RELEASE_VERSION=`git branch --no-color | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
+    echo "git hash        : $COMMIT"
+    echo "arch            : $ARCH"
+    echo "date            : $DATE"
+    echo "component       : ${TMPL_COMPONENT}"
+    echo "release version : $RELEASE_VERSION"
     perl -pi -e "s/TMPL_VERSION/$COMMIT/g" jark
     perl -pi -e "s/TMPL_ARCH/${ARCH}/g" jark
     perl -pi -e "s/TMPL_DATE/${TMPL_DATE}/g" jark
