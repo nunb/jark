@@ -6,3 +6,4 @@ classpath
 package/pkg/
 package/src/
 *.tar.xz
+bin/jarkc*

@@ -8,8 +8,9 @@
                  [cljr "1.0.0-SNAPSHOT"]
                  [midje "1.1"]
                  [org.clojure/tools.nrepl "0.0.4"]
-                 [org.cloudhoist/pallet "0.4.14"]
-                 [org.cloudhoist/pallet-crates-all "0.4.2"]]
+                 ;; [org.cloudhoist/pallet "0.4.14"]
+                 ;; [org.cloudhoist/pallet-crates-standalone "0.4.0"]
+                 ]
 
   :repositories  {"sonatype"
                   "http://oss.sonatype.org/content/repositories/releases"}

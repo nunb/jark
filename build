@@ -40,7 +40,19 @@ build_server() {
     tar -rvf payload.tar ${SERVER_COMPONENTS}
 }
 
+build_jarkc() {
+    p=`pwd`
+    cd src/client
+    runhaskell setup configure --prefix=$HOME --user
+    runhaskell setup build
+    cd $p
+    cp src/client/dist/build/jarkc/jarkc bin/jarkc
+    chmod +x bin/jarkc
+    rm -rf src/client/dist
+}
+
 build_client() {
+    build_jarkc
     tar -rvf payload.tar ${CLIENT_COMPONENTS}
 }
 
@@ -79,6 +91,13 @@ generate_jark() {
 
 # begin building
 
+if [ "$1" == "--jarkc" ] || [ "$1" == "jarkc" ]; then
+    echo "building jarkc"
+    build_jarkc
+    exit 0
+fi
+
+
 echo "Adding common components ..."
 tar cf payload.tar ${COMMON_COMPONENTS}
 
@@ -101,6 +120,8 @@ else
         TMPL_COMPONENT="server"
         build_server
     fi
+
+   
 fi
 
 generate_jark
