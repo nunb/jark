@@ -1,4 +1,5 @@
 (ns leiningen.build-jark
+  (:require [jark.gen-script :as jark])
   (:require leiningen.jar)
   (:require [clojure.java.io :as io]
             [clojure.string  :as str])
@@ -34,14 +35,14 @@
   (.isDirectory (java.io.File. path)))
 
 (defn build-server [project]
-  (ensure-dir! "classes")
+  (ensure-dir! "jark-server/classes")
   (println "Compiling java classes")
-  (cmdout (cmd "javac -d classes/ src/jark/SystemThreadList.java"))
+  (cmdout (cmd "javac -d jark-server/classes/ jark-server/src/jark/SystemThreadList.java"))
   (println "Creating jar")
   (leiningen.jar/jar project))
 
 (defn build-jark [project]
   (println "Building, but not quite there yet ...")
-  (build-server project))
+  (jark/generate))
 
 

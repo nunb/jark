@@ -19,12 +19,13 @@
 
 ;;; generate modules ;;;
 
-(gen-module-set windows-dir [:windows] "bat"
-  [cp "cp"]
-  [vim "vim"])
-(gen-module-set linux-dir [:linux] "sh"
-  [cp "cp"]
-  [vim "vim"])
+(defn generate [] 
+  (gen-module-set windows-dir [:windows] "bat"
+                  [cp "cp"]
+                  [vim "vim"])
+  (gen-module-set linux-dir [:linux] "sh"
+                  [cp "cp"]
+                  [vim "vim"]))
 
 ; TODO breadth first?
 
