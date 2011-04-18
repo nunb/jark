@@ -1,8 +1,7 @@
 (ns jark.script
   (:require [clojure.contrib.pprint])
   (:require pallet.resource.directory)
-  (:use [midje.sweet]
-    [pallet.stevedore]))
+  (:use [midje.sweet] [pallet.stevedore]))
 
 ;; TODO get fname from module's symbol name
 

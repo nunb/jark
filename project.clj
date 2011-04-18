@@ -12,4 +12,4 @@
                   "sonatype-snapshots"
                   "http://oss.sonatype.org/content/repositories/snapshots"}
 
-  :aot [leiningen.build-jark]) 
+  :aot [leiningen.build-jark jark.gen-script]) 

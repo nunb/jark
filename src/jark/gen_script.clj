@@ -1,4 +1,5 @@
 (ns jark.gen-script
+  (:gen-class)
   (:use [jark.script :only [gen-module-set defmodule]])
   (:require [jark.script.cp :as cp]
             [jark.script.vim :as vim]))
@@ -19,7 +20,7 @@
 
 ;;; generate modules ;;;
 
-(defn generate [] 
+(defn -main [] 
   (gen-module-set windows-dir [:windows] "bat"
                   [cp "cp"]
                   [vim "vim"])

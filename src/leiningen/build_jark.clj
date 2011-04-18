@@ -1,5 +1,4 @@
 (ns leiningen.build-jark
-  (:require [jark.gen-script :as jark])
   (:require [clojure.java.io :as io]
             [clojure.string  :as str])
   (:import (java.io File FileReader PushbackReader
@@ -36,11 +35,10 @@
 (defn build-server [project]
   (ensure-dir! "jark-server/classes")
   (println "Compiling java classes")
-  (cmdout (cmd "javac -d jark-server/classes/ jark-server/src/jark/SystemThreadList.java"))
-  (println "Creating jar"))
+  (cmdout (cmd "javac -d jark-server/classes/ jark-server/src/jark/SystemThreadList.java")))
 
 (defn build-jark [project]
   (println "Building, but not quite there yet ...")
-  (jark/generate))
+  (build-server project))
 
 
