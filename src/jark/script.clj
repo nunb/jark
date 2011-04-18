@@ -60,41 +60,51 @@
   (fact (-> (meta test1) :doc) => doc)
   (fact (-> (meta test1) :args) => args))
 
-(defmacro defactimpl
-  "Define an implementation of an action (function)"
-  [script-name specialisers & body]
-  (when (some #{:windows} specialisers)
-  `(defimpl ~script-name ~specialisers [] 
-     ~(str ":" script-name)
-     ~@body
-     GOTO:EOF))
-  (when (some #{:linux} specialisers)
-   (let [required-args (-> (meta (resolve script-name)) :required-args)
-         examples (-> (meta (resolve script-name)) :examples)
-         actdoc (-> (meta (resolve script-name)) :doc)
-         args (-> (meta (resolve script-name)) :args-info)
-         vars (map :var args)
-         decargs (map (fn [a]
-                        (str "DEFINE_string '" (name (:var a)) "' "
-                             "'" (:default a) "' "
-                             "'" (:description a) "' "
-                             "'" (:short a) "' ")) args)
-         assignargs (map (fn [n] (str n "=${FLAGS_" n "}")) vars)]
-  `(defimpl ~script-name ~specialisers []
-     (defn ~(symbol (str (name script-name) "_doc")) []
-       ~(str "echo \"" actdoc \")
-       "echo \"\\n\""
-       ~@(map (fn [e] (str "echo " \" e \")) examples)
-       "echo \"\\n"
-       ~@(map (fn [arg]
-                (str "echo \"\\t" (name (:var arg))
-                     " (--" (:long arg) " -" (:short arg) ")"
-                     " -- " (:description arg) \")) args)
-       "exit 0")
-     (defn ~script-name [~@required-args]
+(defn- gen-linux-doc-function [script-name doc examples args]
+  `(defn ~(symbol (str (name script-name) "_doc")) []
+     ~(str "echo \"" doc \")
+     "echo \"\\n\""
+     ~@(map (fn [e] (str "echo " \" e \")) examples)
+     "echo \"\\n"
+     ~@(map (fn [arg]
+              (str "echo \"\\t" (name (:var arg))
+                   " (--" (:long arg) " -" (:short arg) ")"
+                   " -- " (:description arg) \")) 
+            args)
+     "exit 0"))
+
+(comment
+(script ~(gen-linux-doc-function 'test "doc dos e s" ["jark vim sd" "jark vim sd"] [{:var 'a :default "asd" :description "Description" :long "long" :short "l"}]))
+  )
+
+(defn- gen-linux-function [script-name required-args args body]
+  (let [decargs (map (fn [a]
+                       (str "DEFINE_string '" (name (:var a)) "' "
+                            "'" (:default a) "' "
+                            "'" (:description a) "' "
+                            "'" (:short a) "' ")) args)
+         assignargs (map (fn [n] (str n "=${FLAGS_" n "}")) (map :var args))]
+    `(defn ~script-name [~@required-args]
        ~@decargs
        "FLAGS $@ || exit 1"
        "eval set -- \"${FLAGS_ARGV}\""
        ~@assignargs
-       ~@body)))))
+       ~@body)))
 
+(comment
+(script ~(gen-linux-function 'test ['a 'b] [{:var 'a :default "asd" :description "Description" :long "long" :short "l"}] ["asdf asdf" "asdfwef"]))
+  )
+
+(defmacro defactimpl
+  "Define an implementation of an action (function)"
+  [script-name specialisers & body]
+  (when (some #{:windows} specialisers)
+    `(defimpl ~script-name ~specialisers [] 
+       ~(str ":" script-name)
+       ~@body
+       GOTO:EOF))
+  (when (some #{:linux} specialisers)
+    (let [m (meta (resolve script-name))]
+      `(defimpl ~script-name ~specialisers []
+         (gen-linux-doc-function script-name (:doc m) (:examples m) (:args-info m))
+         (gen-linux-function script-name (:required-args m) (:args-info m) body)))))
