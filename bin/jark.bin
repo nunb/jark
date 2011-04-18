@@ -8,8 +8,10 @@ BUILD_COMPONENT="TMPL_COMPONENT"
 
 MOD=$1
 CLJR_ROOT="$HOME/.cljr"
+JARK_ROOT="$HOME/.config/jark"
+JARK_BIN="${JARK_ROOT}/bin"
+
 CLJR_CP="${CLJR_ROOT}/lib"
-CLJR_BIN="${CLJR_ROOT}/bin"
 
 ARCH=`uname -m`
 
@@ -46,10 +48,8 @@ CLOJURE_JARS="${CLJR_CP}/clojure-1.2.0.jar:${CLJR_CP}/clojure-contrib-1.2.0.jar"
 DEP_JARS="${CLJR_CP}/tools.nrepl-0.0.4.jar:${CLJR_CP}/swank-clojure-1.2.0.jar"
 
 JARK_CP="${CLOJURE_JARS}:${DEP_JARS}:${JARK_JAR}:"
-JARK_MODULES_DIR="${CLJR_CP}/jark"
-JARK_CONFIG_DIR="${CLJR_ROOT}/config"
-JARK_BIN="${CLJR_BIN}/jark-client"
-
+JARK_MODULES_DIR="${JARK_ROOT}/modules"
+JARK_CONFIG_DIR="${JARK_ROOT}"
 
 # some cleanups
 
@@ -106,7 +106,7 @@ get_ns() {
     fi
 }
 
-JARK_CLIENT="${JARK_BIN} --host $(get_host) --port $(get_port)"
+JARK_CLIENT="${JARK_BIN}/jark-client --host $(get_host) --port $(get_port)"
 
 
 is_jark_running() {
@@ -172,9 +172,9 @@ export JARK_JAR
 export DEP_JARS
 export JARK_CP
 export JARK_CLIENT
-export CLJR_ROOT
+export JARK_ROOT
 export CLJR_CP
-export CLJR_BIN
+export JARK_BIN
 export is_jark_running
 export VERSION
 export JARK_MODULES_DIR
@@ -182,22 +182,22 @@ export JARK_CONFIG_DIR
 export readlink_f
 export require
 
-mkdir -p ${CLJR_CP}
-mkdir -p ${CLJR_BIN}
-mkdir -p ${JARK_MODULES_DIR}
-
 
 extract_common() {
+    mkdir -p ${CLJR_CP}
+    mkdir -p ${JARK_BIN}
+    mkdir -p ${JARK_MODULES_DIR}
+
     export TMPDIR=`mktemp -d /tmp/jark.XXXXXX`
     ARCHIVE=`awk '/^__ARCHIVE_BELOW__/ {print NR + 1; exit 0; }' $0`
     tail -n+$ARCHIVE $0 | tar xz -C $TMPDIR
     CDIR=`pwd`
     cd $TMPDIR
-    cp -av bin/jark-client ${JARK_BIN}
-    cp -av bin/shflags ${CLJR_BIN}/
-    cp -av bin/simplejson.py ${CLJR_BIN}/
-    cp -av bin/termcolor.py ${CLJR_BIN}/
-    cp -av bin/clj_completions ${CLJR_BIN}/
+    cp -av bin/jark-client ${JARK_BIN}/
+    cp -av bin/shflags ${JARK_BIN}/
+    cp -av bin/simplejson.py ${JARK_BIN}/
+    cp -av bin/termcolor.py ${JARK_BIN}/
+    cp -av bin/clj_completions ${JARK_BIN}/
     chmod +x ${JARK_BIN}
     cp -av modules/* ${JARK_MODULES_DIR}/
     mkdir -p ${JARK_CONFIG_DIR}
@@ -211,7 +211,7 @@ extract_server() {
 }
 
 extract_client() {
-    cp -av bin/jark-client ${JARK_BIN}
+    cp -av bin/jark-client ${JARK_BIN}/
 }
 
 extract_finish() {
@@ -242,6 +242,7 @@ if [ -z $1 ]; then
 fi    
 
 if [ $MOD == "install" ]; then
+    rm -rf ${JARK_ROOT}
     extract_common
     extract_${BUILD_COMPONENT}
     extract_finish

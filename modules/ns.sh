@@ -50,7 +50,7 @@ repl() {
           --remember \
           -m -q'"' -c \
           -H ${JARK_CONFIG_DIR}/jark.history \
-          -f ${CLJR_BIN}/clj_completions \
+          -f ${JARK_BIN}/clj_completions \
           $JARK_CLIENT --repl $* 
     else
         $JARK_CLIENT --repl $* 
