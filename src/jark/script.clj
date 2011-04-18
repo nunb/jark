@@ -1,30 +1,34 @@
 (ns jark.script
-  (:require [clojure.contrib.pprint])
-  (:require pallet.resource.directory)
-  (:use [midje.sweet] [pallet.stevedore]))
+  (:require [clojure.contrib.pprint]
+            [pallet.resource.directory])
+  (:use [pallet.stevedore]
+        [midje.sweet]))
 
-;; TODO get fname from module's symbol name
+
+
+
+;; TODO see tests
+(defn- gen-action [env act]
+  (pallet.script/with-template env
+    (script
+      ~(act)
+      )))
+
 
 (defmulti gen-module (fn [env _] env))
 
 (defmethod gen-module [:linux]
   [env module]
-  (let [functions (let [s (for [act module]
-                            (pallet.script/with-template env
-                              (script (~(-> (meta act) :name)))))]
-                    (apply str (interpose "\n" s)))
-        docs (format "DOC= \" %s \"" (-> (meta module) :doc))
+  (let [actions (map (partial gen-action env) module)
+        module-doc (format "DOC= \" %s \"" (-> (meta module) :doc))
         includes [". ${JARK_BIN}/shflags"]
-        script (map (fn [& t] (->> (concat includes t)
-                                   (interpose "\n")
-                                   (apply str)))
-                    docs functions)]
-    script))
+        script (cons module-doc (concat includes actions))]
+    (apply str script)))
 
-(defmethod gen-module [:windows]
-  [env module]
-  "TODO")
 
+;; TODO get fname from module's symbol name
+;; Rethink name? output-module-set ... it mainly
+;; spits to files
 (defn gen-module-set
   "Outputs a set of module scripts according to the environment."
   [dir env suffix & modules]
@@ -48,17 +52,6 @@
   (let [name (with-meta name (merge (meta name) (or m {})))]
     `(pallet.script/defscript ~name ~@args)))
 
-(let [examples ["test1 test2"]
-      doc "test1 doc"
-      args []]
-  (defaction test1
-             {:examples examples
-              :doc doc
-              :args args}
-             [])
-  (fact (-> (meta test1) :examples) => examples)
-  (fact (-> (meta test1) :doc) => doc)
-  (fact (-> (meta test1) :args) => args))
 
 (defn- gen-linux-doc-function [script-name doc examples args]
   `(defn ~(symbol (str (name script-name) "_doc")) []
@@ -73,9 +66,6 @@
             args)
      "exit 0"))
 
-(comment
-(script ~(gen-linux-doc-function 'test "doc dos e s" ["jark vim sd" "jark vim sd"] [{:var 'a :default "asd" :description "Description" :long "long" :short "l"}]))
-  )
 
 (defn- gen-linux-function [script-name required-args args body]
   (let [decargs (map (fn [a]
@@ -91,9 +81,6 @@
        ~@assignargs
        ~@body)))
 
-(comment
-(script ~(gen-linux-function 'test ['a 'b] [{:var 'a :default "asd" :description "Description" :long "long" :short "l"}] ["asdf asdf" "asdfwef"]))
-  )
 
 (defmacro defactimpl
   "Define an implementation of an action (function)"
