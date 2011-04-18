@@ -52,7 +52,6 @@ build_jarkc() {
 }
 
 build_client() {
-    build_jarkc
     tar -rvf payload.tar ${CLIENT_COMPONENTS}
 }
 
