@@ -1,6 +1,6 @@
 (ns build.jark.gen-script
   (:gen-class)
-  (:use [build.jark.script :only [gen-module-set defmodule]])
+  (:use [build.jark.script :only [gen-module-set]])
   (:require [build.jark.script.cp :as cp]
             [build.jark.script.vim :as vim]))
 
@@ -9,19 +9,20 @@
 
 ;;; define modules ;;;
 
-(defmodule cp
-  "Utilities to manipulate the classpath"
+(def cp
+  ^{:doc "Utilities to manipulate the classpath"}
   [cp/remove 
    cp/ls])
 
-(defmodule vim
-  "Module to manage VimClojure instances"
+(def vim
+  ^{:doc "Module to manage VimClojure instances"}
   [vim/start])
 
 ;;; generate modules ;;;
 
 (defn -main [] 
-  (gen-module-set windows-dir [:windows] "bat"
+  
+  #_(gen-module-set windows-dir [:windows] "bat"
                   [cp "cp"]
                   [vim "vim"])
   (gen-module-set linux-dir [:linux] "sh"
@@ -29,7 +30,6 @@
                   [vim "vim"]))
 
 ; TODO breadth first?
-
 (comment 
 (gen-module-sets cp-module
   ["src/wrappers/mac" [:mac] "sh"]

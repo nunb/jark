@@ -1,8 +1,9 @@
 (ns build.jark.script.cp
   (:refer-clojure :exclude [remove])
-  (:use build.jark.script))
+  (:use [build.jark.script]
+        [pallet.script :only [defscript]]))
 
-(defaction remove 
+(defscript remove 
   {:examples ["jark cp remove <jar>"]
    :doc "Remove from the classpath for the current Jark server"
    :function-name 'remove
@@ -19,7 +20,7 @@
   echo "command not implemented yet")
 
 
-(defaction ls
+(defscript ls
   {:examples ["jark cp ls"]
    :doc "List the classpath for the current Jark server"
    :function-name 'ls
