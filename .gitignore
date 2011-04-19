@@ -8,6 +8,6 @@ package/src/
 *.tar.xz
 bin/jarkc*
 *.swp
-modules/linux/
-modules/windows/
-modules/mac/
+src/wrappers/linux/
+src/wrappers/windows/
+src/wrappers/mac/
