@@ -1,8 +1,8 @@
-(ns jark.gen-script
+(ns build.jark.gen-script
   (:gen-class)
-  (:use [jark.script :only [gen-module-set defmodule]])
-  (:require [jark.script.cp :as cp]
-            [jark.script.vim :as vim]))
+  (:use [build.jark.script :only [gen-module-set defmodule]])
+  (:require [build.jark.script.cp :as cp]
+            [build.jark.script.vim :as vim]))
 
 (def windows-dir "src/wrappers/windows")
 (def linux-dir "src/wrappers/linux")

@@ -1,4 +1,4 @@
-(ns jark.script.cp
+(ns build.jark.script.cp
   (:refer-clojure :exclude [remove])
   (:use jark.script))
 

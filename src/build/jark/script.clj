@@ -1,4 +1,4 @@
-(ns jark.script
+(ns build.jark.script
   (:require [clojure.contrib.pprint]
             [pallet.resource.directory])
   (:use [pallet.stevedore]

@@ -1,5 +1,5 @@
-(ns jark.script.vim
-  (:use jark.script))
+(ns build.jark.script.vim
+  (:use build.jark.script))
 
 (defaction start 
   {:examples ["jark vim start"]

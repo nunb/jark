@@ -12,29 +12,33 @@ fi
 
 export LEIN_SNAPSHOTS_IN_RELEASE="yes"
 export LEIN_ROOT="yes"
+OS="ref"
+WRAP_DIR="src/wrappers"
+CLIENT_DIR="src/client"
+SERVER_DIR="src/server"
 
-COMMON_COMPONENTS="bin/clj_completions bin/shflags src/wrappers bin/jark-client bin/simplejson.py bin/termcolor.py"
-SERVER_COMPONENTS="bin/project-cljr.clj jark-server/*.jar jark-server/jark-deps.txt"
-CLIENT_COMPONENTS="bin/jark-client"
+COMMON_COMPONENTS="${WRAP_DIR}/clj_completions ${WRAP_DIR}/shflags ${WRAP_DIR}/${OS}"
+SERVER_COMPONENTS="${WRAP_DIR}/project-cljr.clj ${SERVER_DIR}/*.jar ${SERVER_DIR}/jark-deps.txt"
+CLIENT_COMPONENTS="${CLIENT_DIR}/jark-client ${CLIENT_DIR}/simplejson.py ${CLIENT_DIR}/termcolor.py"
 
 build_server() {
     echo "Building jark server"
-    mkdir -p jark-server/classes
-    javac -d jark-server/classes/ jark-server/src/jark/SystemThreadList.java 
+    mkdir -p ${SERVER_DIR}/classes
+    javac -d ${SERVER_DIR}/classes/ ${SERVER_DIR}/src/jark/SystemThreadList.java 
     if [ $? != 0 ]; then 
         echo "javac not installed, exiting"
         exit 1
     fi
-    cd jark-server/
+    cd ${SERVER_DIR}
     echo "Getting dependencies.."
     lein jar
 
     cd -
-    touch jark-server/jark-deps.txt
-    :> jark-server/jark-deps.txt
+    touch ${SERVER_DIR}/jark-deps.txt
+    :> ${SERVER_DIR}/jark-deps.txt
 
-    for i in `ls jark-server/lib/*.jar`; do
-        echo $i >> jark-server/jark-deps.txt
+    for i in `ls ${SERVER_DIR}/lib/*.jar`; do
+        echo $i >> ${SERVER_DIR}/jark-deps.txt
         tar -rf payload.tar $i
     done
     tar -rf payload.tar ${SERVER_COMPONENTS}
@@ -42,13 +46,13 @@ build_server() {
 
 build_jarkc() {
     CD=$(pwd)
-    cd src/client
+    cd ${CLIENT_DIR}
     runhaskell setup configure --prefix=$HOME --user
     runhaskell setup build
     cd $CD
-    cp src/client/dist/build/jarkc/jarkc bin/jarkc
-    chmod +x bin/jarkc
-    rm -rf src/client/dist
+    cp ${CLIENT_DIR}/dist/build/jarkc/jarkc ${CLIENT_DIR}/jarkc
+    chmod +x ${CLIENT_DIR}/jarkc
+    rm -rf ${CLIENT_DIR}/dist
 }
 
 build_client() {
@@ -78,7 +82,7 @@ update_version() {
 generate_jark() {
     if [ -e "payload.tar" ]; then
         gzip payload.tar
-        cat bin/jark.bin payload.tar.gz > jark
+        cat ${WRAP_DIR}/jark.bin payload.tar.gz > jark
         rm payload.tar.gz
         chmod +x jark
         echo "jark self extracting script created"
