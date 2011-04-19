@@ -2,6 +2,7 @@
   (:gen-class)
   (:use [cljr core main clojars http])
   (:use [leiningen.deps :only (deps)])
+  (:use [clojure.java.io :only (file copy)])
   (:refer-clojure :exclude [list find alias]))
 
 (defn list []
@@ -72,7 +73,7 @@
 	proj-str (project-clj-string updated-project
 				     {:dependencies (:dependencies updated-project)})]
     (spit (str (get-cljr-home) (sep) project-clj) proj-str)
-    (str "**" library-name " has been uninstalled")))
+    (str library-name " has been uninstalled")))
 
 (defn repo-list []
   (let [repos (merge leiningen.pom/default-repos
