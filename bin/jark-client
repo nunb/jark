@@ -78,6 +78,9 @@ class Repl(cmd.Cmd):
             print i,
         return None
 
+    def emptyline(self):
+        pass
+
 def send(host, port, message):
     try:
         c = socket.create_connection((host, port));
