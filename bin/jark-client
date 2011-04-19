@@ -2,12 +2,14 @@
 
 import socket, sys, os
 from optparse import OptionParser
-import cmd
+import cmd, readline
 
 BIN_PATH = '%s/.config/jark/bin/' % os.getenv('HOME')
 sys.path.append(BIN_PATH)
 from simplejson import loads, dumps
 from termcolor import colored
+
+completions = [x.strip() for x in open('%s/clj_completions' % BIN_PATH).readlines()]
 
 class Repl(cmd.Cmd):
     ns          =  'user'
@@ -80,6 +82,16 @@ class Repl(cmd.Cmd):
 
     def emptyline(self):
         pass
+
+    def get_completions(self):
+        exp = '(vec (keys (ns-publics \'%s)))' % self.ns
+        f = eval_exp(exp)
+        r = self.decode(f)
+        c = r.strip(']').strip('[').split(' ')
+        return [str(x) for x in c]
+
+    def completedefault(self, text, line, begidx, endidx):
+        return [i for i in completions if i.startswith(text)]
 
 def send(host, port, message):
     try:

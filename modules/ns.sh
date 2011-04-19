@@ -43,18 +43,7 @@ run() {
 repl() {
     $JARK_CLIENT "(require 'jark.ns)"
     echo $* > ${JARK_CONFIG_DIR}/jark.ns
-    which rlwrap &> /dev/null
-    if [ $? == "0" ]; then
-        rlwrap --break-chars "\"\\'(){}[],^%$#@;:|" \
-          --ansi-colour-aware \
-          --remember \
-          -m -q'"' -c \
-          -H ${JARK_CONFIG_DIR}/jark.history \
-          -f ${JARK_BIN}/clj_completions \
-          $JARK_CLIENT --repl $* 
-    else
-        $JARK_CLIENT --repl $* 
-    fi
+    $JARK_CLIENT --repl $* 
     exit 0
 }
 
