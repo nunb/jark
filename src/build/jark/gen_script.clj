@@ -13,7 +13,8 @@
   ^{:doc "Utilities to manipulate the classpath"}
   [cp/remove 
    cp/ls
-   cp/run])
+   cp/run
+   cp/add])
 
 (def vim
   ^{:doc "Module to manage VimClojure instances"}
