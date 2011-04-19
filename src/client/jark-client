@@ -17,7 +17,7 @@ class Repl(cmd.Cmd):
     current_exp =  None
 
     def default(self, exp):
-        if exp.startswith('#') and not exp.startswith('#\''):
+        if exp.startswith('#') and not exp.startswith('#\'') and not exp.startswith('#('):
             self.handle_cmd(exp)
             return (0)
         self.current_exp = exp
@@ -160,8 +160,8 @@ def format_response(r):
                 
     elif type(r).__name__=='dict':
         tab = longest_key_length(r)
-        tab = tab + 5
-        format = '%%-%ds : %%%ds' % (tab, tab)
+        tab = tab + 6
+        format = '%%-%ds  %%%ds' % (tab, 5)
 
         for k, v in sorted(r.items()):
             if v == None: v = '-'
