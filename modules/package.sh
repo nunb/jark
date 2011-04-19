@@ -82,12 +82,12 @@ search() {
 }
 
 installed() {
-    $JARK_CLIENT cljr.main cljr-list | uniq
+    $JARK_CLIENT jark.package list | uniq
     exit 0
 }
 
 list() {
-    $JARK_CLIENT cljr.main cljr-list | uniq
+    $JARK_CLIENT jark.package list | uniq
     exit 0
 }
 
