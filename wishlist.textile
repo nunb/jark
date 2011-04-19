@@ -6,7 +6,7 @@ head: Jark
 h2. Todo & wishlist
 
 * Integrate nrepl. Use that as the communication protocol
-* Currently works only on GNU/Linux, someday port it to windows.
+* Currently works only on GNU/Linux and Mac OSX, port it to windows.
 * Support Vim 
 * Have a ~/.jarkrc file that has sections corresponding to named-connections
 
