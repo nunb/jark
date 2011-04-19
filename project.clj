@@ -5,7 +5,7 @@
   :dependencies [[org.clojure/clojure "1.2.0"]
                  [org.clojure/clojure-contrib "1.2.0"]
                  [midje "1.1"]
-                 [org.cloudhoist/pallet "0.5.0-SNAPSHOT"]] 
+                 [org.cloudhoist/pallet "0.5.0-SNAPSHOT":exclusions [org.jclouds/jclouds-core]]]
 
   :repositories  {"sonatype"
                   "http://oss.sonatype.org/content/repositories/releases"
