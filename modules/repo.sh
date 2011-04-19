@@ -17,16 +17,16 @@ _doc() {
 }
 
 list() {
-    $JARK_CLIENT cljr.main cljr-list-repos
+    $JARK_CLIENT jark.package repo-list
     exit 0
 }
 
 add() {
-    $JARK_CLIENT cljr.main cljr-add-repo $*
+    $JARK_CLIENT jark.package repo-add $*
     exit 0
 }
 
 remove() {
-    $JARK_CLIENT cljr.main cljr-remove-repo $*
+    $JARK_CLIENT jark.package repo-remove $*
     exit 0
 }

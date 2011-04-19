@@ -57,7 +57,7 @@ uninstall() {
         echo "USAGE: jark package uninstall --package PACKAGE"
         exit 1
     fi
-    $JARK_CLIENT cljr.App uninstall ${FLAGS_package}
+    $JARK_CLIENT jark.package uninstall ${FLAGS_package}
     exit 0
 }
 

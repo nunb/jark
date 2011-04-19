@@ -62,4 +62,35 @@
 			  (for [line response]
 			    (read-string line)))))))
 
+(defn uninstall [library-name]
+  (let [project (get-project)
+	dependencies (:dependencies project)
+	updated-project (assoc project :dependencies
+			       (into [] (filter #(not= (symbol library-name)
+						       (first %))
+						dependencies)))
+	proj-str (project-clj-string updated-project
+				     {:dependencies (:dependencies updated-project)})]
+    (spit (str (get-cljr-home) (sep) project-clj) proj-str)
+    (str "**" library-name " has been uninstalled")))
 
+(defn repo-list []
+  (let [repos (merge leiningen.pom/default-repos
+		     (:repositories (get-project)))]
+    (into {} (map #(vector (first %) (second %)) repos))))
+
+(defn repo-add
+  ([repo-name repo-url]
+     (let [repo-map (assoc (get-repositories) repo-name repo-url)]
+       (spit (file (str (get-cljr-home) (sep) project-clj))
+	     (project-clj-string (get-project)
+				 {:repositories repo-map}))
+       (str repo-name " repository added"))))
+
+(defn repo-remove
+  ([repo-name]
+     (let [repo-map (dissoc (get-repositories) repo-name)]
+       (spit (file (str (get-cljr-home) (sep) project-clj))
+	     (project-clj-string (get-project)
+				 {:repositories repo-map}))
+       (str repo-name " repository removed"))))
