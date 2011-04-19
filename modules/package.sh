@@ -25,6 +25,10 @@ _doc() {
     echo -e ""
     echo -e "jark package installed"
     echo -e "\tList all packages installed."
+    echo -e ""
+    echo -e "jark package latest (--package -p PACKAGE)"
+    echo -e "\tPrint the latest version of the package."
+    echo -e ""
 }
 
 install() {
@@ -38,9 +42,9 @@ install() {
     fi
         
     if [ ${FLAGS_version} == "0" ]; then
-        $JARK_CLIENT cljr.clojars clojars-install ${FLAGS_package}
+        $JARK_CLIENT jark.package install ${FLAGS_package}
     else
-        $JARK_CLIENT cljr.clojars clojars-install ${FLAGS_package} ${FLAGS_version}
+        $JARK_CLIENT jark.package install ${FLAGS_package} ${FLAGS_version}
     fi
     exit 0
 }
@@ -65,7 +69,7 @@ versions() {
         echo "USAGE: jark package versions --package PACKAGE"
         exit 1
     fi
-    $JARK_CLIENT cljr.clojars clojars-versions ${FLAGS_package}
+    $JARK_CLIENT jark.package versions ${FLAGS_package}
     exit 0
 }
 
@@ -77,7 +81,7 @@ search() {
         echo "USAGE: jark package search --package PACKAGE"
         exit 1
     fi
-    $JARK_CLIENT cljr.clojars clojars-search ${FLAGS_package}
+    $JARK_CLIENT jark.package search ${FLAGS_package}
     exit 0
 }
 
@@ -99,7 +103,8 @@ latest() {
         echo "USAGE: jark package latest --package PACKAGE"
         exit 1
     fi
-    $JARK cljr.clojars get-latest-version ${FLAGS_package}
+    $JARK jark.package latest-version ${FLAGS_package}
+    exit 0
 }
 
 deps() {
@@ -114,9 +119,9 @@ deps() {
 
     if [ ${FLAGS_version} == "0" ]; then
         ver=`$JARK cljr.clojars get-latest-version ${FLAGS_package}`
-        $JARK cljr.clojars print-library-dependencies ${FLAGS_package} $ver
+        $JARK jark.package dependencies ${FLAGS_package} $ver
     else
-        $JARK cljr.clojars print-library-dependencies ${FLAGS_package} ${FLAGS_version}
+        $JARK jark.package dependencies ${FLAGS_package} ${FLAGS_version}
     fi
     exit 0
 }

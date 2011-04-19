@@ -160,8 +160,8 @@ def format_response(r):
                 
     elif type(r).__name__=='dict':
         tab = longest_key_length(r)
-        tab = tab + 5
-        format = '%%-%ds : %%%ds' % (tab, tab)
+        tab = tab + 6
+        format = '%%-%ds  %%%ds' % (tab, 5)
 
         for k, v in sorted(r.items()):
             if v == None: v = '-'
