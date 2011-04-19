@@ -17,7 +17,7 @@ class Repl(cmd.Cmd):
     current_exp =  None
 
     def default(self, exp):
-        if exp.startswith('#') and not exp.startswith('#\'') and not exp.startswith('#('):
+        if exp.startswith('/'):
             self.handle_cmd(exp)
             return (0)
         self.current_exp = exp
@@ -65,16 +65,16 @@ class Repl(cmd.Cmd):
             return outs
 
     def handle_cmd(self, exp):
-        if exp.startswith('#debug on') or exp.startswith('#debug true'):
+        if exp.startswith('/debug on') or exp.startswith('/debug true'):
             self.debug = True
             print 'debug is turned on'
             return None
-        if exp.startswith('#debug off') or exp.startswith('#debug false'):
+        if exp.startswith('/debug off') or exp.startswith('/debug false'):
             self.debug = False        
             print 'debug is turned off'
             return None
         
-        c = 'jark ' + exp.strip('#')
+        c = 'jark ' + exp.strip('/')
         p = os.popen(c)
         for i in p:
             print i,
