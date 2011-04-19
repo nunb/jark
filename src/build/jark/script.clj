@@ -39,11 +39,10 @@
 (defn- gen-linux-doc-function [script-name doc examples args]
   `(defn ~(symbol (str (name script-name) "_doc")) []
      ~(str "echo \"" doc \")
-     "echo \"\\n\""
+     "echo"
      ~@(map (fn [e] (str "echo " \" e \")) examples)
-     "echo \"\\n"
      ~@(map (fn [arg]
-              (str "echo \"\\t" (name (:var arg))
+              (str "echo \"  " (name (:var arg))
                    " (--" (:long arg) " -" (:short arg) ")"
                    " -- " (:description arg) \")) 
             args)

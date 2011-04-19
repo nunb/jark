@@ -16,9 +16,6 @@
   (echo "command not implemented yet")
   (exit 1))
 
-(defactimpl remove [:windows]
-  echo "command not implemented yet")
-
 
 (defscript ls
   {:examples ["jark cp ls"]
@@ -29,9 +26,20 @@
   [])
 
 (defactimpl ls [:linux] 
-  (jark jark.cp ls)
+  (jark "jark.cp ls")
   (exit 0))
 
-(defactimpl ls [:windows]
-  echo "command not implemented yet (in windows)"
-)
+
+(defscript run
+  {:examples ["jark cp run main-class"]
+   :doc "Run main-class on the current Jark server"
+   :function-name 'run
+   :required-args ['mainclass]
+   :args-info [{:var "path" :default "" :long "path" :short "p"
+                :description "Path to remove"}]}
+  [])
+
+(defactimpl run [:linux]
+  (touch "classpath")
+  (@JARK_CLIENT "jark.cp run @mainclass")
+  (exit 0))
