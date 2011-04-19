@@ -1,6 +1,6 @@
 (ns build.jark.script.cp
   (:refer-clojure :exclude [remove])
-  (:use jark.script))
+  (:use build.jark.script))
 
 (defaction remove 
   {:examples ["jark cp remove <jar>"]
