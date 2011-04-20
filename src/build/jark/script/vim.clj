@@ -1,19 +1,69 @@
 (ns build.jark.script.vim
   (:use [build.jark.script]
-        [pallet.script :only [defscript]]))
+        [midje.sweet]
+        [pallet.script :only [defscript defimpl with-script-context]]))
 
-(defscript start 
-  {:examples ["jark vim start"]
-   :doc "Start a local VimClojure server with minimum dependencies."
+(def start-attr
+  ^{:doc "Attributes of the start function"}
+  {:fn-doc "Start a local VimClojure server with minimum dependencies."
+   :examples ["jark vim start"]
    :required-args []
-   :args-info [{:var "port" :default "2443" :long "port" :short "p"
-                :description "Port to run VimClojure server"}]}
-  [])
+   :opt-args [{:var "port" :default "2443" :long "port" :short "p"
+                :description "Port to run VimClojure server"}]})
 
-(defactimpl start [:linux] 
-  exit 0
-  )
+(defscript start [])
 
-(defactimpl start [:windows]
-  (echo "not implemented")
-  (exit 1))
+(defimpl start [:linux] []
+  (doc-fn start
+    ~(:fn-doc start-attr)
+    ~(:examples start-attr))
+          
+  (defn start [port]
+    (declare-args
+      (define-integer "port" 2443 "vimclojure port" "p"))
+
+    (when (not (file-exists? @VIMCLOJURE_JAR))
+      (echo "FAILED VimClojure jar not installed")
+      (echo "")
+      (echo "Install instructions:")
+      (echo "  jark vim install")
+      (exit 1))
+
+    (echo "Starting VimClojure server on port ${port} ...")
+    (java -cp (defref CLOJURE_JARS)":"(defref VIMCLOJURE_JAR) 
+          -server "vimclojure.nailgun.NGServer" @port 
+          "<&- & 2&> /dev/null")
+
+    (set! pid "$!")
+    (echo @pid "> ${JARK_CONFIG_DIR}/vimclojure.pid")
+
+    (sleep 2)
+    (echo "")
+    (echo "Loading dependencies ...")
+
+    (if (and (file-exists? $(pwd)"/project.clj")  
+             (directory? $(pwd)"/src")
+             (directory? $(pwd)"/lib"))
+      (@VIMCLOJURE ng-cp $(pwd)"/src" $(pwd)"/lib/*" "&> /dev/null"))
+
+    $VIMCLOJURE ng-cp
+
+    (echo "")
+    (echo "Successfully started VimClojure server on port ${port}")
+    (echo "")
+    (echo "Connect with")
+    (echo " :let vimclojure#WantNailgun = 1")
+    (echo " :let vimclojure#NailgunPort = ${port}")
+    (exit 0)
+
+  ))
+
+(defscript test1 [])
+(defimpl test1 :default []
+  (echo ""))
+
+(with-script-context
+  :default
+  (pallet.stevedore/script 
+    (~test1)))
+
