@@ -61,6 +61,7 @@ update_version() {
     perl -pi -e "s/TMPL_ARCH/${ARCH}/g" jark
     perl -pi -e "s/TMPL_DATE/${TMPL_DATE}/g" jark
     perl -pi -e "s/TMPL_COMPONENT/${TMPL_COMPONENT}/g" jark
+    perl -pi -e "s/TMPL_RELEASE_VERSION/${RELEASE_VERSION}/g" jark
     exit 0
 }
 
