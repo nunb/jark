@@ -1,6 +1,6 @@
 (ns build.jark.gen-script
   (:gen-class)
-  (:use [build.jark.script :only [gen-module-set]])
+  (:use [pallet.stevedore :only [do-script]])
   (:require [build.jark.script.cp :as cp]
             [build.jark.script.vim :as vim]))
 
@@ -9,27 +9,13 @@
 
 ;;; define modules ;;;
 
-(def cp
-  ^{:doc "Utilities to manipulate the classpath"}
-  [cp/remove 
-   cp/ls
-   cp/run
-   cp/add])
-
-(def vim
-  ^{:doc "Module to manage VimClojure instances"}
-  [vim/start])
-
 ;;; generate modules ;;;
 
 (defn -main [] 
+
+  (spit (str linux-dir "/vim.sh") vim/vim-module)
+  )
   
-  #_(gen-module-set windows-dir [:windows] "bat"
-                  [cp "cp"]
-                  [vim "vim"])
-  (gen-module-set linux-dir [:linux] "sh"
-                  [cp "cp"]
-                  [vim "vim"]))
 
 ; TODO breadth first?
 (comment 

@@ -1,7 +1,8 @@
 (ns build.jark.script.vim
   (:use [build.jark.script]
         [midje.sweet]
-        [pallet.script :only [defscript defimpl with-script-context]]))
+        [pallet.script :only [defscript defimpl with-script-context]]
+        [pallet.stevedore :only [script do-script]]))
 
 (def start-attr
   ^{:doc "Attributes of the start function"}
@@ -14,13 +15,10 @@
 (defscript start [])
 
 (defimpl start [:linux] []
-  (doc-fn start
-    ~(:fn-doc start-attr)
-    ~(:examples start-attr))
-          
   (defn start [port]
-    (declare-args
-      (define-integer "port" 2443 "vimclojure port" "p"))
+    (~declare-args
+       [:string "host" "localhost" "vimclojure host" "h"]
+       [integer "port" 2443 "vimclojure port" "p"])
 
     (when (not (file-exists? @VIMCLOJURE_JAR))
       (echo "FAILED VimClojure jar not installed")
@@ -58,12 +56,9 @@
 
   ))
 
-(defscript test1 [])
-(defimpl test1 :default []
-  (echo ""))
 
-(with-script-context
-  :default
-  (pallet.stevedore/script 
-    (~test1)))
-
+(def vim-module
+  "The complete script for vim.sh"
+  (with-script-context [:linux]
+    (script
+      (~start))))
