@@ -10,53 +10,38 @@ else
     CUSTOM="yes"
 fi
 
+# build jark without renaming the project
 export LEIN_SNAPSHOTS_IN_RELEASE="yes"
 export LEIN_ROOT="yes"
-OS="ref"
-WRAP_DIR="src/wrappers"
-CLIENT_DIR="src/client"
-SERVER_DIR="src/server"
 
-COMMON_COMPONENTS="${WRAP_DIR}/clj_completions ${WRAP_DIR}/shflags ${WRAP_DIR}/${OS}"
-SERVER_COMPONENTS="${WRAP_DIR}/project-cljr.clj ${SERVER_DIR}/*.jar ${SERVER_DIR}/jark-deps.txt"
-CLIENT_COMPONENTS="${CLIENT_DIR}/jark-client ${CLIENT_DIR}/simplejson.py ${CLIENT_DIR}/termcolor.py"
+COMMON_COMPONENTS="bin/clj_completions bin/shflags modules/ bin/jark-client bin/simplejson.py bin/termcolor.py"
+SERVER_COMPONENTS="bin/project-cljr.clj *.jar jark-deps.txt"
+CLIENT_COMPONENTS="bin/jark-client"
 
 build_server() {
-    echo "Building jark server"
-    mkdir -p ${SERVER_DIR}/classes
-    javac -d ${SERVER_DIR}/classes/ ${SERVER_DIR}/src/jark/SystemThreadList.java 
+    mkdir -p classes
+    javac -d classes/ src/jark/SystemThreadList.java 
     if [ $? != 0 ]; then 
         echo "javac not installed, exiting"
         exit 1
     fi
-    cd ${SERVER_DIR}
     echo "Getting dependencies.."
     lein jar
 
-    cd -
-    touch ${SERVER_DIR}/jark-deps.txt
-    :> ${SERVER_DIR}/jark-deps.txt
-
-    for i in `ls ${SERVER_DIR}/lib/*.jar`; do
-        echo $i >> ${SERVER_DIR}/jark-deps.txt
-        tar -rf payload.tar $i
+    touch jark-deps.txt
+    :> jark-deps.txt
+    for i in `ls lib/*.jar`; do
+        echo $i >> jark-deps.txt
     done
-    tar -rf payload.tar ${SERVER_COMPONENTS}
-}
 
-build_jarkc() {
-    CD=$(pwd)
-    cd ${CLIENT_DIR}
-    runhaskell setup configure --prefix=$HOME --user
-    runhaskell setup build
-    cd $CD
-    cp ${CLIENT_DIR}/dist/build/jarkc/jarkc ${CLIENT_DIR}/jarkc
-    chmod +x ${CLIENT_DIR}/jarkc
-    rm -rf ${CLIENT_DIR}/dist
+    for i in `ls lib/*.jar`; do
+        tar -rvf payload.tar $i
+    done
+    tar -rvf payload.tar ${SERVER_COMPONENTS}
 }
 
 build_client() {
-    tar -rf payload.tar ${CLIENT_COMPONENTS}
+    tar -rvf payload.tar ${CLIENT_COMPONENTS}
 }
 
 update_version() {
@@ -76,13 +61,14 @@ update_version() {
     perl -pi -e "s/TMPL_ARCH/${ARCH}/g" jark
     perl -pi -e "s/TMPL_DATE/${TMPL_DATE}/g" jark
     perl -pi -e "s/TMPL_COMPONENT/${TMPL_COMPONENT}/g" jark
+    perl -pi -e "s/TMPL_RELEASE_VERSION/${RELEASE_VERSION}/g" jark
     exit 0
 }
 
 generate_jark() {
     if [ -e "payload.tar" ]; then
         gzip payload.tar
-        cat ${WRAP_DIR}/jark.bin payload.tar.gz > jark
+        cat bin/jark.bin payload.tar.gz > jark
         rm payload.tar.gz
         chmod +x jark
         echo "jark self extracting script created"
@@ -93,12 +79,6 @@ generate_jark() {
 }
 
 # begin building
-
-if [ "$1" == "--jarkc" ] || [ "$1" == "jarkc" ]; then
-    echo "building jarkc"
-    build_jarkc
-    exit 0
-fi
 
 echo "Adding common components ..."
 tar cf payload.tar ${COMMON_COMPONENTS}
@@ -122,8 +102,6 @@ else
         TMPL_COMPONENT="server"
         build_server
     fi
-
-   
 fi
 
 generate_jark

@@ -1,14 +1,10 @@
 #!/bin/bash
 
 VERSION="TMPL_VERSION"
-JARK_RELEASE_VERSION=`git branch --no-color | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
 BUILD_DATE="TMPL_DATE"
 BUILD_ARCH="TMPL_ARCH"
 BUILD_COMPONENT="TMPL_COMPONENT"
-
-BUILD_WRAP_DIR="src/wrappers"
-BUILD_CLIENT_DIR="src/client"
-BUILD_SERVER_DIR="src/server"
+JARK_RELEASE_VERSION="TMPL_RELEASE_VERSION"
 
 MOD=$1
 CLJR_ROOT="$HOME/.cljr"
@@ -18,7 +14,6 @@ JARK_BIN="${JARK_ROOT}/bin"
 CLJR_CP="${CLJR_ROOT}/lib"
 
 ARCH=`uname -m`
-OS="ref"
 
 readlink_e() {
     self="$0"
@@ -43,8 +38,8 @@ readlink_a() {
 
 JARK=$(readlink_e)/jark || jark
 
-if [ -e "${CLJR_CP}/jark-server-${JARK_RELEASE_VERSION}.jar" ]; then
-    JARK_JAR="${CLJR_CP}/jark-server-${JARK_RELEASE_VERSION}.jar"
+if [ -e "${CLJR_CP}/jark-${JARK_RELEASE_VERSION}.jar" ]; then
+    JARK_JAR="${CLJR_CP}/jark-${JARK_RELEASE_VERSION}.jar"
 else
     JARK_JAR="${CLJR_CP}/jark.jar"
 fi
@@ -53,7 +48,7 @@ CLOJURE_JARS="${CLJR_CP}/clojure-1.2.0.jar:${CLJR_CP}/clojure-contrib-1.2.0.jar"
 DEP_JARS="${CLJR_CP}/tools.nrepl-0.0.4.jar:${CLJR_CP}/swank-clojure-1.2.0.jar"
 
 JARK_CP="${CLOJURE_JARS}:${DEP_JARS}:${JARK_JAR}:"
-JARK_MODULES_DIR="${JARK_ROOT}/wrappers/${OS}"
+JARK_MODULES_DIR="${JARK_ROOT}/modules"
 JARK_CONFIG_DIR="${JARK_ROOT}"
 
 # some cleanups
@@ -198,25 +193,25 @@ extract_common() {
     tail -n+$ARCHIVE $0 | tar xz -C $TMPDIR
     CDIR=`pwd`
     cd $TMPDIR
-    cp -av ${BUILD_CLIENT_DIR}/jark-client ${JARK_BIN}/
-    cp -av ${BUILD_WRAP_DIR}/shflags ${JARK_BIN}/
-    cp -av ${BUILD_CLIENT_DIR}/simplejson.py ${JARK_BIN}/
-    cp -av ${BUILD_CLIENT_DIR}/termcolor.py ${JARK_BIN}/
-    cp -av ${BUILD_WRAP_DIR}/clj_completions ${JARK_BIN}/
+    cp -av bin/jark-client ${JARK_BIN}/
+    cp -av bin/shflags ${JARK_BIN}/
+    cp -av bin/simplejson.py ${JARK_BIN}/
+    cp -av bin/termcolor.py ${JARK_BIN}/
+    cp -av bin/clj_completions ${JARK_BIN}/
     chmod +x ${JARK_BIN}
-    cp -av ${BUILD_WRAP_DIR}/${OS}/* ${JARK_MODULES_DIR}/
+    cp -av modules/* ${JARK_MODULES_DIR}/
     mkdir -p ${JARK_CONFIG_DIR}
 }
 
 extract_server() {
-    cp -av ${BUILD_SERVER_DIR}/lib/*.jar ${CLJR_CP}/
-    cp -av ${BUILD_SERVER_DIR}/*.jar ${CLJR_CP}/
-    cp -av ${BUILD_WRAP_DIR}/project-cljr.clj ${CLJR_ROOT}/project.clj
-    cp ${BUILD_SERVER_DIR}/jark-deps.txt ${CLJR_CP}/
+    cp -av lib/*.jar ${CLJR_CP}/
+    cp -av *.jar ${CLJR_CP}/
+    cp -av bin/project-cljr.clj ${CLJR_ROOT}/project.clj
+    cp jark-deps.txt ${CLJR_CP}/
 }
 
 extract_client() {
-    cp -av ${BUILD_CLIENT_DIR}/jark-client ${JARK_BIN}/
+    cp -av bin/jark-client ${JARK_BIN}/
 }
 
 extract_finish() {
