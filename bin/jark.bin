@@ -258,12 +258,14 @@ if [ -e ${MODULE_SH} ]; then
     if [ -z $2 ]; then
         echo "Available commands: " 
         _doc
-        exit 1
+        exit 0
     fi
     ${2} "${@:3}"
-    _doc
-    
-    exit 0
+    if [ "$?" == "0" ]; then
+        _doc
+        exit 0
+    fi
+    exit 1       
 
 elif [ -e "$1" ] && [ ! -d "$1" ]; then
     if [ "$running" == "no" ]; then
