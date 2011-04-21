@@ -263,6 +263,7 @@ elif [ -e "$1" ]; then
     fi
     LNS=`jark ns load $LOAD_FILE`
     NS=`echo $LNS | cut -d '/' -f 1 | cut -d "'" -f 2`
+    JARK_CLIENT=$(get_client)
     $JARK_CLIENT jark.core $NS -main "${@:2}"
     rm -f $(clj_temp_file $1)
     exit 0
