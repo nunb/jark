@@ -1,8 +1,9 @@
 (ns build.jark.script.cp
   (:refer-clojure :exclude [remove])
-  (:use [build.jark.script]))
+  (:use [pallet.script :only [defscript defimpl]]))
+
 (comment
-(defscript remove 
+(defscript remove
   {:examples ["jark cp remove <jar>"]
    :doc "Remove from the classpath for the current Jark server"
    :function-name 'remove
@@ -11,7 +12,7 @@
                 :description "Path to remove"}]}
   [])
 
-(defactimpl remove [:linux]
+(defimpl remove [:linux]
   (echo "command not implemented yet")
   (exit 1))
 
@@ -25,7 +26,7 @@
    :args-info []}
   [])
 
-(defactimpl ls [:linux] 
+(defimpl ls [:linux] 
   (jark "jark.cp ls")
   (exit 0))
 
@@ -39,7 +40,7 @@
                 :description "Class to run"}]}
   [])
 
-(defactimpl run [:linux]
+(defimpl run [:linux]
   (touch "classpath")
   (@JARK_CLIENT "jark.cp run @mainclass")
   (exit 0))
@@ -54,7 +55,7 @@
                 :description "Path to remove"}]}
   [])
 
-(defactimpl add [:linux]
+(defimpl add [:linux]
   (when "[ -z ${path} ]"
     (add_doc))
   (when "[ -d ${path} ]"

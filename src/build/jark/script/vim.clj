@@ -1,24 +1,21 @@
 (ns build.jark.script.vim
-  (:use [build.jark.script]
-        [midje.sweet]
+  (:use [midje.sweet]
         [pallet.script :only [defscript defimpl with-script-context]]
+        [pallet.script.lib :only [declare-arguments]]
         [pallet.stevedore :only [script do-script]]))
 
-(def start-attr
-  ^{:doc "Attributes of the start function"}
-  {:fn-doc "Start a local VimClojure server with minimum dependencies."
-   :examples ["jark vim start"]
-   :required-args []
-   :opt-args [{:var "port" :default "2443" :long "port" :short "p"
-                :description "Port to run VimClojure server"}]})
+(defscript vim-module [])
 
-(defscript start [])
+(defimpl vim-module [:linux] []
+  (~declare-arguments
+     "Tools to manage VimClojure servers"
+     [])
 
-(defimpl start [:linux] []
-  (defn start [port]
-    (~declare-args
-       [:string "host" "localhost" "vimclojure host" "h"]
-       [integer "port" 2443 "vimclojure port" "p"])
+  (defn start 
+    "Start a local VimClojure server with minimum dependencies"
+    [port
+     [:string host o "VimClojure host name" "localhost"]
+     [:integer port p "VimClojure port" 2443]]
 
     (when (not (file-exists? @VIMCLOJURE_JAR))
       (echo "FAILED VimClojure jar not installed")
@@ -28,7 +25,7 @@
       (exit 1))
 
     (echo "Starting VimClojure server on port ${port} ...")
-    (java -cp (defref CLOJURE_JARS)":"(defref VIMCLOJURE_JAR) 
+    (java -cp "${CLOJURE_JARS}:${VIMCLOJURE_JAR}"
           -server "vimclojure.nailgun.NGServer" @port 
           "<&- & 2&> /dev/null")
 
@@ -39,10 +36,10 @@
     (echo "")
     (echo "Loading dependencies ...")
 
-    (if (and (file-exists? $(pwd)"/project.clj")  
-             (directory? $(pwd)"/src")
-             (directory? $(pwd)"/lib"))
-      (@VIMCLOJURE ng-cp $(pwd)"/src" $(pwd)"/lib/*" "&> /dev/null"))
+    (if (and (file-exists? "${pwd}/project.clj")  
+             (directory? "${pwd}/src")
+             (directory? "${pwd}/lib"))
+      (@VIMCLOJURE ng-cp "${pwd}/src" "${pwd}/lib/*" "&> /dev/null"))
 
     $VIMCLOJURE ng-cp
 
@@ -53,12 +50,5 @@
     (echo " :let vimclojure#WantNailgun = 1")
     (echo " :let vimclojure#NailgunPort = ${port}")
     (exit 0)
-
-  ))
-
-
-(def vim-module
-  "The complete script for vim.sh"
-  (with-script-context [:linux]
-    (script
-      (~start))))
+  )
+)
