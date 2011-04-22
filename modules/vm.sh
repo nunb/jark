@@ -81,6 +81,7 @@ threads() {
 }
 
 stat() {
+    echo -e "Remote host \t  `cat ${JARK_CONFIG_DIR}/jark.host`"
     $JARK_CLIENT jark.vm stats
     exit 0
 }
