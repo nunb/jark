@@ -3,7 +3,7 @@
 set -eu 
 
 # build jark without renaming the project
-LEIN_SNAPSHOTS_IN_RELEASE="yes"
+export LEIN_SNAPSHOTS_IN_RELEASE="yes"
 
 javac modules/SystemThreadList.java
 if [ $? != 0 ]; then 
