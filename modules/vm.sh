@@ -110,6 +110,7 @@ connect() {
     eval set -- "${FLAGS_ARGV}"
     echo ${FLAGS_host} > ${JARK_CONFIG_DIR}/jark.host
     echo ${FLAGS_port} > ${JARK_CONFIG_DIR}/jark.port
+    sleep 2
     $JARK_CLIENT jark.vm uptime 2&> /dev/null
     if [ $? == "0" ]; then
         echo "Connected to ${FLAGS_host}:${FLAGS_port}"
