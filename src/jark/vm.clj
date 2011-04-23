@@ -31,14 +31,6 @@
 	      (< m1 m2))
 	  (recur (used-mem) m1 (inc i))))))
 
-(defn gc []
-  (let [before (used-mem)]
-    (loop [i 0]
-      (run-gc)
-      (if (< i 4)
-        (recur (inc i))))
-    (str "Cleaned up " (mb (- before (used-mem))) " MB of memory")))
-
 (defn mb [bytes]
   (int (/ bytes (* 1024.0 1024.0))))
 
@@ -47,6 +39,14 @@
 
 (defn secs [ms]
   (int (/ ms 1000.0)))
+
+(defn gc []
+  (let [before (used-mem)]
+    (loop [i 0]
+      (run-gc)
+      (if (< i 4)
+        (recur (inc i))))
+    (str "Cleaned up " (mb (- before (used-mem))) " MB of memory")))
 
 (defn stats
   "Display current statistics of the JVM"
@@ -79,5 +79,5 @@
 
 (defn -main [port]
   (create-repl-server 9500)
-  (nrepl/start-server 9000)
+  (nrepl/start-server (Integer. port))
   (System/setSecurityManager nil))

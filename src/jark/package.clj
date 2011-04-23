@@ -1,5 +1,4 @@
 (ns jark.package
-  (:doc "Package utilities. Adapted from cljr")
   (:gen-class)
   (:use [cljr core main clojars http])
   (:use [leiningen.deps :only (deps)])
