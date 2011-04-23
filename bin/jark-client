@@ -242,7 +242,7 @@ if __name__ == '__main__':
     f = send(options.host, options.port, message)
     if not f:
         print "No response from server"
-        sys.exit(0)
+        sys.exit(1)
 
     if not options.require:
         r = decode_response(f)

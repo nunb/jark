@@ -42,6 +42,10 @@ run() {
 
 repl() {
     $JARK_CLIENT "(require 'jark.ns)"
+    if [ "$?" == "1" ]; then
+        echo "Unable to contact server, try reconnecting"
+        exit 1
+    fi
     echo $* > ${JARK_CONFIG_DIR}/jark.ns
     $JARK_CLIENT --repl $* 
     exit 0

@@ -35,9 +35,9 @@ build_server() {
     done
 
     for i in `ls lib/*.jar`; do
-        tar -rvf payload.tar $i
+        tar -rf payload.tar $i
     done
-    tar -rvf payload.tar ${SERVER_COMPONENTS}
+    tar -rf payload.tar ${SERVER_COMPONENTS}
 }
 
 build_client() {

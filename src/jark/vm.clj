@@ -46,7 +46,7 @@
       (run-gc)
       (if (< i 4)
         (recur (inc i))))
-    (str "Cleaned up " (mb (- before (used-mem))) " MB of memory")))
+    (str "Freed " (mb (- before (used-mem))) " MB of memory")))
 
 (defn stats
   "Display current statistics of the JVM"

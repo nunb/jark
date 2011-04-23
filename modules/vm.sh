@@ -44,7 +44,7 @@ start() {
     echo "Started jark-nrepl server on port $port"
 
     sleep 5
-    $JARK vm connect
+    $JARK vm connect --port $port
 
     if [ -e $CLJR_CP/jark-deps.txt ]; then
         for dep in `cat $CLJR_CP/jark-deps.txt`; do
@@ -91,7 +91,6 @@ stats() {
     $JARK_CLIENT jark.vm stats
     exit 0
 }
-
 
 gc() {
     $JARK_CLIENT jark.vm gc
