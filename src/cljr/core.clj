@@ -17,14 +17,10 @@
 (def classpath-uninitialized? (ref true))
 
 
-(def base-dependencies [['org.clojure/clojure "1.2.0-beta1"]
-			['org.clojure/clojure-contrib "1.2.0-beta1"]
-			['cljr  CLJR-VERSION]
+(def base-dependencies [['org.clojure/clojure "1.2.0"]
+			['org.clojure/clojure-contrib "1.2.0"]
 			['leiningen "1.1.0"]
-			['swingrepl "1.0.0-SNAPSHOT"]
-			['jline "0.9.94"]
-			['swank-clojure "1.2.1"]])
-
+			['swank-clojure "1.3.0"]])
 
 (defn get-user-home []
   (System/getProperty "user.home"))
