@@ -56,7 +56,6 @@
                "Mem used"     (str (mb (used-mem))  " MB")
                "Mem free"     (str (mb (free-mem))  " MB")
                "Start time"   (.toString (Date. (.getStartTime mx)))
-               "JVM options"  (.getInputArguments (java.lang.management.ManagementFactory/getRuntimeMXBean))
                "Uptime"       (str
                                (.toString (mins (.getUptime mx))) "m" " | "
                                (.toString (secs (.getUptime mx))) "s")}]

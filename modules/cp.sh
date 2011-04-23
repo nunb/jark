@@ -40,8 +40,8 @@ add() {
 
     jp=$(readlink_f $jar)
     if [ $? == "0" ]; then
-        echo "Adding $jar"
         $JARK_CLIENT jark.cp add $jar
+        echo "Added $jar"
         exit 0
     else
         echo exiting
