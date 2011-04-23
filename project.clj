@@ -5,7 +5,8 @@
   :dependencies [[org.clojure/clojure "1.2.0"]
                  [org.clojure/clojure-contrib "1.2.0"]
                  [midje "1.1"]
-                 [org.cloudhoist/stevedore "0.5.0-SNAPSHOT"]]
+                 [org.cloudhoist/stevedore "0.5.0-SNAPSHOT"]
+                 [fs "0.7.1"]]
 
   :repositories  {"sonatype"
                   "http://oss.sonatype.org/content/repositories/releases"
