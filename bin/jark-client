@@ -65,6 +65,13 @@ class Repl(cmd.Cmd):
             return outs
 
     def handle_cmd(self, exp):
+        if exp.startswith('/help'):
+            c = 'jark'
+            p = os.popen(c)
+            for i in p:
+                print i,
+            return None
+
         if exp.startswith('/debug on') or exp.startswith('/debug true'):
             self.debug = True
             print 'debug is turned on'
@@ -104,17 +111,20 @@ def send(host, port, message):
     f.flush()
     return f
 
+def get_id():
+    return '%s:%s' % (options.host, options.port)
+
 def escape_args(a):
     args = ['\\"%s\\"' % x for x in a]
     args = " ".join(args)
     return args
 
 def dispatch(args):
-    message = ["2", '"id"\n', '"jark-client"\n', '"code"\n', '"(jark.ns/dispatch %s)"\n' % args]
+    message = ["2", '"id"\n', '"%s"\n' % get_id(), '"code"\n', '"(jark.ns/dispatch %s)"\n' % args]
     return message
 
 def eval_exp(args):
-    message = ["2", '"id"\n', '"jark-repl"\n', '"code"\n', '"%s"\n' % args]
+    message = ["2", '"id"\n', '"%s-repl"\n' % get_id(), '"code"\n', '"%s"\n' % args]
     f = send(options.host, options.port, message)
     return f
 
