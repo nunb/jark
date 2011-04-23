@@ -7,7 +7,6 @@
 
 (def *connect-timeout* 0)
 
-
 (defn- body-seq
   "Returns a lazy-seq of lines from either the input stream
    or the error stream of connection, whichever is appropriate."
@@ -27,13 +26,9 @@
        (.setConnectTimeout connection *connect-timeout*)
        connection)))
 
-
-
 (defn http-get-text-seq
   ([url]
      (body-seq (get-http-connection url))))
-
-
 
 (defn set-system-proxy!
   "Java's HttpURLConnection cannot do per-request proxying. Instead,
