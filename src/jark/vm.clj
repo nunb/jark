@@ -32,10 +32,12 @@
 	  (recur (used-mem) m1 (inc i))))))
 
 (defn gc []
-  (loop [i 0]
-    (run-gc)
-    (if (< i 4)
-      (recur (inc i)))))
+  (let [before (used-mem)]
+    (loop [i 0]
+      (run-gc)
+      (if (< i 4)
+        (recur (inc i))))
+    (str "Cleaned up " (mb (- before (used-mem))) " MB of memory")))
 
 (defn mb [bytes]
   (int (/ bytes (* 1024.0 1024.0))))
@@ -50,9 +52,7 @@
   "Display current statistics of the JVM"
   []
   (let [mx    (ManagementFactory/getRuntimeMXBean)
-        props {"Port (vm)"    9000
-               "Port (swank)" 4005
-               "Mem total"    (str (mb (total-mem)) " MB")
+        props {"Mem total"    (str (mb (total-mem)) " MB")
                "Mem used"     (str (mb (used-mem))  " MB")
                "Mem free"     (str (mb (free-mem))  " MB")
                "Start time"   (.toString (Date. (.getStartTime mx)))
@@ -77,7 +77,7 @@
   (let [stl (SystemThreadList.)]
     (map #(.getName %) (.getAllThreads stl))))
 
-(defn -main [& args]
+(defn -main [port]
   (create-repl-server 9500)
   (nrepl/start-server 9000)
   (System/setSecurityManager nil))

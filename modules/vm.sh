@@ -37,7 +37,7 @@ start() {
 
     rm -f ${JARK_CONFIG_DIR}/jark.client
 
-    java ${FLAGS_jvm_opts} -cp ${JARK_CP}:${JARK_JAR} jark.vm <&- & 2&> /dev/null
+    java ${FLAGS_jvm_opts} -cp ${JARK_CP}:${JARK_JAR} jark.vm $port <&- & 2&> /dev/null
     pid=$!
     echo ${pid} > ${JARK_CONFIG_DIR}/jark.pid
     echo ${port} > ${JARK_CONFIG_DIR}/jark.port
@@ -81,7 +81,8 @@ threads() {
 }
 
 stat() {
-    echo -e "Remote host \t  `cat ${JARK_CONFIG_DIR}/jark.host`"
+    echo -e "Remote host \t `cat ${JARK_CONFIG_DIR}/jark.host`"
+    echo -e "Port        \t `cat ${JARK_CONFIG_DIR}/jark.port`"
     $JARK_CLIENT jark.vm stats
     exit 0
 }

@@ -1,15 +1,20 @@
 (ns jark.package
+  (:doc "Package utilities. Adapted from cljr")
   (:gen-class)
   (:use [cljr core main clojars http])
   (:use [leiningen.deps :only (deps)])
   (:use [clojure.java.io :only (file copy)])
   (:refer-clojure :exclude [list find alias]))
 
-(defn list []
+(defn list
+  "List all packages that are installed"
+  []
   (let [dependencies (:dependencies (get-project))]
     (into {} (map #(vector (first %) (second %)) dependencies))))
 
 (defn install
+  "Installs a given package name from available.the list of repositories
+   If the version is not provided, the latest version is assumed"
   ([library-name]
      (let [version (get-latest-version library-name)]
        (if version
@@ -39,18 +44,23 @@
     (:version dep)))
 
 (defn dependencies
+  "Lists the dependecies for the given package name and version"
   [library-name version]
   (let [d (get-library-dependencies library-name version)]
     (into {} (map #(vector (get-library %) (get-version %)) d))))
 
-(defn versions [library-name]
+(defn versions
+  "Lists the available versions for the package on remote repositories"
+  [library-name]
   (let [response (http-get-text-seq *clojars-all-jars-url*)
         entries  (filter #(= (first %) (symbol library-name))
                         (for [line response]
                           (read-string line)))]
     (into {} (map #(vector (first %) (second %)) entries))))
 
-(defn search [term]
+(defn search
+  
+  [term]
   (let [response (http-get-text-seq *clojars-all-jars-url*)
         entries  (for [line response :when (.contains line term)]
                    (read-string line))]

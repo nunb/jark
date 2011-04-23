@@ -48,7 +48,7 @@ class Repl(cmd.Cmd):
         if self.debug:
             print 'put :', self.current_exp
             print 'got :', res
-        # FIXME: check for compilerException
+
         if res['ns'] != "user":
             self.prompt = repl_prompt(res['ns'])
             self.ns = res['ns']
@@ -240,6 +240,9 @@ if __name__ == '__main__':
         message = dispatch(escape_args(args))
 
     f = send(options.host, options.port, message)
+    if not f:
+        print "No response from server"
+        sys.exit(0)
 
     if not options.require:
         r = decode_response(f)
