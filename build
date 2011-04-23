@@ -26,7 +26,7 @@ build_server() {
         exit 1
     fi
     echo "Getting dependencies.."
-    lein jar
+    lein deps && lein jar
 
     touch jark-deps.txt
     :> jark-deps.txt

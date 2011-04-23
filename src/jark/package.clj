@@ -1,6 +1,6 @@
 (ns jark.package
   (:gen-class)
-  (:use [cljr core main clojars http])
+  (:use [cljr core clojars http])
   (:use [leiningen.deps :only (deps)])
   (:use [clojure.java.io :only (file copy)])
   (:refer-clojure :exclude [list find alias]))
@@ -30,9 +30,13 @@
 	  proj-str (project-clj-string updated-project
 				       {:dependencies (:dependencies updated-project)})]
       (println "Installing version " library-version " of " library-name "...")
+      (println (str (get-cljr-home) (sep) project-clj))
       (spit (str (get-cljr-home) (sep) project-clj) proj-str)
-      (deps (get-project)))
-    (str "Installed library " library-name , " - ", library-version)))
+      (deps (get-project))
+      (str "Installed library " library-name , " - ", library-version))))
+
+(defn boo []
+  (deps (get-project)))
 
 (defn get-library [d]
   (let [dep (apply merge (map #(hash-map (:tag %) (first (:content %))) d))]
