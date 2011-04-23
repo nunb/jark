@@ -91,7 +91,8 @@ class Repl(cmd.Cmd):
         return [str(x) for x in c]
 
     def completedefault(self, text, line, begidx, endidx):
-        return [i for i in completions if i.startswith(text)]
+        cm = completions + self.get_completions()
+        return [i for i in cm if i.startswith(text)]
 
 def send(host, port, message):
     try:
