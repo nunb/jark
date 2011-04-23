@@ -1,6 +1,6 @@
 (ns jark.package
   (:gen-class)
-  (:use [cljr core main clojars http])
+  (:use [cljr core clojars http])
   (:use [leiningen.deps :only (deps)])
   (:use [clojure.java.io :only (file copy)])
   (:refer-clojure :exclude [list find alias]))

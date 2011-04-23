@@ -1,7 +1,6 @@
 src/server/lib/ant-1.6.5.jar
 src/server/lib/ant-launcher-1.6.5.jar
 src/server/lib/classworlds-1.1-alpha-2.jar
-src/server/lib/cljr-1.0.0-20100502.112537-14.jar
 src/server/lib/clojure-1.2.0.jar
 src/server/lib/clojure-contrib-1.2.0.jar
 src/server/lib/jline-0.9.94.jar
@@ -21,8 +20,7 @@ src/server/lib/maven-settings-2.0.10.jar
 src/server/lib/plexus-container-default-1.0-alpha-9-stable-1.jar
 src/server/lib/plexus-interpolation-1.1.jar
 src/server/lib/plexus-utils-1.5.5.jar
-src/server/lib/swank-clojure-1.2.0.jar
-src/server/lib/swingrepl-1.0.0-20100502.112537-4.jar
+src/server/lib/swank-clojure-1.3.0.jar
 src/server/lib/tools.nrepl-0.0.4.jar
 src/server/lib/wagon-file-1.0-beta-2.jar
 src/server/lib/wagon-http-lightweight-1.0-beta-2.jar
