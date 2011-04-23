@@ -74,11 +74,11 @@ class Repl(cmd.Cmd):
 
         if exp.startswith('/debug on') or exp.startswith('/debug true'):
             self.debug = True
-            print 'debug is turned on'
+            print 'debug is ON'
             return None
         if exp.startswith('/debug off') or exp.startswith('/debug false'):
             self.debug = False        
-            print 'debug is turned off'
+            print 'debug is OFF'
             return None
         
         c = 'jark ' + exp.strip('/')
