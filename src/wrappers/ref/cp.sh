@@ -2,7 +2,7 @@
 DOC="Classpath utilities"
 
 commands() {
-    echo -e "list add run"
+    echo -e "list add"
     exit 0
 }
 
@@ -56,12 +56,5 @@ list() {
 
 ls() {
     list
-    exit 0
-}
-
-run() {
-    local mainclass="$1"
-    touch classpath
-    $JARK_CLIENT jark.cp run $mainclass
     exit 0
 }

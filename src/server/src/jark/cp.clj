@@ -6,11 +6,15 @@
   (:use clojure.contrib.classpath)
   (:gen-class))
 
-(defn ls []
+(defn ls
+  "Lists all the entries in CLASSPATH"
+  []
   (let [urls (seq (.getURLs (java.lang.ClassLoader/getSystemClassLoader)))]
     (map (memfn toString) urls))) 
   
-(defn add [#^String jarpath] 
+(defn add
+  "Adds an entry to CLASSPATH, dynamically"
+  [#^String jarpath] 
  (let [#^URL url   (.. (File. jarpath) toURI toURL) 
        cls         (. (URLClassLoader. (into-array URL [])) getClass) 
        acls        (into-array Class [(. url getClass)]) 
@@ -21,5 +25,7 @@
      (.invoke (ClassLoader/getSystemClassLoader) aobj))
    nil))
 
-(defn exists? [path]
+(defn exists?
+  "Checks if the given entry exists in CLASSPATH"
+  [path]
   (some #(= path %) (ls)))

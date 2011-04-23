@@ -8,8 +8,6 @@
   (:require jark.cp)
   (:use clojure.contrib.json))
 
-(defn- ns-doc [] "Namespace utilities")
-
 (defn- namespaces []
   (find-namespaces-on-classpath))
 
@@ -36,31 +34,6 @@
   (let [basename (.getParentFile (File. file))]
     (jark.cp/add (.toString basename)))
   (load-file file))
-
-(defn repl
-  "Launch a repl with given ns"
-  [namespace]
-  (clojure.main/repl
-    :init  (fn [] (in-ns (symbol namespace)))
-   
-    :prompt #(printf
-              "\033[1;38;5;51m%s\033[1;38;5;45m>>\033[0m "
-               (ns-name *ns*))
-    :print (try
-             (fn [x]
-               (print "\033[38;5;77m")
-               ((resolve 'clojure.contrib.pprint/pprint) x)
-               (print "\033[m")
-               (flush))
-             (catch Exception e
-               (prn e)))
-    :caught (fn [x]
-              (print "\033[38;5;220m")
-              (prn x)
-              (print "\033[m")
-              (flush))))
-
-;; dispatcher functions
 
 (defn require-ns [n]
   (require (symbol n)))
@@ -115,6 +88,7 @@
     (catch FileNotFoundException e (println "No such module" e))))
 
 (defn dispatch
+  "Dispatches to the right Namespace, Function and Args"
   ([n]
      (json-str (dispatch-ns n)))
   ([n f & args]
@@ -132,7 +106,7 @@
            (catch NullPointerException e (println "No such command")))))))
 
 (defn run
-  "runs the given main function"
+  "Runs the class/ns containing a -main function"
   [main-ns & args]
   (require-ns main-ns)
   (apply (resolve (symbol (str main-ns "/-main"))) args))

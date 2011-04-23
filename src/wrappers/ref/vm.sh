@@ -37,14 +37,14 @@ start() {
 
     rm -f ${JARK_CONFIG_DIR}/jark.client
 
-    java ${FLAGS_jvm_opts} -cp ${JARK_CP}:${JARK_JAR} jark.vm <&- & 2&> /dev/null
+    java ${FLAGS_jvm_opts} -cp ${JARK_CP}:${JARK_JAR} jark.vm $port <&- & 2&> /dev/null
     pid=$!
     echo ${pid} > ${JARK_CONFIG_DIR}/jark.pid
     echo ${port} > ${JARK_CONFIG_DIR}/jark.port
     echo "Started jark-nrepl server on port $port"
 
-    sleep 8
-    $JARK vm connect
+    sleep 5
+    $JARK vm connect --port $port
 
     if [ -e $CLJR_CP/jark-deps.txt ]; then
         for dep in `cat $CLJR_CP/jark-deps.txt`; do
@@ -81,6 +81,8 @@ threads() {
 }
 
 stat() {
+    echo -e "Remote host \t `cat ${JARK_CONFIG_DIR}/jark.host`"
+    echo -e "Port        \t `cat ${JARK_CONFIG_DIR}/jark.port`"
     $JARK_CLIENT jark.vm stats
     exit 0
 }
@@ -89,7 +91,6 @@ stats() {
     $JARK_CLIENT jark.vm stats
     exit 0
 }
-
 
 gc() {
     $JARK_CLIENT jark.vm gc
