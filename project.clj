@@ -6,7 +6,5 @@
                  [leiningen "1.1.0"]
                  [org.clojure/tools.nrepl "0.0.4"]]
 
-  :repositories  {"stuartsierra" "http://stuartsierra.com/maven2"}
-
   :aot [jark.vm jark.cp jark.ns jark.swank jark.doc jark.package
         cljr.core cljr.clojars]) 
