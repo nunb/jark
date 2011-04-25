@@ -9,7 +9,7 @@ commands() {
 }
 
 _doc() {
-    echo -e "jark swank start [--port -p (4005)]"
+    echo -e "jark swank start [--port -p (4005)] [--host -l (0.0.0.0)]"
     echo -e "\tStart a local swank server on the default port"
     echo -e ""
     echo -e "jark swank stop"
