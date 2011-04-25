@@ -21,6 +21,7 @@ start() {
 
     $JARK_CLIENT jark.swank start ${FLAGS_host} ${FLAGS_port}
     if [ "$?" == "0" ]; then
+        echo "Started swank server on ${FLAGS_host}:${FLAGS_port}"
         exit 0
     else
         echo "Failed to start swank server"

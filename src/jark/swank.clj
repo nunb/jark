@@ -8,4 +8,4 @@
   (let [port (Integer. port)]
     (ignore-protocol-version nil)
     (start-repl port :host host)
-    true))
+    nil))
