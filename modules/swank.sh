@@ -11,9 +11,6 @@ commands() {
 _doc() {
     echo -e "jark swank start [--port -p (4005)] [--host -l (0.0.0.0)]"
     echo -e "\tStart a local swank server on the default port"
-    echo -e ""
-    echo -e "jark swank stop"
-    echo -e "\tStop the local swank server on the default port."
 }
 
 start() {
@@ -22,8 +19,6 @@ start() {
     FLAGS "$@" || exit 1
     eval set -- "${FLAGS_ARGV}"
 
-    #FIXME
-    echo ${FLAGS_port} > /tmp/swank.port
     $JARK_CLIENT jark.swank start ${FLAGS_host} ${FLAGS_port}
     if [ "$?" == "0" ]; then
         exit 0
@@ -34,6 +29,7 @@ start() {
 }
 
 stop() {
-    $JARK_CLIENT jark.swank stop
+    echo "Not implemented yet"
+    exit 1
 }
 
