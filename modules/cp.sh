@@ -39,6 +39,10 @@ add() {
     fi
 
     jp=$(readlink_f $jar)
+    if [ ! -e $jp ]; then
+        echo "File does not exist"
+        exit 1
+    fi
     if [ $? == "0" ]; then
         $JARK_CLIENT jark.cp add $jar
         echo "Added $jar"

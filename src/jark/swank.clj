@@ -4,12 +4,8 @@
 
 (defn start
   "Start a swank repl"
-  ([port]
-     (let [port (Integer. port)]
-       (swank.swank/ignore-protocol-version nil)
-       (start-repl port)))
-  ([]
-     (start-repl 4005)))
-
-(defn stop []
-  "stop a remote swank")
+  [host port]
+  (let [port (Integer. port)]
+    (ignore-protocol-version nil)
+    (start-repl port :host host)
+    true))
