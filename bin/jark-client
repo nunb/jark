@@ -109,6 +109,7 @@ def send(host, port, message):
     f = c.makefile('rw')
     f.writelines(message)
     f.flush()
+    c.close()
     return f
 
 def get_id():
@@ -245,6 +246,7 @@ if __name__ == '__main__':
     if len(args) < 1 and not options.require:
         parser.error("wrong number of arguments")
 
+    
     if options.require:
         message = require(options.require)
     else:
