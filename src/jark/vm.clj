@@ -5,6 +5,7 @@
   (:use clojure.contrib.pprint)
   (:import (jark SystemThreadList))
   (:import (java.lang.management RuntimeMXBean ManagementFactory))
+  (:import (java.net ServerSocket))
   (:import (java.util Date)))
 
 (defn used-mem []
@@ -77,7 +78,13 @@
   (let [stl (SystemThreadList.)]
     (map #(.getName %) (.getAllThreads stl))))
 
+(defn random-port []
+  (let [s     (new ServerSocket 0)
+        port  (.getLocalPort s)]
+    (.close s)
+    port))
+    
 (defn -main [port]
-  (create-repl-server 9500)
+  (create-repl-server (random-port))
   (nrepl/start-server (Integer. port))
   (System/setSecurityManager nil))
