@@ -1,10 +1,34 @@
 
 DOC="Module for working with cljr build system"
 
-. ${CLJR_BIN}/shflags
+. ${JARK_BIN}/shflags
 
 commands() {
     echo -e "install uninstall versions deps search installed latest"
+}
+
+_doc() {
+    echo -e "jark package install (--package -p PACKAGE) [--version -v]"
+    echo -e "\tInstall the relevant version of package from clojars."
+    echo -e ""
+    echo -e "jark package uninstall (--package -p PACKAGE)"
+    echo -e "\tUninstall the package."
+    echo -e ""
+    echo -e "jark package versions (--package -p PACKAGE)"
+    echo -e "\tList the versions of package installed."
+    echo -e ""
+    echo -e "jark package deps (--package -p PACKAGE) [--version -v]"
+    echo -e "\tPrint the library dependencies of package."
+    echo -e ""
+    echo -e "jark package search (--package -p PACKAGE)"
+    echo -e "\tSearch clojars for package."
+    echo -e ""
+    echo -e "jark package installed"
+    echo -e "\tList all packages installed."
+    echo -e ""
+    echo -e "jark package latest (--package -p PACKAGE)"
+    echo -e "\tPrint the latest version of the package."
+    echo -e ""
 }
 
 install() {
@@ -18,9 +42,9 @@ install() {
     fi
         
     if [ ${FLAGS_version} == "0" ]; then
-        $JARK_CLIENT cljr.App install ${FLAGS_package}
+        $JARK_CLIENT jark.package install ${FLAGS_package}
     else
-        $JARK_CLIENT cljr.App install ${FLAGS_package} ${FLAGS_version}
+        $JARK_CLIENT jark.package install ${FLAGS_package} ${FLAGS_version}
     fi
     exit 0
 }
@@ -33,7 +57,8 @@ uninstall() {
         echo "USAGE: jark package uninstall --package PACKAGE"
         exit 1
     fi
-    $JARK_CLIENT cljr.App uninstall ${FLAGS_package}
+    $JARK_CLIENT jark.package uninstall ${FLAGS_package}
+    exit 0
 }
 
 versions() {
@@ -44,7 +69,7 @@ versions() {
         echo "USAGE: jark package versions --package PACKAGE"
         exit 1
     fi
-    $JARK_CLIENT cljr.App versions ${FLAGS_package}
+    $JARK_CLIENT jark.package versions ${FLAGS_package}
     exit 0
 }
 
@@ -56,11 +81,18 @@ search() {
         echo "USAGE: jark package search --package PACKAGE"
         exit 1
     fi
-    $JARK_CLIENT cljr.App search ${FLAGS_package}
+    $JARK_CLIENT jark.package search ${FLAGS_package}
+    exit 0
 }
 
 installed() {
-    $JARK_CLIENT cljr.App list
+    $JARK_CLIENT jark.package list | uniq
+    exit 0
+}
+
+list() {
+    $JARK_CLIENT jark.package list | uniq
+    exit 0
 }
 
 latest() {
@@ -71,7 +103,8 @@ latest() {
         echo "USAGE: jark package latest --package PACKAGE"
         exit 1
     fi
-    $JARK cljr.clojars get-latest-version ${FLAGS_package}
+    $JARK jark.package latest-version ${FLAGS_package}
+    exit 0
 }
 
 deps() {
@@ -86,9 +119,9 @@ deps() {
 
     if [ ${FLAGS_version} == "0" ]; then
         ver=`$JARK cljr.clojars get-latest-version ${FLAGS_package}`
-        $JARK cljr.clojars print-library-dependencies ${FLAGS_package} $ver
+        $JARK jark.package dependencies ${FLAGS_package} $ver
     else
-        $JARK cljr.clojars print-library-dependencies ${FLAGS_package} ${FLAGS_version}
+        $JARK jark.package dependencies ${FLAGS_package} ${FLAGS_version}
     fi
     exit 0
 }

@@ -1,7 +1,0 @@
-k* long and short arg format
-* multimethods for pretty-printing
-* cp remove
-* swank start --port 
-* uptime in readable format 
-* validations
-* Type inference

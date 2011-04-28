@@ -1,26 +1,39 @@
-(ns jark.core
+(ns jark.ns
   (:gen-class)
-  (:use clojure.contrib.ns-utils)
   (:use clojure.contrib.pprint)
-  (:import (java.io File FileReader PushbackReader FileWriter BufferedReader InputStreamReader))
-  (:import (java.io FileNotFoundException)))
+  (:use clojure.contrib.ns-utils)
+  (:use clojure.contrib.find-namespaces)
+  (:refer-clojure :exclude [list find alias])
+  (:import (java.io File FileNotFoundException))
+  (:require jark.cp)
+  (:use clojure.contrib.json))
 
-(defn jark-load
+(defn- namespaces []
+  (find-namespaces-on-classpath))
+
+(defn- starting-with [module]
+  (if (= (count (namespaces)) 0)
+    (sort (filter #(. (str %) startsWith module) (namespaces)))
+    (sort (filter #(. (str %) startsWith module) (map #(ns-name %) (all-ns))))))
+
+(defn list
+  "List all namespaces in the classpath. Optionally takes a namespace prefix"
+  ([]
+     (sort (namespaces)))
+  ([module]
+     (starting-with module)))
+
+(defn find
+  "Find all namespaces containing the given name"
+  [module]
+  (starting-with module))
+
+(defn load-clj
   "Loads the given clj file, and adds relative classpath"
   [file]
+  (let [basename (.getParentFile (File. file))]
+    (jark.cp/add (.toString basename)))
   (load-file file))
-
-(defn jark-compile
-  [compile-path namespace]
-  (binding [*compile-path* compile-path]
-    (compile (symbol namespace))))
-
-(defn pp-plist [p]
-  (cl-format true "~{~20A - ~A~%~}" p))
-
-(defn pp-map [m]
-  (let [p (mapcat #(vector (key %) (val %)) m)]
-    (pp-plist p)))
 
 (defn require-ns [n]
   (require (symbol n)))
@@ -48,13 +61,10 @@
 (defn help
   ([n]
      (require-ns n)
-     (let [p (mapcat #(vector % (fn-doc n %)) (fns n))]
-       (pp-plist p)))
+     (into {} (map #(vector % (fn-doc n %)) (fns n))))
   
   ([n f]
-     (do
-       (println (fn-doc n f))
-       (println (fn-usage n f)))))
+     (fn-usage n f)))
 
 (defn about
   [n]
@@ -67,15 +77,6 @@
     (help n)
     (help n f)))
 
-(defn cmd [p]
-  (.. Runtime getRuntime (exec (str p))))
-
-(defn cmdout [o]
-  (let [r (BufferedReader.
-           (InputStreamReader.
-            (.getInputStream o)))]
-    (dorun (map println (line-seq r)))))
-
 (defn apply-fn [n f & args]
   (apply (resolve (symbol (str n "/" f))) args))
 
@@ -86,9 +87,10 @@
     (help n)
     (catch FileNotFoundException e (println "No such module" e))))
 
- (defn -main
+(defn dispatch
+  "Dispatches to the right Namespace, Function and Args"
   ([n]
-     (dispatch-ns n))
+     (json-str (dispatch-ns n)))
   ([n f & args]
      (if (or (= (first args) "help") (= f "help"))
        (explicit-help n f)
@@ -96,6 +98,16 @@
          (require-ns n)
          (try
            (let [ret (apply (resolve (symbol (str n "/" f))) args)]
-             (when ret (println ret)))
+             (when ret
+               (if (or (var? ret) (= (type ret) java.lang.Class))
+                 ret
+                 (json-str ret))))
            (catch IllegalArgumentException e (help n f))
            (catch NullPointerException e (println "No such command")))))))
+
+(defn run
+  "Runs the class/ns containing a -main function"
+  [main-ns & args]
+  (require-ns main-ns)
+  (apply (resolve (symbol (str main-ns "/-main"))) args))
+

@@ -1,53 +1,66 @@
 
 DOC="Module to manage the JVM server"
 
-. ${CLJR_BIN}/shflags
+. ${JARK_BIN}/shflags
 
 commands() {
     echo -e "start stop connect threads uptime gc"
 }
 
-ng_server_start() {
-    local port="$0"
-    echo $port
-    java -cp ${JARK_CP}:${JARK_JAR} -server com.martiansoftware.nailgun.NGServer $port <&- & 
-    pid=$!
-    echo ${pid} > /tmp/ng.pid
+_doc() {
+    echo -e "jark vm start [--port -p (9000)] [--jvm_opts o]"
+    echo -e "\tStart a local Jark server. Takes optional JVM options as a \" delimited string."
+    echo -e "\tTakes optional JVM options as a \" delimited string."
+    echo -e ""
+    echo -e "jark vm stop"
+    echo -e "\tShuts down the current Jark server."
+    echo -e ""
+    echo -e "jark vm connect [--host -r (localhost)] [--port -p (9000)]"
+    echo -e "\tConnect to a remote JVM."
+    echo -e ""
+    echo -e "jark vm threads"
+    echo -e "\tPrint a list of JVM threads."
+    echo -e ""
+    echo -e "jark vm uptime"
+    echo -e "\tThe uptime of the current Jark server."
+    echo -e ""
+    echo -e "jark vm gc"
+    echo -e "\tRun garbage collection on the current Jark server."
 }
 
 start() {
-    DEFINE_string 'port' '2113' 'remote jark port' 'p'
-    DEFINE_string 'jvm_opts' '-Xms64m -Xmx256m' 'JVM Opts' 'o'
+    DEFINE_string 'port' '9000' 'remote jark port' 'p'
+    DEFINE_string 'jvm_opts' '-Xms64m -Xmx256m -DNOSECURITY=true' 'JVM Opts' 'o'
     FLAGS "$@" || exit 1
     eval set -- "${FLAGS_ARGV}"
     port=${FLAGS_port}
 
-    rm -f /tmp/jark.client
+    rm -f ${JARK_CONFIG_DIR}/jark.client
 
-    java ${FLAGS_jvm_opts} -cp ${JARK_CP}:${JARK_JAR} -server com.martiansoftware.nailgun.NGServer $port <&- & 2&> /dev/null 
+    java ${FLAGS_jvm_opts} -cp ${JARK_CP}:${JARK_JAR} jark.vm $port <&- & 2&> /dev/null
     pid=$!
-    echo ${pid} > /tmp/jark.pid
-    echo ${port} > /tmp/jark.port
-    echo "${CLJR_BIN}/ng --nailgun-port $port" > /tmp/jark.client
+    echo ${pid} > ${JARK_CONFIG_DIR}/jark.pid
+    echo ${port} > ${JARK_CONFIG_DIR}/jark.port
+    echo "Started jark-nrepl server on port $port"
 
-    sleep 2
-    echo "Loading modules ..."
-    $JARK &> /dev/null
+    sleep 5
+    $JARK vm connect --port $port
+
     if [ -e $CLJR_CP/jark-deps.txt ]; then
-        echo "Adding dependencies to classpath ..."
         for dep in `cat $CLJR_CP/jark-deps.txt`; do
            $JARK cp add ${CLJR_ROOT}/$dep &> /dev/null
         done;
     fi
     if [ -e `pwd`/project.clj ] && [ -d `pwd`/src ] && [ -d `pwd`/lib ]; then
-        $JARK cp add `pwd`/src
+        $JARK cp add `pwd`/src 
         $JARK cp add `pwd`/lib
     fi
-        
+    echo "Added dependencies to classpath"
+    
+    sleep 2
     if [ -e $HOME/.jarkrc ]; then
         source $HOME/.jarkrc
     fi
-    echo "Started JVM server on port $port"
     exit 0
 }
 
@@ -56,44 +69,56 @@ stop() {
         echo "JVM server has already been stopped"
         exit 0
     fi
-    echo "Stopping JVM server with pid `cat /tmp/jark.pid`"
-    $JARK_CLIENT ng-stop
-    rm -rf /tmp/jark.*
+    echo "Stopping JVM server with pid `cat ${JARK_CONFIG_DIR}/jark.pid`"
+    $JARK_CLIENT jark.vm stop
+    rm -rf ${JARK_CONFIG_DIR}/jark.*
     exit 0
 }
 
 threads() {
-    $JARK _stat threads
+    $JARK_CLIENT jark.vm threads | grep -v ^Thread | grep -v "pool-"
+    exit 0
 }
 
 stat() {
-    $JARK _stat stats
+    echo -e "Remote host \t `cat ${JARK_CONFIG_DIR}/jark.host`"
+    echo -e "Port        \t `cat ${JARK_CONFIG_DIR}/jark.port`"
+    $JARK_CLIENT jark.vm stats
+    exit 0
+}
+
+stats() {
+    $JARK_CLIENT jark.vm stats
+    exit 0
 }
 
 gc() {
-    $JARK _stat gc
+    $JARK_CLIENT jark.vm gc
+    exit 0
 }
 
 uptime() {
-    $JARK _stat uptime
+    $JARK_CLIENT jark.vm uptime
+    exit $?
 }
 
 connect() {
-    DEFINE_string 'port' '2113' 'remote jark port' 'p'
-    DEFINE_string 'host' 'localhost' 'remote host' 'r'
+    DEFINE_string 'port' '9000' 'jark port' 'p'
+    DEFINE_string 'host' 'localhost' 'jark host' 'r'
 
     FLAGS "$@" || exit 1
     eval set -- "${FLAGS_ARGV}"
+    echo ${FLAGS_host} > ${JARK_CONFIG_DIR}/jark.host
+    echo ${FLAGS_port} > ${JARK_CONFIG_DIR}/jark.port
+    sleep 2
+    $JARK_CLIENT jark.vm uptime 2&> /dev/null
+    sleep 2
+    $JARK_CLIENT jark.vm uptime 2&> /dev/null
 
-    cp /tmp/jark.client /tmp/jark.client.pre 2&> /dev/null
-    echo "${CLJR_BIN}/ng --nailgun-server ${FLAGS_host} --nailgun-port ${FLAGS_port}" > /tmp/jark.client
-
-    if [ $(is_jark_running) == "no" ]; then 
-        echo "Failed to establish connection"
-        mv /tmp/jark.client.pre /tmp/jark.client 2&> /dev/null
-        exit 1
+    if [ $? == "0" ]; then
+        echo "Connected to ${FLAGS_host}:${FLAGS_port}"
     else
-        echo "Connection established successfully"
-        exit 0
+        echo "Failed connecting to ${FLAGS_host}:${FLAGS_port}"
     fi
+    exit 0 
 }

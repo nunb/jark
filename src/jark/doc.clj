@@ -1,6 +1,5 @@
-(ns jark._doc
+(ns jark.doc
   (:refer-clojure :exclude [bytes])
-  (:use jark.core)
   (:use clojure.contrib.json)
   (:use clojure.contrib.http.agent))
 
@@ -11,24 +10,25 @@
       (println (:body i)))))
 
 (defn- pp-search [res]
-  (let [p (mapcat #(vector (:name %) (:ns %)) res)]
-    (pp-plist p)))
+  (let [p (into {} (map #(vector (:name %) (:ns %)) res))]
+    p))
 
 (defn- pp-comments [res]
   res)
 
 (defn search [function]
-  (pp-search (read-json
-              (string (http-agent (str "http://api.clojuredocs.org/search/" function))))))
+  (pp-search
+   (read-json
+   (string (http-agent (str "http://api.clojuredocs.org/search/" function))))))
 
 (defn examples
   ([sym]
      (pp-examples (read-json
-                (string (http-agent (str "http://api.clojuredocs.org/examples/clojure.core/" sym))))))
+                   (string (http-agent (str "http://api.clojuredocs.org/examples/clojure.core/" sym))))))
 
   ([sym namespace]
      (pp-examples (read-json
-                (string (http-agent (str "http://api.clojuredocs.org/examples/" namespace "/" sym)))))))
+                   (string (http-agent (str "http://api.clojuredocs.org/examples/" namespace "/" sym)))))))
 
 (defn comments
   ([sym]

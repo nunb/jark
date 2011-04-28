@@ -9,7 +9,7 @@
 
 DOC="Module to manage VimClojure instances"
 
-. ${CLJR_BIN}/shflags
+. ${JARK_BIN}/shflags
 
 
 VIMCLOJURE_JAR="${CLJR_CP}/server-2.2.0.jar"
@@ -17,6 +17,21 @@ OPEN_VMS="/tmp/vimclojure.open"
 
 commands() {
     echo -e "start stop cp install"
+}
+
+_doc() {
+    echo -e "jark vim start [--port -p (2443)]"
+    echo -e "\tStart a local VimClojure server with minimum dependencies."
+    echo -e "\tIf the current directory looks like a Leiningen project, try and add to the classpath."
+    echo -e ""
+    echo -e "jark vim stop [--host -o (127.0.0.1)] [--port -p (2443)]"
+    echo -e "\tStop a VimClojure server."
+    echo -e ""
+    echo -e "jark vim cp [--host -o (127.0.0.1)] [--port -p (2443)] *args"
+    echo -e "\tAdd to the classpath of an existing VimClojure server"
+    echo -e ""
+    echo -e "jark vim install"
+    echo -e "\tInstall VimClojure dependencies."
 }
 
 # Get vimclojure deps
@@ -72,7 +87,6 @@ start() {
     pid=$!
 
     echo -e "${pid}\t${host}\t${port}" >> ${OPEN_VMS}
-
     sleep 2
 
     # Add stuff to cp
@@ -118,7 +132,7 @@ stop() {
     echo "Stopping VimClojure server at ${host}:${port} ..."
     echo ""
 
-    VIMCLOJURE="${CLJR_BIN}/ng --nailgun-server ${host} --nailgun-port ${port}"
+    VIMCLOJURE="${JARK_BIN}/ng --nailgun-server ${host} --nailgun-port ${port}"
 
     # Remove entry in open vms
     echo "host = ${host}"
@@ -144,7 +158,7 @@ cp() {
     host=${FLAGS_host}
     port=${FLAGS_port}
 
-    VIMCLOJURE="${CLJR_BIN}/ng --nailgun-server ${host} --nailgun-port ${port}"
+    VIMCLOJURE="${JARK_BIN}/ng --nailgun-server ${host} --nailgun-port ${port}"
 
     # Add to cp
     if [ $@ ]; then

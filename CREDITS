@@ -1,11 +1,19 @@
-Thanks to
+Collaborators:
+Ambrose Bonnaire-Sergeant
 
+Bangalore Clojure User Group:
+Martin Demello
+Kumar Shantanu
 Abhijit Hoskeri
 Abhijith Gopal
-Ambrose Bonnaire-Sergeant
+
+
+For great tools:
 Chas Emerick (for nrepl)
-Kumar Shantanu
-Martin Demello
 Rich Hickey (for clojure)
+technomancy (lein)
+David Edgar Liebke (cljr)
+
+Ideas:
 Scott Jaderholm (for jark scripting)
-Stuart Sierra (for classpath manager)
+Kumar Shantanu

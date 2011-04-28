@@ -1,13 +1,21 @@
 #!/bin/bash
 
 VERSION="TMPL_VERSION"
+<<<<<<< HEAD
 JARK_RELEASE_VERSION="0.2"
+=======
+>>>>>>> 0.3
 BUILD_DATE="TMPL_DATE"
+BUILD_ARCH="TMPL_ARCH"
+BUILD_COMPONENT="TMPL_COMPONENT"
+JARK_RELEASE_VERSION="TMPL_RELEASE_VERSION"
 
 MOD=$1
 CLJR_ROOT="$HOME/.cljr"
-CLJR_CP="$HOME/.cljr/lib"
-CLJR_BIN="$HOME/.cljr/bin"
+JARK_ROOT="$HOME/.config/jark"
+JARK_BIN="${JARK_ROOT}/bin"
+
+CLJR_CP="${CLJR_ROOT}/lib"
 
 ARCH=`uname -m`
 
@@ -41,17 +49,17 @@ else
 fi
 
 CLOJURE_JARS="${CLJR_CP}/clojure-1.2.0.jar:${CLJR_CP}/clojure-contrib-1.2.0.jar"
-DEP_JARS="${CLJR_CP}/nailgun-0.7.1.jar:${CLJR_CP}/swank-clojure-1.2.0.jar:${CLJR_CP}/classpath-manager-1.1.0.jar"
+DEP_JARS="${CLJR_CP}/tools.nrepl-0.0.4.jar:${CLJR_CP}/swank-clojure-1.3.0.jar"
 
 JARK_CP="${CLOJURE_JARS}:${DEP_JARS}:${JARK_JAR}:"
-JARK_MODULES_DIR="${CLJR_CP}/jark"
-JARK_BIN="${CLJR_BIN}/ng"
+JARK_MODULES_DIR="${JARK_ROOT}/modules"
+JARK_CONFIG_DIR="${JARK_ROOT}"
 
 # some cleanups
 
 get_pid() {
-    if [ -e /tmp/jark.pid ]; then
-        p=$(cat /tmp/jark.pid)
+    if [ -e ${JARK_CONFIG_DIR}/jark.pid ]; then
+        p=$(cat ${JARK_CONFIG_DIR}/jark.pid)
         if [ $p ]; then
             echo $p
         else
@@ -63,35 +71,35 @@ get_pid() {
 }
 
 get_port() {
-    if [ -e /tmp/jark.port ]; then
-        p=$(cat /tmp/jark.port)
+    if [ -e ${JARK_CONFIG_DIR}/jark.port ]; then
+        p=$(cat ${JARK_CONFIG_DIR}/jark.port)
         if [ $p ]; then
             echo $p
         else
-            echo 0
+            echo 9000
         fi
     else
-        echo 0
+        echo 9000
     fi
 }
 
-get_client() {
-    if [ -e /tmp/jark.client ]; then
-        p=$(cat /tmp/jark.client)
-        if [ "$p" ]; then
-            echo "$p"
+get_host() {
+    if [ -e ${JARK_CONFIG_DIR}/jark.host ]; then
+        p=$(cat ${JARK_CONFIG_DIR}/jark.host)
+        if [ $p ]; then
+            echo $p
         else
-            echo 0
+            echo "localhost"
         fi
     else
-        echo 0
+        echo "localhost"
     fi
 }
 
 
 get_ns() {
-    if [ -e /tmp/jark.ns ]; then
-        p=$(cat /tmp/jark.ns)
+    if [ -e ${JARK_CONFIG_DIR}/jark.ns ]; then
+        p=$(cat ${JARK_CONFIG_DIR}/jark.ns)
         if [ "$p" ]; then
             echo "$p"
         else
@@ -102,9 +110,11 @@ get_ns() {
     fi
 }
 
+JARK_CLIENT="${JARK_BIN}/jark-client --host $(get_host) --port $(get_port)"
+
 
 is_jark_running() {
-    $(get_client) jark.core jark._stat uptime &> /dev/null
+    $JARK_CLIENT vm uptime 2&> /dev/null
     if [ $? == "0" ]; then
         echo "yes"
     else
@@ -117,8 +127,12 @@ clj_temp_file() {
     echo "/tmp/$(basename $f).clj"
 }
 
+require() {
+    local module="$1"
+    $JARK_CLIENT -r "jark.$module"
+}
+
 running=`is_jark_running`
-JARK_CLIENT=$(get_client)
 
 if [ "$1"  == "repl" ]; then
     # TODO: remember last used repl
@@ -142,8 +156,11 @@ if [ "$1"  == "run" ]; then
 fi
 
 if [ "$1"  == "version" ]; then
-    echo "git hash: $VERSION"
-    echo "build: $BUILD_DATE"
+    echo "git hash      : $VERSION"
+    echo "arch          : $BUILD_ARCH"
+    echo "date          : $BUILD_DATE"
+    echo "component     : $BUILD_COMPONENT"
+    echo "jark version  : $JARK_RELEASE_VERSION"
     exit 0
 fi
 
@@ -159,42 +176,57 @@ export JARK_JAR
 export DEP_JARS
 export JARK_CP
 export JARK_CLIENT
-export CLJR_ROOT
+export JARK_ROOT
 export CLJR_CP
-export CLJR_BIN
+export JARK_BIN
 export is_jark_running
 export VERSION
 export JARK_MODULES_DIR
+export JARK_CONFIG_DIR
 export readlink_f
+export require
 
-mkdir -p ${CLJR_CP}
-mkdir -p ${CLJR_BIN}
-mkdir -p ${JARK_MODULES_DIR}
 
-extract() {
+extract_common() {
+    mkdir -p ${CLJR_CP}
+    mkdir -p ${JARK_BIN}
+    mkdir -p ${JARK_MODULES_DIR}
+
     export TMPDIR=`mktemp -d /tmp/jark.XXXXXX`
     ARCHIVE=`awk '/^__ARCHIVE_BELOW__/ {print NR + 1; exit 0; }' $0`
-    tail -n+$ARCHIVE $0 | tar xz -C $TMPDIR
+    tail -n+$ARCHIVE $0 | tar xzm -C $TMPDIR
     CDIR=`pwd`
     cd $TMPDIR
-
-    cp -av lib/*.jar ${CLJR_CP}/
-    cp -av *.jar ${CLJR_CP}/
-    cp -av bin/ng-${ARCH} ${JARK_BIN}
-    cp -av bin/shflags ${CLJR_BIN}/
-    cp -av bin/clj_completions ${CLJR_BIN}/
-    cp -av bin/project-cljr.clj ${CLJR_ROOT}/project.clj
-
+    echo "Copying client components to ${JARK_ROOT}"
+    cp -a bin/jark-client ${JARK_BIN}/
+    cp -a bin/shflags ${JARK_BIN}/
+    cp -a bin/simplejson.py ${JARK_BIN}/
+    cp -a bin/termcolor.py ${JARK_BIN}/
+    cp -a bin/clj_completions ${JARK_BIN}/
     chmod +x ${JARK_BIN}
-    cp -av modules/* ${JARK_MODULES_DIR}/
+    cp -a modules/* ${JARK_MODULES_DIR}/
+    mkdir -p ${JARK_CONFIG_DIR}
+}
+
+extract_server() {
+    echo "Copying server components to ${CLJR_ROOT}"
+    mkdir -p ${CLJR_CP}/
+    cp -a lib/*.jar ${CLJR_CP}/
+    cp -a *.jar ${CLJR_CP}/
+    cp -a bin/project-cljr.clj ${CLJR_ROOT}/project.clj
     cp jark-deps.txt ${CLJR_CP}/
-    
+}
+
+extract_client() {
+    cp -av bin/jark-client ${JARK_BIN}/
+}
+
+extract_finish() {
     cd $CDIR
     rm -rf $TMPDIR
     echo "Installed successfully."
     exit 0
 }
-
 
 if [ -z $1 ]; then
     echo "USAGE: `basename $0` MODULE COMMAND [ARGS]"
@@ -211,47 +243,38 @@ if [ -z $1 ]; then
             echo -en "$MODULE\t- $(commands)\n"
             
         fi
-
-        if [ "$EXT" == "clj" ]; then
-            if [[ $MODULE == _* ]]; then 
-                continue 
-            fi
-            if [ $running == "yes" ]; then
-                $JARK_CLIENT jark.core jark.core jark-load $i 2&> /dev/null
-                echo -en "$MODULE\t- `$JARK_CLIENT jark.core jark.core about jark.${MODULE} | head -n1 | awk 'sub("....$", "")'`\n"
-            fi
-        fi
-
     done
     exit 0
 
 fi    
 
-if [ $MOD == "self" ] && [ $2 == "install" ]; then
-    extract
+if [ $MOD == "install" ]; then
+    rm -rf ${JARK_ROOT}
+    extract_common
+    extract_${BUILD_COMPONENT}
+    extract_finish
+    exit 0
 fi
 
+
+# FIXME: Windows: use .bat
 MODULE_SH=${JARK_MODULES_DIR}/$MOD.sh
-MODULE_CLJ=${JARK_MODULES_DIR}/$MOD.clj
 
 if [ -e ${MODULE_SH} ]; then
     source ${MODULE_SH}
     if [ -z $2 ]; then
         echo "Available commands: " 
-        for i in `commands`; do
-            echo "  $i";
-        done
-        exit 1
+        _doc
+        exit 0
     fi
     ${2} "${@:3}"
-    exit 0
-elif [ -e ${MODULE_CLJ} ]; then
-    MODULE=`basename ${MODULE_CLJ} | cut -d '.' -f 1` 
-    $JARK_CLIENT jark.core jark.core jark-load ${MODULE_CLJ} 2&> /dev/null
-    $JARK_CLIENT jark.core jark.core jark-compile ${JARK_MODULES_DIR} jark.${MODULE} 2&> /dev/null
-    $JARK_CLIENT jark.core jark.${MODULE} "${@:2}"
-    exit 0
-elif [ -e "$1" ]; then
+    if [ "$?" == "0" ]; then
+        _doc
+        exit 0
+    fi
+    exit 1       
+
+elif [ -e "$1" ] && [ ! -d "$1" ]; then
     if [ "$running" == "no" ]; then
         jark vm start 2&> /dev/null
     fi
@@ -263,13 +286,21 @@ elif [ -e "$1" ]; then
     fi
     LNS=`jark ns load $LOAD_FILE`
     NS=`echo $LNS | cut -d '/' -f 1 | cut -d "'" -f 2`
-    JARK_CLIENT=$(get_client)
-    $JARK_CLIENT jark.core $NS -main "${@:2}"
+
+    JARK_CLIENT="${JARK_BIN}/jark-client --host $(get_host) --port $(get_port)"
+    if [[ $LNS == \#* ]]; then
+        $JARK_CLIENT -- $NS -main "${@:2}"
+    else
+        $JARK ns load $1
+    fi
     rm -f $(clj_temp_file $1)
     exit 0
+
 else
-    $JARK_CLIENT jark.core "${@:1}"
+    ${JARK_CLIENT} -- "${@:1}"
+    exit 0
 fi
+
 
 exit 0
 

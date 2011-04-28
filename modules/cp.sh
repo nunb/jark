@@ -2,7 +2,19 @@
 DOC="Classpath utilities"
 
 commands() {
-    echo -e "list add run"
+    echo -e "list add"
+    exit 0
+}
+
+_doc() {
+    echo -e "jark cp list"
+    echo -e "\tList the classpath for the current Jark server."
+    echo -e ""
+    echo -e "jark cp add args+"
+    echo -e "\tAdd to the classpath for the current Jark server."
+    echo -e ""
+    echo -e "jark cp run main-class"
+    echo -e "\tRun main-class on the current Jark server."
     exit 0
 }
 
@@ -20,37 +32,33 @@ add() {
     if [ -d $jar ]; then
         for i in `find ${jar} -name "*.jar" -print`
         do
-            echo "Adding $i .."
-            $JARK_CLIENT ng-cp $i
+            $JARK_CLIENT jark.cp add $i
         done
-        $JARK_CLIENT ng-cp ${jar}
+        $JARK_CLIENT jark.cp add $jar
         exit 0
     fi
 
     jp=$(readlink_f $jar)
+    if [ ! -e $jp ]; then
+        echo "File does not exist"
+        exit 1
+    fi
     if [ $? == "0" ]; then
-        $JARK_CLIENT ng-cp $jp
-        $JARK_CLIENT ng-cp
+        $JARK_CLIENT jark.cp add $jar
+        echo "Added $jar"
         exit 0
     else
+        echo exiting
         exit 1
     fi
 }
 
 list() {
-    $JARK_CLIENT ng-cp
-     exit 0
+    $JARK_CLIENT jark.cp ls
+    exit 0
 }
 
 ls() {
-    $JARK_CLIENT ng-cp
-     exit 0
-}
-
-run() {
-    local mainclass="$1"
-    touch classpath
-    $JARK_CLIENT ng-alias cm com.stuartsierra.ClasspathManager
-    $JARK_CLIENT cm $mainclass
+    list
     exit 0
 }
