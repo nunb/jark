@@ -6,21 +6,15 @@ head: Jark
 h2. Classpath utils
 
 To list the available classpaths:
-<pre class="terminal"><code>$ jark cp list
+<pre class="terminal"><code>client> jark cp list
  file:/home/icylisper/.cljr/lib/clojure-1.2.0.jar
  file:/home/icylisper/.cljr/lib/clojure-contrib-1.2.0.jar
  ......
 </code></pre>
 
 To add a jar or directory as the classpath:
-<pre class="terminal"><code>$ jark cp add /path/to/jar
-$ jark cp add DIR
+<pre class="terminal"><code>server> jark cp add /path-on-server/to/jar
+client> jark cp add DIR
 </code></pre>
 
-To run a java class:
-<pre class="terminal"><code>$ jark cp run CLASS-MAIN
-eg $ jark cp run clojure.main
-</code></pre>The run command uses Stuart Sierra's "classpath manager":https://github.com/stuartsierra/classpath-manager
-
-
- 
+Note that the path should be that on the server.

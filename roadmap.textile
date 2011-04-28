@@ -19,9 +19,6 @@ h3. 0.1 (proof of concept)
 * License   : Apache License 2
 * Released  : 7 March 2011
 
-<hr>
-h2. Current release
-
 h3. 0.2 (Scripting)
 
 * Start and connect to multiple JVM instances 
@@ -30,7 +27,7 @@ h3. 0.2 (Scripting)
 * Vm utilities - gc, threads, stats
 
 <hr>
-h2. Upcoming releases
+h2. Current release
 
 h3. 0.3 (nrepl protocol)
 
@@ -41,6 +38,9 @@ h3. 0.3 (nrepl protocol)
 ** completions - filenames and symbols on remote JVM
 ** Handle *out*, *err* and value coming from remote JVM
 * License: EPL (that of clojure's)
+
+<hr>
+h2. Upcoming releases
 
 h3. 0.4 (platforms)
 

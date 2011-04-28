@@ -7,7 +7,7 @@ h2. Doc search
 
 Jark looks up clojuredoc.org and other resources for usage and examples of the clojure API.
 We can lookup the examples for a function:
-<pre class="terminal"><code>$ jark doc examples map
+<pre class="terminal"><code>client> jark doc examples map
 =>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 user=> (map inc [1 2 3 4 5])

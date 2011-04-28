@@ -5,7 +5,7 @@ head: Jark
 
 h2. Emacs support
 
-To start the swank server do <code>jark swank start</code>. The same can be added to ~/.jarkrc 
+To start the swank server do <code>client> jark swank start</code>. The same can be added to ~/.jarkrc 
 We can connect from emacs: <code>M-x slime-connect 127.0.0.1 4005</code>
 
 When writing clojure scripts using jark, add the following to .emacs to recognise it as clojure-mode.
@@ -20,7 +20,7 @@ Install the vim server dependencies:
 <pre class="terminal"><code>$ jark vim install</code></pre>
 
 To start the vim server do the following. 
-<pre class="terminal"><code>$ jark vim start
+<pre class="terminal"><code>server> jark vim start
 =>  Starting VimClojure server on port 2443 ...
     NGServer started on all interfaces, port 2443.
     Installing vim nailgun server ..
@@ -32,10 +32,10 @@ To start the vim server do the following.
 </code></pre>defaults to port 2443. Takes a --port option.
 
 To list classpath:
-<pre class="terminal"><code>$ jark vim cp [--port]</code></pre>
+<pre class="terminal"><code>client> jark vim cp [--port]</code></pre>
 
 To add a jar or directory to the classpath:
-<pre class="terminal"><code>$ jark vim cp something.jar [--port]
+<pre class="terminal"><code>client> jark vim cp something.jar [--port]
 </code></pre>
 
 Add the following to .vimrc
@@ -44,6 +44,6 @@ Add the following to .vimrc
 </code></pre>
 
 To shut the vim server down:
-<pre class="terminal"><code>$ jark vim stop --port 2443</code></pre>
+<pre class="terminal"><code>server> jark vim stop --port 2443</code></pre>
 
 The above vim module is contributed by <i>Ambrose Bonnaire-Sergeant</i>

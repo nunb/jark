@@ -5,29 +5,30 @@ head: Jark
 
 h2. Getting started
 
-To install jark, we need "lein":https://github.com/technomancy/leiningen to be installed.
-The build script also requires javac (part of JDK) to be in PATH.
+Download the jark self extracting script "server and client":https://github.com/downloads/icylisper/jark/jark-0.3 or only the "client":https://github.com/downloads/icylisper/jark/jark-0.3-client
 
-<pre class="terminal"><code>$ git clone git://github.com/icylisper/jark.git
-$ cd jark && lein jar
-$ ./build
-$ ./jark self install
-$ cp jark /to/PATH  (where PATH is for example: ~/bin/)
+<pre class="terminal"><code>server> cp jark-0.3 ~/bin/jark (PATH)
+server> jark self install
 </code></pre>
+or to install just the client
+<pre class="terminal"><code>client> jark-0.3-client ~/bin/jark (PATH)
+client> jark self install</code></pre>
 
-So the VM (JVM for now) can be started on any available port. 
+The install command extracts relevant files to ~/.cljr and ~/.config/jark
 
-<pre class="terminal"><code>$ jark vm start [--port]</code></pre>
+We can start the VM on any available port. 
+
+<pre class="terminal"><code>server> jark vm start [--port]</code></pre>
 
 We can connect from any remote host:
-<pre class="terminal"><code>$ jark vm connect [--host] [--port]
+<pre class="terminal"><code>client> jark vm connect [--host] [--port]
 </code></pre>
 
 In the above, host defaults to localhost and port to 2113. Any number of JVM instances can be started.
 
 Now, just launch a repl and write some clojure!
-<pre class="terminal"><code>$ jark ns repl NAMESPACE</code></pre>or simply
-<pre class="terminal"><code>$ jark repl [NAMESPACE]
+<pre class="terminal"><code>client> jark ns repl NAMESPACE</code></pre>or simply
+<pre class="terminal"><code>client> jark repl [NAMESPACE]
 </code></pre>
 
 Have a look at the other sections for some useful utilities.
