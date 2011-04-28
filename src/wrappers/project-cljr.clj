@@ -1,0 +1,1 @@
+(leiningen.core/defproject cljr.core/cljr-repo "1.0.0-SNAPSHOT" :description "cljr is a Clojure REPL and package management system." :dependencies [[org.clojure/clojure "1.2.0"] [org.clojure/clojure-contrib "1.2.0"] [leiningen "1.1.0"] [swank-clojure "1.3.0"]] :classpath ["./src/" "./"] :repositories nil)

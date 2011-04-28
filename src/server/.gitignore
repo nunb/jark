@@ -7,7 +7,3 @@ package/pkg/
 package/src/
 *.tar.xz
 bin/jarkc*
-*.swp
-src/wrappers/linux/
-src/wrappers/windows/
-src/wrappers/mac/

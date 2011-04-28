@@ -1,10 +1,18 @@
-(defproject jark "0.3"
-  :description "JARK is a tool to manage classpaths and clojure namespaces on a persistent JVM"
+(defproject jark "develop"
+  :description "JARK build system"
+  :dev-dependencies [[org.clojars.autre/lein-vimclojure "1.0.0"]]
+
   :dependencies [[org.clojure/clojure "1.2.0"]
                  [org.clojure/clojure-contrib "1.2.0"]
                  [swank-clojure "1.3.0"]
-                 [leiningen "1.1.0"]
-                 [org.clojure/tools.nrepl "0.0.4"]]
+                 [org.clojure/tools.nrepl "0.0.4"]
+                 [midje "1.1"]
+                 [org.cloudhoist/stevedore "0.5.0-SNAPSHOT"]
+                 [fs "0.7.1"]]
 
-  :aot [jark.vm jark.cp jark.ns jark.swank jark.doc jark.package
-        cljr.core cljr.clojars]) 
+  :repositories  {"sonatype"
+                  "http://oss.sonatype.org/content/repositories/releases"
+                  "sonatype-snapshots"
+                  "http://oss.sonatype.org/content/repositories/snapshots"}
+
+  :aot [leiningen.build-jark build.jark.gen-script]) 
