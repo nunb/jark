@@ -5,6 +5,7 @@ head: Jark
 
 h2. Emacs support
 
+It would be nice to have a nrepl-client for emacs.
 To start the swank server do <code>client> jark swank start</code>. The same can be added to ~/.jarkrc 
 We can connect from emacs: <code>M-x slime-connect 127.0.0.1 4005</code>
 
