@@ -6,7 +6,7 @@ head: Jark
 h2. Release downloads
 
 
-h3. 0.3 (28-Apr-2011)
+h3. 0.3 (5-May-2011)
 
    For Mac OSX and GNU/Linux:<br>
 
