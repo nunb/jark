@@ -16,7 +16,7 @@
 </head>
 <body>
 
-<div id="site">
+<div id="site" align="left">
     <div id="header">
       <h1>{{ page.head }}</h1>
       <div id="menu">
@@ -28,14 +28,19 @@
         <img src="/images/clojure-icon.gif" height="55">
       </div>
    </div>
-<div id="content">
- <div class="post">
   <h1>{{ page.title}}</h1>
-  <div class="body">
-    <table width="100%">
-      <tr>
-        <td width="15%" valign="top">
 
+<div class="clearfix"/>
+
+    <table width="100%" valign="top">
+      <tr>
+        <td width="15%" valign="top" align="left">
+
+         <div id="content">
+            <div class="post">
+
+              <div class="body">
+ 
          <a href="/jark/index.html">why jark</a><br>
         <a href="/jark/start.html">start</a><br>
          <a href="/jark/namespace.html">namespace</a><br>
@@ -56,16 +61,25 @@
          <a href="https://groups.google.com/group/clojure-jark" target="_new">mailing list</a><br>
          <a href="https://groups.google.com/group/clojure-jark-dev"
          target="_new">dev mailing list</a><br>
+         </div>
+             </div>
+            </div>
+ 
         </td>
-        <td width="85%" valign="top">
+        <td width="85%" valign="top" align="left">
+          <div id="content">
+            <div class="post">
+
+              <div class="body">
           <i> A tool to manage classpaths and clojure namespaces on a persistent JVM</i>
           {{ content }}
+          </div>
+             </div>
+            </div>
         </td>
       </tr>
      </table>
-  </div>
-</div>
-
+ 
 
 </body>
 </html>
