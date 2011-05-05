@@ -28,7 +28,22 @@ In the above, host defaults to localhost and port to 2113. Any number of JVM ins
 
 Now, just launch a repl and write some clojure!
 <pre class="terminal"><code>client> jark ns repl NAMESPACE</code></pre>or simply
-<pre class="terminal"><code>client> jark repl [NAMESPACE]
+<pre class="terminal"><code>client> jark repl [NAMESPACE (default:user)]
+</code></pre>
+
+Jark commands can be run from within the repl, using the '/' prefix:
+<pre class="terminal"><code>user>> /cp list
+....
+</code></pre>
+
+We can switch on/off the nrepl debug-mode
+<pre class="terminal"><code>user>> /debug on
+debug is ON
+user>> (+ 2 2)
+put : (+ 2 2)
+got : {u'status': u'done', u'ns': u'user', u'id': u'localhost:9000-repl', u'value': u'4\n'}
+4
+user>> /debug off
 </code></pre>
 
 Have a look at the other sections for some useful utilities.
