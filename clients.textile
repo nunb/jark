@@ -1,0 +1,27 @@
+---
+layout: clojure
+head: Jark
+---
+
+h1. Other jark clients 
+
+h2. Emacs
+
+We are working on a "slime-nrepl client":https://github.com/icylisper/slime-nrepl . It is still in very early development.
+But for now, one can start a swank instance and connect from emacs.
+To start the swank server do <code>client> jark swank start [--port]</code>.
+To connect from emacs: <code>M-x slime-connect 127.0.0.1 [4005]</code>
+
+When writing clojure scripts using jark, add the following to .emacs to recognise it as clojure-mode.
+
+{% highlight cl %}
+(add-to-list 'interpreter-mode-alist '("jark" . clojure-mode))
+{% endhighlight %}
+
+h2. Vim
+
+Hope someone writes a nrepl-client for vim!
+
+h2. Android client
+
+Coming soon in 0.4 release.
