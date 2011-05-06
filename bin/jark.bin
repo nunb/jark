@@ -194,6 +194,7 @@ extract_common() {
     CDIR=`pwd`
     cd $TMPDIR
     echo "Copying client components to ${JARK_ROOT}"
+    mkdir -p ${JARK_CONFIG_DIR}
     cp -a bin/jark-client ${JARK_BIN}/
     cp -a bin/shflags ${JARK_BIN}/
     cp -a bin/simplejson.py ${JARK_BIN}/
@@ -201,7 +202,6 @@ extract_common() {
     cp -a bin/clj_completions ${JARK_BIN}/
     chmod +x ${JARK_BIN}
     cp -a modules/* ${JARK_MODULES_DIR}/
-    mkdir -p ${JARK_CONFIG_DIR}
 }
 
 extract_server() {
