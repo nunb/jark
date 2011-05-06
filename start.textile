@@ -8,11 +8,11 @@ h2. Getting started
 Download the jark self extracting script "server and client":https://github.com/downloads/icylisper/jark/jark-0.3 or only the "client":https://github.com/downloads/icylisper/jark/jark-0.3-client
 
 <pre class="terminal"><code>server> cp jark-0.3 ~/bin/jark (PATH)
-server> jark self install
+server> jark install
 </code></pre>
 or to install just the client
 <pre class="terminal"><code>client> jark-0.3-client ~/bin/jark (PATH)
-client> jark self install</code></pre>
+client> jark install</code></pre>
 
 The install command extracts relevant files to ~/.cljr and ~/.config/jark
 
