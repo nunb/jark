@@ -16,11 +16,11 @@ client> jark install</code></pre>
 
 The install command extracts relevant files to ~/.cljr and ~/.config/jark
 
-We can start the VM on any available port. 
+The VM can be started on any available port. 
 
 <pre class="terminal"><code>server> jark vm start [--port]</code></pre>
 
-We can connect from any remote host:
+To connect, do
 <pre class="terminal"><code>client> jark vm connect [--host] [--port]
 </code></pre>
 
