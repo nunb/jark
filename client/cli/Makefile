@@ -1,0 +1,5 @@
+compile: 
+	(runhaskell setup configure)
+	(runhaskell setup build)
+	(cp -a dist/build/jark/jark jark)
+	(rm -rf dist)

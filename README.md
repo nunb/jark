@@ -23,7 +23,7 @@ b. Or use the jark CLI program
 
 ## Building CLI client
 
-    $ cd client/cli && ./build
+    $ cd client/cli && make
 This generates the jark cli-client.
 
 # License
