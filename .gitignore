@@ -3,3 +3,4 @@ pom.xml
 lib
 *.tar.xz
 *.swp
+client/cli/jark
