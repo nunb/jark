@@ -1,4 +1,4 @@
-(defproject jark "0.3"
+(defproject jark "0.4"
   :description "JARK is a tool to manage classpaths and clojure namespaces on a persistent JVM"
   :dependencies [[org.clojure/clojure "1.2.0"]
                  [org.clojure/clojure-contrib "1.2.0"]
