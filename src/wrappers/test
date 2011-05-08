@@ -1,9 +1,0 @@
-#! /bin/sh
-
-. ./wrappers/shflags
-
-DEFINE_string name 'world' "somebody's name" n
-FLAGS "$@" || exit $?
-eval set -- "${FLAGS_ARGV}"
-
-echo "Hello, ${FLAGS_name}."
