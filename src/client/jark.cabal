@@ -1,0 +1,10 @@
+Name:                jark
+Version:             0.4
+Description:         jark-nREPL client
+License:             GPL
+Author:              Isaac Praveen
+Build-Type:          Simple
+Cabal-Version:       >=1.2
+Executable jarkc
+  Main-is:           jark.hs
+  Build-Depends:     base >= 3 && < 5
