@@ -31,7 +31,7 @@ options = [
   ]
 
 showVersion _ = do
-  putStrLn "jark client 0.4"
+  putStrLn "jark 0.4"
   exitWith ExitSuccess
 
 readInput arg opt = return opt { optInput = readFile arg }
