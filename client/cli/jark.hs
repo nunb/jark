@@ -22,7 +22,8 @@ toTry = do
               let (Just action) = lookup modCmd dispatch
               case lookup modCmd dispatch of
                 (Just action) -> action ["help"]
-                Nothing -> usage
+                Nothing -> do putStrLn $ "`" ++ head args ++ "`" ++ " is not a valid module."
+                              usage
       _ -> do (mod:command:args) <- getArgs
               let modCmd = mod ++ "-" ++ command
               let (Just action) = lookup modCmd dispatch  
