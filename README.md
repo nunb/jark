@@ -18,14 +18,21 @@ b. Or use the jark CLI program
 
     $ jark vm connect [--host] [--port]
 
-
 # CLIENT
 
 ## Building CLI client
 
+    $ cabal install Shellac parsec Shellac-readline readline regex-compat pretty
     $ cd client/cli && make
+
 This generates the jark cli-client.
 
-# License
+# AUTHORS
+
+Ambrose Bonnaire-Sergeant
+Isaac Praveen
+
+
+# LICENSE
 
 Licensed under the EPL. (See the file epl.html.)

@@ -1,7 +1,8 @@
-module Jark.Ns
-( find
+module Jark.Ns ( 
+  find
 , load
 , usage
+, replUsage
 ) where 
 
 import System.Environment   
@@ -26,3 +27,9 @@ usage [help] = do
     putStrLn $ "\tRuns the given main function with args."
     putStrLn $ pg ++ " ns repl namespace"
     putStrLn $ "\tLaunch a repl at given ns."
+
+replUsage :: String
+replUsage = unlines 
+            ["/ns list (prefix)?",
+             "/ns load file",
+             "/ns run main-ns [args]"]

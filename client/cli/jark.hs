@@ -8,6 +8,7 @@ import qualified Jark.Cp as Cp
 import qualified Jark.Ns as Ns
 import qualified Jark.Doc as Doc
 import qualified Jark.Repo as Repo
+import qualified Jark.Repl as Repl
 import qualified Jark.Package as Package
 
 main = toTry `catch` handler  
@@ -20,7 +21,7 @@ toTry = do
       0 -> usage
       1 -> do let modCmd = head args ++ "-usage"
               case lookup modCmd dispatch of
-                (Just action) -> action ["help"]
+                (Just action) -> action ["user"]
                 Nothing -> do putStrLn $ "`" ++ head args ++ "`" ++ " is not a valid module."
                               usage
       _ -> do (mod:command:args) <- getArgs
@@ -43,6 +44,7 @@ dispatch =  [ ("cp-list" , Cp.list)
             , ("repo-usage" , Repo.usage)                  
             , ("package-usage" , Package.usage)                              
             , ("doc-usage", Doc.usage)                  
+            , ("repl-usage", Repl.run)  
             ] 
 
 usage = do

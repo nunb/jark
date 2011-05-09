@@ -1,7 +1,8 @@
-module Jark.Vm
-( start
+module Jark.Vm ( 
+  start
 , stat
 , usage
+, replUsage
 ) where 
 
 import System.Environment   
@@ -30,3 +31,11 @@ usage [help] = do
     putStrLn $ "\tThe uptime of the current Jark server."
     putStrLn $ pg ++ " vm gc"
     putStrLn $ "\tRun garbage collection on the current Jark server."
+    
+replUsage :: String
+replUsage = unlines 
+            ["/vm connect [--host -r (localhost)] [--port -p (9000)]",
+             "/vm threads",
+             "/vm gc",
+             "/vm stat"]
+

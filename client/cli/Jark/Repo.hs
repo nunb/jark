@@ -1,7 +1,8 @@
-module Jark.Repo
-( start
+module Jark.Repo ( 
+  start
 , stat
 , usage
+, replUsage
 ) where 
 
 import System.Environment   
@@ -23,3 +24,9 @@ usage [help] = do
     putStrLn $ "\tAdd repository."
     putStrLn $ pg ++ " remove URL"
     putStrLn $ "\tRemove repository"
+
+replUsage :: String
+replUsage = unlines 
+            ["/repo list",
+             "/repo add URL",
+             "/repo remove URL"]

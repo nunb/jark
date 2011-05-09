@@ -1,7 +1,8 @@
-module Jark.Package
-( start
+module Jark.Package ( 
+  start
 , stat
 , usage
+, replUsage
 ) where 
 
 import System.Environment   
@@ -31,3 +32,13 @@ usage [help] = do
     putStrLn $ "\tList all packages installed."
     putStrLn $ pg ++ " package latest (--package -p PACKAGE)"
     putStrLn $ "\tPrint the latest version of the package."
+
+replUsage :: String
+replUsage = unlines 
+            ["/package install (--package -p PACKAGE) [--version -v]",
+             "/package uninstall (--package -p PACKAGE)",
+             "/package versions (--package -p PACKAGE)",
+             "/package deps (--package -p PACKAGE) [--version -v]",
+             "/package search (--package -p PACKAGE)",
+             "/package list",
+             "/package latest (--package -p PACKAGE)"]

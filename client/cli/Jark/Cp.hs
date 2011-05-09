@@ -1,7 +1,8 @@
-module Jark.Cp
-( list  
+module Jark.Cp ( 
+  list  
 , add  
 , usage
+, replUsage
 ) where 
 
 import System.Environment   
@@ -22,3 +23,8 @@ usage [help] = do
     putStrLn $ "\tAdd to the classpath for the current Jark server."
     putStrLn $ pg ++ " cp run main-class"
     putStrLn $ "\tRun main-class on the current Jark server."
+
+replUsage :: String
+replUsage = unlines 
+            ["/cp list",
+             "/cp add [PATH(s)]"]

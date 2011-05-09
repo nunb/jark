@@ -2,9 +2,19 @@ Name:                jark
 Version:             0.4
 Description:         jark-nREPL client
 License:             GPL
-Author:              Isaac Praveen
 Build-Type:          Simple
 Cabal-Version:       >=1.2
 Executable jark
   Main-is:           jark.hs
-  Build-Depends:     base >= 3 && < 5
+  Extensions:        MultiParamTypeClasses
+  Build-Depends:     
+                     base, 
+                     haskell98,
+                     parsec,
+                     containers,
+                     mtl,
+                     readline,
+                     Shellac >= 0.9,
+                     Shellac-readline,
+                     regex-compat,
+                     pretty

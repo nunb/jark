@@ -1,5 +1,5 @@
 compile: 
-	(runhaskell setup configure)
-	(runhaskell setup build)
+	(runhaskell Setup configure --user --prefix=$$HOME)
+	(runhaskell Setup build)
 	(cp -a dist/build/jark/jark jark)
 	(rm -rf dist)
