@@ -19,7 +19,6 @@ toTry = do
     case length(args) of
       0 -> usage
       1 -> do let modCmd = head args ++ "-usage"
-              let (Just action) = lookup modCmd dispatch
               case lookup modCmd dispatch of
                 (Just action) -> action ["help"]
                 Nothing -> do putStrLn $ "`" ++ head args ++ "`" ++ " is not a valid module."
