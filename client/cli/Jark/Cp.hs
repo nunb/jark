@@ -11,11 +11,11 @@ import System.IO
 add :: [String] -> IO ()
 add [jarPath] =  putStrLn $ "Adding jarpath " ++ jarPath
 
-list :: [String] -> IO ()
-list [jarPath] =  putStrLn $ "Listing classpaths " ++ jarPath
+list :: IO ()
+list =  putStrLn $ "Listing classpaths "
 
-usage :: [String] -> IO ()
-usage [help] = do
+usage :: IO ()
+usage = do
     pg <- getProgName 
     putStrLn $ pg ++ " cp list"
     putStrLn $ "\tList the classpath for the current Jark server."

@@ -10,8 +10,8 @@ import System.IO
 search :: [String] -> IO ()
 search [ns] = putStrLn $ "Searching doc " ++ ns
 
-usage :: [String] -> IO ()
-usage [help] = do
+usage :: IO ()
+usage = do
     pg <- getProgName 
     putStrLn $ pg ++ " doc search function"
     putStrLn $ "\tFind the docstring for function."

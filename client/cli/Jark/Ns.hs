@@ -14,8 +14,8 @@ load [ns] = putStrLn $ "Loading namespace " ++ ns
 find :: [String] -> IO ()
 find [ns] = putStrLn $ "Finding namespace " ++ ns
 
-usage :: [String] -> IO ()
-usage [help] = do
+usage :: IO ()
+usage = do
     pg <- getProgName 
     putStrLn $ pg ++ " ns list (prefix)?"
     putStrLn $ "\tList all namespaces in the classpath. Optionally takes a namespace prefix."

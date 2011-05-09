@@ -1,5 +1,5 @@
 module Jark.Repl
-( run )
+( repl )
 where 
 
 import System.Console.Shell
@@ -14,13 +14,13 @@ import qualified Jark.Repo as Repo
 
 defaultBackend = readlineBackend
 
-run :: [String] -> IO ()
-run [ns] = do
+repl :: IO ()
+repl = do
   let 
     desc = 
       (mkShellDescription commands eval)
       { greetingText       = Nothing
-      , prompt             = \_ -> return (ns ++ ">> ")
+      , prompt             = \_ -> return ("user" ++ ">> ")
       , commandStyle       = CharPrefixCommands '/'                             
       , secondaryPrompt    = Just $ \_ -> return "] "
       }

@@ -15,8 +15,8 @@ start [host, port] =  putStrLn $ "Starting Vm " ++ host ++ port
 stat :: [String] -> IO ()
 stat [stat] =  putStrLn $ "Showing vm stats"
 
-usage :: [String] -> IO ()
-usage [help] = do
+usage :: IO ()
+usage = do
     pg <- getProgName 
     putStrLn $ pg ++ " repo list"
     putStrLn $ "\tList current repositories."

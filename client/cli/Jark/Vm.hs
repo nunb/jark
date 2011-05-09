@@ -8,15 +8,14 @@ module Jark.Vm (
 import System.Environment   
 import System.IO  
 
-
 start :: [String] -> IO ()
 start [host, port] =  putStrLn $ "Starting Vm " ++ host ++ port
 
-stat :: [String] -> IO ()
-stat [stat] =  putStrLn $ "Showing vm stats"
+stat :: IO ()
+stat =  putStrLn $ "Showing vm stats"
 
-usage :: [String] -> IO ()
-usage [help] = do
+usage :: IO ()
+usage = do
     pg <- getProgName 
     putStrLn $ pg ++ " vm start [--port -p (9000)] [--jvm_opts o]"
     putStrLn $ "\tStart a local Jark server. Takes optional JVM options as a \" delimited string."

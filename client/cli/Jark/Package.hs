@@ -8,15 +8,14 @@ module Jark.Package (
 import System.Environment   
 import System.IO  
 
-
 start :: [String] -> IO ()
 start [host, port] =  putStrLn $ "Starting Vm " ++ host ++ port
 
 stat :: [String] -> IO ()
 stat [stat] =  putStrLn $ "Showing vm stats"
 
-usage :: [String] -> IO ()
-usage [help] = do
+usage :: IO ()
+usage = do
     pg <- getProgName 
     putStrLn $ pg ++ " package install (--package -p PACKAGE) [--version -v]"
     putStrLn $ "\tInstall the relevant version of package from clojars."
