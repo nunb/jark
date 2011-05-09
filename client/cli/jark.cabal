@@ -15,6 +15,4 @@ Executable jark
                      mtl,
                      readline,
                      Shellac >= 0.9,
-                     Shellac-readline,
-                     regex-compat,
-                     pretty
+                     Shellac-readline
