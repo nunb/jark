@@ -20,7 +20,9 @@ toTry = do
       0 -> usage
       1 -> do let modCmd = head args ++ "-usage"
               let (Just action) = lookup modCmd dispatch
-              action ["help"]
+              case lookup modCmd dispatch of
+                (Just action) -> action ["help"]
+                Nothing -> usage
       _ -> do (mod:command:args) <- getArgs
               let modCmd = mod ++ "-" ++ command
               let (Just action) = lookup modCmd dispatch  
