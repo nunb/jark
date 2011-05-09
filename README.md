@@ -22,9 +22,8 @@ b. Or use the jark CLI program
 
 ## Building CLI client
 
-    $ cabal install Shellac parsec Shellac-readline readline regex-compat pretty
-    $ cd client/cli && make
-
+     $ cd client/cli && make deps && make 
+ 
 This generates the jark cli-client.
 
 # AUTHORS

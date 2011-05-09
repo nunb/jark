@@ -3,3 +3,7 @@ compile:
 	(runhaskell Setup build)
 	(cp -a dist/build/jark/jark jark)
 	(rm -rf dist)
+
+deps: 
+	(cabal install readline regex-compat pretty)
+	(cabal install Shellac parsec Shellac-readline)
