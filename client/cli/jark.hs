@@ -46,9 +46,9 @@ dispatch =  [ ("cp-list" , Cp.list)
 usage = do
   pg <- getProgName 
   putStrLn $ "USAGE: " ++ pg ++ " MODULE COMMAND [ARGS]"
-  putStrLn $ "vm       start stop stat uptime threads"
   putStrLn $ "cp       list add"
+  putStrLn $ "doc      search examples comments"
   putStrLn $ "ns       list find load run repl"
   putStrLn $ "package  install uninstall versions deps search installed latest"
   putStrLn $ "repo     list add remove"
-  putStrLn $ "doc      search examples comments"
+  putStrLn $ "vm       start stop stat uptime threads"
