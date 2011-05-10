@@ -1,28 +1,19 @@
 module Jark.Nrepl
-( send )
+( eval )
 where 
   
 import Network
-import Data.Char (toLower)
-import Text.Regex.Posix ((=~))
-import System.IO (hGetLine,hClose,hPutStrLn,hSetBuffering,BufferMode(..),Handle,stdout)
-import Jark.Util
+import System.IO (hGetContents, hFlush, hClose, hPutStr, hSetBuffering, stdout, BufferMode(..))
 
 port = 9000
 ip   = "localhost"
 
-send [input] = do
-  h <- connectTo ip (PortNumber port)
-  putStrLn $ "Connected to " ++ ip ++ ":" ++ show port
-  hSetBuffering h LineBuffering
-  while2 (send h) (receive h)
-
-send h = do
-  input <- getLine
-  hPutStrLn h input
-  return $ null input
- 
-receive h = do
-  input <- hGetLine h
-  putStrLn input
-  return $ null input
+eval :: String -> IO String
+eval expr = withSocketsDo $ do
+       hdl <- connectTo "localhost" (PortNumber 9000)
+       hSetBuffering hdl NoBuffering          
+       hPutStr hdl "test message"
+       res <- hGetContents hdl
+       mapM_ (\x -> putStr (show x) >> hFlush stdout) res
+       hClose hdl
+       return res

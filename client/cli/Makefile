@@ -7,3 +7,4 @@ compile:
 deps: 
 	(cabal install readline regex-compat pretty)
 	(cabal install Shellac parsec Shellac-readline)
+	(cabal install network)

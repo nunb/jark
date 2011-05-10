@@ -11,6 +11,7 @@ import qualified Jark.Ns as Ns
 import qualified Jark.Package as Package
 import qualified Jark.Doc as Doc
 import qualified Jark.Repo as Repo
+import qualified Jark.Nrepl as Nrepl
 
 defaultBackend = readlineBackend
 
@@ -26,8 +27,11 @@ repl = do
       }
   runShell desc defaultBackend ()
     
+-- eval :: String -> Sh () ()
+-- eval x = (Nrepl.eval x) >>= \s -> shellPutStrLn s
+
 eval :: String -> Sh () ()
-eval x =  shellPutStrLn (x)
+eval x = shellPutStrLn x
 
 commands =
   [ exitCommand "quit"
