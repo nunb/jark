@@ -8,7 +8,6 @@ module Jark.Repo (
 import System.Environment   
 import System.IO  
 
-
 start :: [String] -> IO ()
 start [host, port] =  putStrLn $ "Starting Vm " ++ host ++ port
 

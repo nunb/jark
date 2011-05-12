@@ -16,4 +16,5 @@ Executable jark
                      readline,
                      Shellac >= 0.9,
                      Shellac-readline,
-                     network
+                     network,
+                     curl

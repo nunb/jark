@@ -4,10 +4,9 @@ where
   
 import Network
 import System.IO
-import Data.Char(toUpper)
 
 port = 9000
-ip   = "localhost"
+host = "localhost"
 
 eval :: String -> IO String
 eval expr = do
@@ -16,10 +15,18 @@ eval expr = do
       
 evalExpr :: String -> IO String
 evalExpr expr = withSocketsDo $ do
-                hdl <- connectTo "localhost" (PortNumber 9000)
+                hdl <- connectTo host (PortNumber 9000)
                 hSetBuffering hdl NoBuffering          
                 hPutStr hdl "test message"
                 res <- hGetContents hdl
                 mapM_ (\x -> putStr (show x) >> hFlush stdout) res
                 hClose hdl
                 return res
+
+decode :: String -> String 
+decode res = res
+
+getId :: String
+getId = host
+
+
