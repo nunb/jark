@@ -18,14 +18,20 @@ b. Or use the jark CLI program
 
     $ jark vm connect [--host] [--port]
 
-
 # CLIENT
 
 ## Building CLI client
 
-    $ cd client/cli && make
+     $ cd client/cli && make deps && make 
+ 
 This generates the jark cli-client.
 
-# License
+# AUTHORS
+
+Ambrose Bonnaire-Sergeant
+Isaac Praveen
+
+
+# LICENSE
 
 Licensed under the EPL. (See the file epl.html.)
