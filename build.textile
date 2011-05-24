@@ -10,6 +10,6 @@ The build script also requires javac (part of JDK) to be in PATH.
 <pre class="terminal"><code>$ git clone https://github.com/icylisper/jark.git
 $ cd jark && lein jar
 $ ./build [-server | --client ]
-$ ./jark self install
+$ ./jark install
 $ cp jark /to/PATH  (where PATH is for example: ~/bin/)
 </code></pre>
