@@ -6,7 +6,7 @@
   (:refer-clojure :exclude [list find alias])
   (:import (java.io File FileNotFoundException))
   (:require jark.cp)
-  (:use clojure.contrib.json))
+  (:require jark.pp))
 
 (defn- namespaces []
   (find-namespaces-on-classpath))
@@ -87,12 +87,10 @@
     (help n)
     (catch FileNotFoundException e (println "No such module" e))))
 
-
-
 (defn dispatch
   "Dispatches to the right Namespace, Function and Args"
   ([n]
-     (json-str (dispatch-ns n)))
+     (jark.pp/pp-form (dispatch-ns n)))
   ([n f & args]
      (if (or (= (first args) "help") (= f "help"))
        (explicit-help n f)
@@ -101,7 +99,7 @@
          (try
            (let [ret (apply (resolve (symbol (str n "/" f))) args)]
              (when ret
-               ret))
+               (jark.pp/pp-form ret)))
            (catch IllegalArgumentException e (help n f))
            (catch NullPointerException e (println "No such command")))))))
 
