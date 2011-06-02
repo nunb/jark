@@ -87,6 +87,8 @@
     (help n)
     (catch FileNotFoundException e (println "No such module" e))))
 
+
+
 (defn dispatch
   "Dispatches to the right Namespace, Function and Args"
   ([n]
@@ -99,9 +101,7 @@
          (try
            (let [ret (apply (resolve (symbol (str n "/" f))) args)]
              (when ret
-               (if (or (var? ret) (= (type ret) java.lang.Class))
-                 ret
-                 (json-str ret))))
+               ret))
            (catch IllegalArgumentException e (help n f))
            (catch NullPointerException e (println "No such command")))))))
 
