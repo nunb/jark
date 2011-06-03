@@ -47,9 +47,8 @@ h3. 0.4 (platforms)
 * Support jark on common OS platforms (Windows, GNU/Linux, Mac)
 ** Generate wrapper scripts during build-time
 ** The scripts are generated for all common OS Platforms
-** Rewrite jark-client in haskell to generate native binaries. Has minimum runtime dependencies.
+** Rewrite jark-client in OCaml to generate native binaries. Has minimum runtime dependencies.
 * Support jark-client to run on the Android
-* Improved build system (lein build-jark plugin), such that it builds on all OS platforms.
 
 h3. 0.5 (security)
 
