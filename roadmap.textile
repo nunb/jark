@@ -67,7 +67,3 @@ h3. 0.6 (extensions)
 ** GUI to display the above
 * Display GUI programs on the client 
 
-h3. 0.7 (Packaging)
-
-* Debian/Arch/Fedora packaging
-* Packaging for Windows, Mac, Android
