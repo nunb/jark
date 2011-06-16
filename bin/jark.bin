@@ -287,9 +287,9 @@ elif [ -e "$1" ] && [ ! -d "$1" ]; then
     if [[ $LNS == \#* ]]; then
         $JARK_CLIENT -- $NS -main "${@:2}"
     else
-        $JARK ns load $1
+        $JARK ns load "$1"
     fi
-    rm -f $(clj_temp_file $1)
+    rm -f $(clj_temp_file "$1")
     exit 0
 
 else
