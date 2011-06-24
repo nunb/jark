@@ -15,6 +15,7 @@ or to install just the client
 client> jark install</code></pre>
 
 The install command extracts relevant files to ~/.cljr and ~/.config/jark
+Mac OSX users: install GNU getopt
 
 The VM can be started on any available port. 
 

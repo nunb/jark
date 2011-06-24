@@ -18,9 +18,6 @@ Jark provides some interesting namespace utilities. Let us start by loading a fi
 <pre class="terminal"><code>client> jark ns load ./factorial.clj</code></pre>
 
 Running it is really simple:
-<pre class="terminal"><code>client> jark if cli factorial compute 10</code></pre>
-
-or simply 
 <pre class="terminal"><code>client> jark factorial compute 10</code></pre>
 
 Let us now define a fact-map function.
@@ -33,7 +30,7 @@ Let us now define a fact-map function.
                           (map factorial/compute (take n (iterate inc 1))))))
 </code></pre>
 
-The interface(if) module provides cli and cli-json commands. The cli-json spits out JSON.
-<pre class="terminal"><code>client> jark if cli-json factorial fact-map 3
+To output in json, do:
+<pre class="terminal"><code>client> jark ns json factorial fact-map 3
  => {"3" : 6, "2" : 2, "1" : 1}
 </code></pre>
