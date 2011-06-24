@@ -18,6 +18,9 @@ _doc() {
     echo -e ""
     echo -e "jark ns repl namespace"
     echo -e "\tLaunch a repl at given ns."
+    echo -e ""
+    echo -e "jark ns json <ns> <fn> (args+)"
+    echo -e "\treturns output in json"
 }
 
 list() {
@@ -62,5 +65,10 @@ load() {
         echo "No such file: $1"
         exit 1
     fi
+}
+
+json() {
+    $JARK_CLIENT jark.ns cli-json $*
+    exit 0
 }
 
