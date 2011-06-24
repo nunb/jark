@@ -13,6 +13,11 @@ Jark provides some interesting namespace utilities. Let us start by loading a fi
 (defn compute [n] 
   (let [n (Integer. n)]    
     (apply * (take n (iterate inc 1)))))
+
+(defn fact-map [n] 
+  (let [n (Integer. n)]
+    (zipmap (take n (iterate inc 1))
+            (map factorial/compute (take n (iterate inc 1))))))
 {% endhighlight %}
 
 <pre class="terminal"><code>client> jark ns load ./factorial.clj</code></pre>
@@ -23,12 +28,6 @@ Running it is really simple:
 Let us now define a fact-map function.
 
 <code>client> jark ns repl factorial</code> to get to the repl for the 'factorial' namespace. Let us now map the factorial function over a range 0 .. n.
-
-<pre class="terminal"><code>factorial>> (defn fact-map [n] 
-               (let [n (Integer. n)]
-                  (zipmap (take n (iterate inc 1))
-                          (map factorial/compute (take n (iterate inc 1))))))
-</code></pre>
 
 To output in json, do:
 <pre class="terminal"><code>client> jark ns json factorial fact-map 3
