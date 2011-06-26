@@ -6,5 +6,6 @@
                  [leiningen "1.1.0"]
                  [org.clojure/tools.nrepl "0.0.4"]]
 
+  :java-source-path "src"
   :aot [jark.vm jark.cp jark.ns jark.swank jark.doc jark.package
-        cljr.core cljr.clojars]) 
+        cljr.core cljr.clojars ]) 
