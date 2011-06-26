@@ -11,35 +11,18 @@ fi
 export LEIN_SNAPSHOTS_IN_RELEASE="yes"
 export LEIN_ROOT="yes"
 OS="ref"
-WRAP_DIR="src/wrappers"
-CLIENT_DIR="src/client"
-SERVER_DIR="src/server"
+CLIENT_DIR="client/cli-python"
+SERVER_DIR="server"
 
-COMMON_COMPONENTS="${WRAP_DIR}/clj_completions ${WRAP_DIR}/shflags ${WRAP_DIR}/${OS}"
-SERVER_COMPONENTS="${WRAP_DIR}/project-cljr.clj ${SERVER_DIR}/*.jar ${SERVER_DIR}/jark-deps.txt"
 CLIENT_COMPONENTS="${CLIENT_DIR}/jark-client ${CLIENT_DIR}/simplejson.py ${CLIENT_DIR}/termcolor.py"
 
 build_server() {
     echo "Building jark server"
-    mkdir -p ${SERVER_DIR}/classes
-    javac -d ${SERVER_DIR}/classes/ ${SERVER_DIR}/src/jark/SystemThreadList.java 
-    if [ $? != 0 ]; then 
-        echo "javac not installed, exiting"
-        exit 1
-    fi
     cd ${SERVER_DIR}
-    echo "Getting dependencies.."
-    lein deps && lein jar
+    lein clean && lein uberjar
 
     cd -
-    touch ${SERVER_DIR}/jark-deps.txt
-    :> ${SERVER_DIR}/jark-deps.txt
-
-    for i in `ls ${SERVER_DIR}/lib/*.jar`; do
-        echo $i >> ${SERVER_DIR}/jark-deps.txt
-        tar -rf payload.tar $i
-    done
-    tar -rf payload.tar ${SERVER_COMPONENTS}
+    tar -rf payload.tar `ls ${SERVER_DIR}/*standalone.jar`
 }
 
 build_jarkc() {
@@ -101,7 +84,7 @@ if [ "$1" == "--jarkc" ] || [ "$1" == "jarkc" ]; then
 fi
 
 echo "Adding common components ..."
-tar cf payload.tar ${COMMON_COMPONENTS}
+tar cf payload.tar README.md
 
 TMPL_COMPONENT="client"
 
