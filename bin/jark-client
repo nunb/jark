@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import socket, sys, os
+import socket, sys, os, atexit
 from optparse import OptionParser
 import cmd, readline
 
@@ -10,6 +10,15 @@ from simplejson import loads, dumps
 from termcolor import colored
 
 completions = [x.strip() for x in open('%s/clj_completions' % BIN_PATH).readlines()]
+
+# persistent history
+histfile = "%s/.jark_repl_history" % os.environ['HOME']
+atexit.register(readline.write_history_file, histfile)
+
+try:
+    readline.read_history_file(histfile)
+except IOError:
+    pass
 
 class Repl(cmd.Cmd):
     ns          =  'user'
