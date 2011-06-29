@@ -26,6 +26,9 @@ class Repl(cmd.Cmd):
     current_exp =  None
 
     def default(self, exp):
+        if exp == "EOF":
+            print
+            sys.exit(0)
         if exp.startswith('/'):
             self.handle_cmd(exp)
             return (0)
