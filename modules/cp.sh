@@ -62,3 +62,7 @@ ls() {
     list
     exit 0
 }
+
+run() {
+    $JARK_CLIENT jark.cp run $1
+}

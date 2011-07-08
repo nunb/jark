@@ -3,6 +3,7 @@
   (:import (java.net URL URLClassLoader))
   (:import (java.lang.reflect Method))
   (:import (java.io File))
+  (:import (com.stuartsierra ClasspathManager))
   (:use clojure.contrib.classpath)
   (:gen-class))
 
@@ -29,3 +30,8 @@
   "Checks if the given entry exists in CLASSPATH"
   [path]
   (some #(= path %) (ls)))
+
+(defn run
+  "Run a given java class"
+  [klass]
+  (ClasspathManager/main klass))
