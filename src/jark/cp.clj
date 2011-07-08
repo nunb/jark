@@ -3,8 +3,8 @@
   (:import (java.net URL URLClassLoader))
   (:import (java.lang.reflect Method))
   (:import (java.io File))
-  (:import (com.stuartsierra ClasspathManager))
   (:use clojure.contrib.classpath)
+  (:import (org.codehaus.plexus.classworlds.launcher.Launcher))
   (:gen-class))
 
 (defn ls
@@ -12,7 +12,7 @@
   []
   (let [urls (seq (.getURLs (java.lang.ClassLoader/getSystemClassLoader)))]
     (map (memfn toString) urls))) 
-  
+
 (defn add
   "Adds an entry to CLASSPATH, dynamically"
   [#^String jarpath] 
@@ -31,7 +31,5 @@
   [path]
   (some #(= path %) (ls)))
 
-(defn run
-  "Run a given java class"
-  [klass]
-  (ClasspathManager/main klass))
+(defn run-mvn []
+  (Launcher/main (into-array '("help"))))

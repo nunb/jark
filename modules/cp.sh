@@ -13,8 +13,8 @@ _doc() {
     echo -e "jark cp add args+"
     echo -e "\tAdd to the classpath for the current Jark server."
     echo -e ""
-    echo -e "jark cp run main-class"
-    echo -e "\tRun main-class on the current Jark server."
+    echo -e "jark cp mvn TASK ARGS+"
+    echo -e "\tRun a maven task"
     exit 0
 }
 
@@ -63,6 +63,7 @@ ls() {
     exit 0
 }
 
-run() {
-    $JARK_CLIENT jark.cp run $1
+mvn() {
+    $JARK_CLIENT jark.cp run-mvn
+    exit 0
 }

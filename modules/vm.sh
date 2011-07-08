@@ -30,7 +30,7 @@ _doc() {
 
 start() {
     DEFINE_string 'port' '9000' 'remote jark port' 'p'
-    DEFINE_string 'jvm_opts' '-Xms64m -Xmx256m -DNOSECURITY=true' 'JVM Opts' 'o'
+    DEFINE_string 'jvm_opts' '-Xms64m -Xmx256m -DNOSECURITY=true -Dclassworlds.conf=/opt/maven/bin/m2.conf -Dmaven.home=/opt/maven' 'JVM Opts' 'o'
     FLAGS "$@" || exit 1
     eval set -- "${FLAGS_ARGV}"
     port=${FLAGS_port}
