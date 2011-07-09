@@ -32,4 +32,4 @@
   (some #(= path %) (ls)))
 
 (defn run-mvn []
-  (Launcher/main (into-array '("help"))))
+  (org.codehaus.plexus.classworlds.launcher.Launcher/main (into-array '("help"))))

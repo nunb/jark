@@ -4,7 +4,9 @@
                  [org.clojure/clojure-contrib "1.2.0"]
                  [swank-clojure "1.3.0"]
                  [leiningen "1.1.0"]
-                 [org.clojure/tools.nrepl "0.0.4"]]
+                 [org.clojure/tools.nrepl "0.0.4"]
+                 [org.codehaus.plexus/plexus-classworlds "2.4"]
+                 [org.codehaus.plexus/plexus-container-default "1.5.5"]]
 
   :aot [jark.vm jark.cp jark.ns jark.swank jark.doc jark.package
         cljr.core cljr.clojars]) 
