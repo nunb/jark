@@ -195,26 +195,26 @@ extract_common() {
     cd $TMPDIR
     echo "Copying client components to ${JARK_ROOT}"
     mkdir -p ${JARK_CONFIG_DIR}
-    cp -a bin/jark-client ${JARK_BIN}/
-    cp -a bin/shflags ${JARK_BIN}/
-    cp -a bin/simplejson.py ${JARK_BIN}/
-    cp -a bin/termcolor.py ${JARK_BIN}/
-    cp -a bin/clj_completions ${JARK_BIN}/
+    cp -pR bin/jark-client ${JARK_BIN}/
+    cp -pR bin/shflags ${JARK_BIN}/
+    cp -pR bin/simplejson.py ${JARK_BIN}/
+    cp -pR bin/termcolor.py ${JARK_BIN}/
+    cp -pR bin/clj_completions ${JARK_BIN}/
     chmod +x ${JARK_BIN}
-    cp -a modules/* ${JARK_MODULES_DIR}/
+    cp -pR modules/* ${JARK_MODULES_DIR}/
 }
 
 extract_server() {
     echo "Copying server components to ${CLJR_ROOT}"
     mkdir -p ${CLJR_CP}/
-    cp -a lib/*.jar ${CLJR_CP}/
-    cp -a *.jar ${CLJR_CP}/
-    cp -a bin/project-cljr.clj ${CLJR_ROOT}/project.clj
+    cp -pR lib/*.jar ${CLJR_CP}/
+    cp -pR *.jar ${CLJR_CP}/
+    cp -pR bin/project-cljr.clj ${CLJR_ROOT}/project.clj
     cp jark-deps.txt ${CLJR_CP}/
 }
 
 extract_client() {
-    cp -av bin/jark-client ${JARK_BIN}/
+    cp -pR bin/jark-client ${JARK_BIN}/
 }
 
 extract_finish() {

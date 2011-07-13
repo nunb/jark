@@ -50,7 +50,7 @@ update_version() {
     ARCH=`uname -m`
     TMPL_DATE="$DATE"
     #RELEASE_VERSION=`git branch --no-color | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
-    RELEASE_VERSION="0.3"
+    RELEASE_VERSION="0.3.1"
     echo "git hash        : $COMMIT"
     echo "arch            : $ARCH"
     echo "date            : $DATE"
