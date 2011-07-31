@@ -5,11 +5,42 @@ head: Jark
 
 h2. Building jark
 
-To build jark, you need "lein":https://github.com/technomancy/leiningen to be installed.
-The build script also requires javac (part of JDK) to be in PATH.
-<pre class="terminal"><code>$ git clone https://github.com/icylisper/jark.git
-$ cd jark && lein jar
-$ ./build [-server | --client ]
-$ ./jark install
-$ cp jark /to/PATH  (where PATH is for example: ~/bin/)
-</code></pre>
+make deps
+make && make upx
+
+h3. Cross-compilation for Windows
+
+On Arch:
+       packer -S ocaml-mingw32
+       
+Install dependencies:
+
+h4. camlp5
+
+$ wget -O - http://pauillac.inria.fr/~ddr/camlp5/distrib/src/camlp5-6.02.3.tgz 2> \
+/dev/null | tar xzvf - && cd camlp5-6.02.3
+$ ./configure --no-opt
+
+Edit Makefile in ledit and set the following variables <br>
+OCAMLC=i486-mingw32-ocamlc
+OCAMLOPT=i486-mingw32-ocamlopt
+OTHER_OBJS=/usr/lib/i486-mingw32-ocaml/unix.cma -I `camlp5 -where` gramlib.cma
+OTHER_XOBJS=/usr/lib/i486-mingw32-ocaml/unix.cmxa -I `camlp5 -where` gramlib.cmxa
+
+$ make world.opt
+$ rm -rf /usr/lib/ocaml/camlp5
+$ cp -r lib/  /usr/lib/ocaml/camlp5
+$ cp main/*.cmxa /usr/lib/ocaml/camlp5/
+</code></terminal>
+
+h4. ledit  
+
+$ wget -O - http://cristal.inria.fr/~ddr/ledit/distrib/src/ledit-2.02.tgz 2>\
+/dev/null | tar xzvf - && cd ledit-2.02.1
+$ make && make install && make ledit.cmxa
+$ cp -r ledit-2.0.2/ /usr/lib/ocaml/ledit
+
+run `make exe`
+
+ON DEBIAN:
+There is a debian repository for mingw32-ocaml: http://debian.glondu.net/mingw32/

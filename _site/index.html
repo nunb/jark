@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-   <title>icylisper.in</title>
+   <title>icylisper.in - jark</title>
    <meta name="author" content="Isaac Praveen" />
    <link rel="stylesheet" href="/css/master.css" type="text/css" media="screen" charset="utf-8"/>
    <link rel="stylesheet" href="/css/syntax.css" type="text/css" />
@@ -13,41 +13,78 @@
    <script src="/javascripts/jquery.js" type="text/javascript" charset="utf-8"></script>
    <script src="/javascripts/jquery.github.js" type="text/javascript" charset="utf-8"></script>
    <link href="http://feeds.feedburner.com/icylisper" rel="alternate" title="Isaac Praveen" type="application/atom+xml"/>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-18936522-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
 </head>
 <body>
 
-<div id="site">
+<div id="site" align="left">
     <div id="header">
       <h1>Jark</h1>
       <div id="menu">
-        <a href="/clojure/jark.html" id="blog_link">blog</a>
         <a href="http://github.com/icylisper/jark" id="blog_link">code</a>
         <a href="https://groups.google.com/group/clojure-jark" id="blog_link">group</a>
+        <a href="/jark/gitlive.html"  id="blog_link">gitlive</a>
         <img src="/images/clojure-icon.gif" height="55">
       </div>
    </div>
-<div id="content">
- <div class="post">
   <h1></h1>
-  <div class="body">
-    <table width="100%">
-      <tr>
-        <td width="15%" valign="top">
 
+<div class="clearfix"/>
+
+    <table width="100%" valign="top">
+      <tr>
+        <td width="15%" valign="top" align="left">
+
+         <div id="content">
+            <div class="post">
+
+              <div class="body">
+ 
          <a href="/jark/index.html">why jark</a><br>
         <a href="/jark/start.html">start</a><br>
          <a href="/jark/namespace.html">namespace</a><br>
-         <a href="/jark/package.html">packages</a><br>
+         <a href="/jark/package.html">package</a><br>
          <a href="/jark/classpath.html">classpath</a><br>
          <a href="/jark/doc.html">docs</a><br>
-         <a href="/jark/editor.html">editors</a><br>
+         <a href="/jark/clients.html">clients</a><br>
          <a href="/jark/scripting.html">scripting</a><br>
          <a href="/jark/vm.html">vm</a><br>
-         <a href="/jark/resource.html">resources</a><br>
-         <a href="/jark/wishlist.html">wishlist</a><br>
-         <a href="/jark/gitlive.html">git log</a><br>
+         <br>
+         <a href="/jark/roadmap.html">roadmap</a><br>
+         <a href="https://github.com/icylisper/jark/issues" target="_new">issue
+         tracker</a><br>
+         <a href="/jark/build.html">build</a><br>
+         <a href="/jark/downloads.html">downloads</a><br>
+         <br>
+         <a href="https://groups.google.com/group/clojure-jark" target="_new">mailing list</a><br>
+         <a href="https://groups.google.com/group/clojure-jark-dev"
+         target="_new">dev list</a><br>
+         <br>
+         <a href="/">home</a><br>
+         </div>
+             </div>
+            </div>
+ 
         </td>
-        <td width="85%" valign="top">
+        <td width="85%" valign="top" align="left">
+          <div id="content">
+            <div class="post">
+
+              <div class="body">
           <i> A tool to manage classpaths and clojure namespaces on a persistent JVM</i>
           <h2>Why Jark</h2>
 <p>Startup time of the Java Virtual Machine(<span class="caps">JVM</span>) is too slow and thereby command-line applications on the <span class="caps">JVM</span> are sluggish and very painful to use. And there is no existing simple way for multiple clients to access the same instance of the <span class="caps">JVM</span>. Jark is an attempt to run a persistent <span class="caps">JVM</span> daemon and provide a set of utilities to control and operate on it.</p>
@@ -57,15 +94,16 @@
 	<li>provide an easy interface to run clojure programs on the command-line</li>
 	<li>provide a set of useful namespace and classpath utilities</li>
 	<li>provide a secure and robust implementation of a <span class="caps">JVM</span> daemon that multiple clients can connect to, seamlessly</li>
-	<li>integrate with other clojure build tools (lein, cljr) to make them run faster on a persistent VM</li>
+	<li>provide a thin client that can run on any OS platform and with minimum runtime dependencies.</li>
 	<li>be VM agnostic: support for all VMs that clojure runs on in the future</li>
 </ul>
+          </div>
+             </div>
+            </div>
         </td>
       </tr>
      </table>
-  </div>
-</div>
-
+ 
 
 </body>
 </html>

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-   <title>icylisper.in</title>
+   <title>icylisper.in - jark</title>
    <meta name="author" content="Isaac Praveen" />
    <link rel="stylesheet" href="/css/master.css" type="text/css" media="screen" charset="utf-8"/>
    <link rel="stylesheet" href="/css/syntax.css" type="text/css" />
@@ -13,44 +13,82 @@
    <script src="/javascripts/jquery.js" type="text/javascript" charset="utf-8"></script>
    <script src="/javascripts/jquery.github.js" type="text/javascript" charset="utf-8"></script>
    <link href="http://feeds.feedburner.com/icylisper" rel="alternate" title="Isaac Praveen" type="application/atom+xml"/>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-18936522-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
 </head>
 <body>
 
-<div id="site">
+<div id="site" align="left">
     <div id="header">
       <h1>Jark</h1>
       <div id="menu">
-        <a href="/clojure/jark.html" id="blog_link">blog</a>
         <a href="http://github.com/icylisper/jark" id="blog_link">code</a>
         <a href="https://groups.google.com/group/clojure-jark" id="blog_link">group</a>
+        <a href="/jark/gitlive.html"  id="blog_link">gitlive</a>
         <img src="/images/clojure-icon.gif" height="55">
       </div>
    </div>
-<div id="content">
- <div class="post">
   <h1></h1>
-  <div class="body">
-    <table width="100%">
-      <tr>
-        <td width="15%" valign="top">
 
+<div class="clearfix"/>
+
+    <table width="100%" valign="top">
+      <tr>
+        <td width="15%" valign="top" align="left">
+
+         <div id="content">
+            <div class="post">
+
+              <div class="body">
+ 
          <a href="/jark/index.html">why jark</a><br>
         <a href="/jark/start.html">start</a><br>
          <a href="/jark/namespace.html">namespace</a><br>
-         <a href="/jark/package.html">packages</a><br>
+         <a href="/jark/package.html">package</a><br>
          <a href="/jark/classpath.html">classpath</a><br>
          <a href="/jark/doc.html">docs</a><br>
-         <a href="/jark/editor.html">editors</a><br>
+         <a href="/jark/clients.html">clients</a><br>
          <a href="/jark/scripting.html">scripting</a><br>
          <a href="/jark/vm.html">vm</a><br>
-         <a href="/jark/resource.html">resources</a><br>
-         <a href="/jark/wishlist.html">wishlist</a><br>
-         <a href="/jark/gitlive.html">git log</a><br>
+         <br>
+         <a href="/jark/roadmap.html">roadmap</a><br>
+         <a href="https://github.com/icylisper/jark/issues" target="_new">issue
+         tracker</a><br>
+         <a href="/jark/build.html">build</a><br>
+         <a href="/jark/downloads.html">downloads</a><br>
+         <br>
+         <a href="https://groups.google.com/group/clojure-jark" target="_new">mailing list</a><br>
+         <a href="https://groups.google.com/group/clojure-jark-dev"
+         target="_new">dev list</a><br>
+         <br>
+         <a href="/">home</a><br>
+         </div>
+             </div>
+            </div>
+ 
         </td>
-        <td width="85%" valign="top">
+        <td width="85%" valign="top" align="left">
+          <div id="content">
+            <div class="post">
+
+              <div class="body">
           <i> A tool to manage classpaths and clojure namespaces on a persistent JVM</i>
           <h2>Scripting with jark</h2>
-<p>An alternative to <code>jark ns load FILE</code> is using jark as a command interpreter (the shebang operator).</p>
+<p>An alternative to <code>jark ns load FILE</code> is using jark as a command interpreter (the shebang operator).<br />
+Currently, the scripts have to be run only on the server. Future versions of jark will support running scripts securely from a client. Let us see an example of writing a script with command-line args.</p>
 <p><u>file: src/test/script.clj</u></p>
 <div class="highlight"><pre><code class="clojure"><span class="o">#</span><span class="nv">!/usr/bin/env</span> <span class="nv">jark</span>
 
@@ -103,12 +141,43 @@ It would be idiomatic to <strong><span class="caps">NOT</span></strong> use reve
 <pre class="terminal"><code>$ ./factorial -n 10
 Factorial of 10  : 3628800
 </code></pre></p>
+<p>And if we dont need the opt parsing, we can do so without the with-command-line macro. For example, here is a script to calculate the md5sum of a string:</p>
+<p><u>file: md5sum</u></p>
+<div class="highlight"><pre><code class="clojure"><span class="o">#</span><span class="nv">!/usr/bin/env</span> <span class="nv">jark</span>
+
+<span class="p">(</span><span class="nf">ns</span> <span class="nv">md5sum</span>
+  <span class="p">(</span><span class="nf">:refer-clojure</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">:import</span>
+    <span class="p">(</span><span class="nf">java</span><span class="o">.</span><span class="nv">security</span>
+      <span class="nv">NoSuchAlgorithmException</span>
+      <span class="nv">MessageDigest</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">java</span><span class="o">.</span><span class="nv">math</span> <span class="nv">BigInteger</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="k">defn </span><span class="nv">md5-sum</span>
+  <span class="s">&quot;Compute the hex MD5 sum of a string&quot;</span>
+  <span class="p">[</span><span class="o">#</span><span class="nv">^String</span> <span class="nv">str</span><span class="p">]</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">alg</span> <span class="p">(</span><span class="nb">doto </span><span class="p">(</span><span class="nf">MessageDigest/getInstance</span> <span class="s">&quot;MD5&quot;</span><span class="p">)</span>
+	      <span class="p">(</span><span class="o">.</span><span class="nv">reset</span><span class="p">)</span>
+	      <span class="p">(</span><span class="o">.</span><span class="nv">update</span> <span class="p">(</span><span class="o">.</span><span class="nv">getBytes</span> <span class="nv">str</span><span class="p">)))]</span>
+    <span class="p">(</span><span class="nf">try</span>
+      <span class="p">(</span><span class="o">.</span><span class="nv">toString</span> <span class="p">(</span><span class="nb">new </span><span class="nv">BigInteger</span> <span class="mi">1</span> <span class="p">(</span><span class="o">.</span><span class="nv">digest</span> <span class="nv">alg</span><span class="p">))</span> <span class="mi">16</span><span class="p">)</span>
+      <span class="p">(</span><span class="nf">catch</span> <span class="nv">NoSuchAlgorithmException</span> <span class="nv">e</span>
+	<span class="p">(</span><span class="nf">throw</span> <span class="p">(</span><span class="nb">new </span><span class="nv">RuntimeException</span> <span class="nv">e</span><span class="p">))))))</span>
+
+<span class="p">(</span><span class="k">defn </span><span class="nv">-main</span> <span class="p">[</span><span class="nv">&amp;</span> <span class="nv">args</span><span class="p">]</span>
+  <span class="p">(</span><span class="nb">println </span><span class="p">(</span><span class="nf">md5-sum</span> <span class="p">(</span><span class="nb">first </span><span class="nv">args</span><span class="p">))))</span>
+</code></pre>
+</div><p>And then run it as:<br />
+<pre class="terminal"><code>$ ./md5sum "some string"
+=&gt; 5ac749fbeec93607fc28d666be85e73a
+</code></pre></p>
+          </div>
+             </div>
+            </div>
         </td>
       </tr>
      </table>
-  </div>
-</div>
-
+ 
 
 </body>
 </html>

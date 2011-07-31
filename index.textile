@@ -11,6 +11,5 @@ Jark is intended to
 * deploy, maintain and debug clojure programs on remote hosts
 * provide an easy interface to run clojure programs on the command-line
 * provide a set of useful namespace and classpath utilities 
-* provide a secure and robust implementation of a JVM daemon that multiple clients can connect to, seamlessly
 * provide a thin client that can run on any OS platform and with minimum runtime dependencies.
-* be VM agnostic: support for all VMs that clojure runs on in the future
+
