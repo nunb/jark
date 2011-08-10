@@ -9,7 +9,7 @@ h2. Client
 
 Dependencies: OCaml >= 3.11, camlp5
     
-<pre class="terminal"><code>git clone https://github.com/icylisper/jark-client.git
+<pre class="terminal"><code>$ git clone https://github.com/icylisper/jark-client.git
 $ cd jark-client
 $ make deps
 $ make 
@@ -23,7 +23,7 @@ Most often, you dont need to build the server. <code>jark install</code> will do
 
 Dependencies: JDK/JRE, leiningen
 
-<pre class="terminal"><code>git clone https://github.com/icylisper/jark-server.git
+<pre class="terminal"><code>$ git clone https://github.com/icylisper/jark-server.git
 $ cd jark-server 
 $ lein deps
 $ lein javac
