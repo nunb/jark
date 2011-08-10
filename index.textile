@@ -3,7 +3,7 @@ layout: clojure
 head: Jark
 ---
 
-h2. Why Jark
+h2. Jark
 
 Startup time of the Java Virtual Machine(JVM) is quite slow and thereby command-line applications on the JVM are sluggish and very painful to use. Jark is an attempt to run a persistent JVM daemon and provide a set of utilities to control and operate on it. 
 

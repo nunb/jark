@@ -60,45 +60,31 @@ It would be idiomatic to *NOT* use reverse-domain type namespaces for scripts. T
       "Factorial of a number"
       [[n "Some number" 1]
        remaining]
-    (println "Factorial of" n " :" (factorial/compute n))))
+    (println "Factorial of" n " :" (compute n))))
 {% endhighlight %}
 
 And then run it as:
 <pre class="terminal"><code>$ ./factorial -n 10
-Factorial of 10  : 3628800
+=> Factorial of 10  : 3628800
 </code></pre>
 
-And if we dont need the opt parsing, we can do so without the with-command-line macro. For example, here is a script to calculate the md5sum of a string:
-
-<u>file: md5sum</u>
+And if we dont need the opt parsing, we can do so without the with-command-line macro. For example, the above -main function could be written as:
 
 {% highlight clojure %}
-#!/usr/bin/env jark
-
-(ns md5sum
-  (:refer-clojure)
-  (:import
-    (java.security
-      NoSuchAlgorithmException
-      MessageDigest)
-    (java.math BigInteger)))
-
-(defn md5-sum
-  "Compute the hex MD5 sum of a string"
-  [#^String str]
-  (let [alg (doto (MessageDigest/getInstance "MD5")
-	      (.reset)
-	      (.update (.getBytes str)))]
-    (try
-      (.toString (new BigInteger 1 (.digest alg)) 16)
-      (catch NoSuchAlgorithmException e
-	(throw (new RuntimeException e))))))
-
 (defn -main [& args]
-  (println (md5-sum (first args))))
+  (let [n (first args)]
+    (println "Factorial of" n " :" (compute n))))
 {% endhighlight %}
 
 And then run it as:
-<pre class="terminal"><code>$ ./md5sum "some string"
-=> 5ac749fbeec93607fc28d666be85e73a
+<pre class="terminal"><code>$ ./factorial 10
+=> Factorial of 10  : 3628800
 </code></pre>
+
+Jark also takes input from STDIN. One can pipe any expression to <code>jark -s </code>.
+
+<pre class="terminal"><code>$ echo "(+ 2 2)" | jark -s 
+$ cat factorial | jark -s 
+</code></pre>
+
+
