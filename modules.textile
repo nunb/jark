@@ -12,7 +12,6 @@ h1. Jark modules
 # "Documentation Lookup":#doc
 # "Remote REPL":#repl
 # "JVM Instrumentation":#instruments
-# 
 
 <a name="vm">
 

@@ -3,7 +3,7 @@ layout: clojure
 head: Jark
 ---
 
-h1. Configuring jark
+h1. Setting jark configuration
 
 Th path to the config file can be specified with the --config/-c switch. Defaults to ~/.jarkrc
 
@@ -18,10 +18,6 @@ HTTP_CLIENT = "/usr/bin/wget"
 CLOJURE_VERSION = 1.2.1
 
 CONTRIB_VERSION = 1.2.0
-
-NREPL_URL=http://repo1.maven.org/maven2/org/clojure/tools.nrepl/0.0.5/tools.nrepl-0.0.5.jar
-
-JARK_URL=http://clojars.org/repo/jark/jark/0.4/jark-0.4.jar
 
 STANDALONE_JAR  = yes
 

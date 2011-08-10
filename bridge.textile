@@ -7,4 +7,6 @@ h1. Using jark as a clojure/JVM bridge
 
 h2. Rusk
 
-An Erlang-clojure bridge using jark. Documentation to come ...
+"https://github.com/icylisper/rusk":https://github.com/icylisper/rusk
+
+An Erlang-clojure bridge using the nREPL protocol. Still under development

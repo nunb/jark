@@ -3,7 +3,7 @@ layout: clojure
 head: Jark
 ---
 
-h2. Getting started
+h1. Getting started
 
 
 Download the appropriate client binary for your platform from "downloads page":/jark/downloads.html
