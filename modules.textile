@@ -10,9 +10,8 @@ h1. Jark modules
 # "Namespace Utilities":#namespace
 # "Package Management":#package
 # "Documentation Lookup":#doc
-# "Remote Repl":#repl
+# "Remote REPL":#repl
 # "JVM Instrumentation":#instruments
-
 
 <a name="vm">
 
