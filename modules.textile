@@ -8,10 +8,11 @@ h1. Jark modules
 # "Controlling the JVM":#vm
 # "Classpath Manager":#classpath
 # "Namespace Utilities":#namespace
-# "Package Management":#package
+# "Package Manager":#package
 # "Documentation Lookup":#doc
 # "Remote REPL":#repl
 # "JVM Instrumentation":#instruments
+# 
 
 <a name="vm">
 
@@ -84,7 +85,7 @@ To output in json, do:
 
 <a name="package">
 
-h2. Package management
+h2. Package manager
 
 Jark integrates well with exisiting clojure package management tools like cljr and lein.
 
