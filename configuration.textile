@@ -1,0 +1,33 @@
+---
+layout: clojure
+head: Jark
+---
+
+h1. Configuring jark
+
+Th path to the config file can be specified with the --config/-c switch. Defaults to ~/.jarkrc
+
+<pre class="terminal"><code>jark MODULE COMMAND ARGS+ --config /path/to/jarkrc</code></pre>
+
+The following are the configuration variables.
+
+<pre class="terminal"><code>CLJR_DIR = "~/.cljr"
+
+HTTP_CLIENT = "/usr/bin/wget"
+
+CLOJURE_VERSION = 1.2.1
+
+CONTRIB_VERSION = 1.2.0
+
+NREPL_URL=http://repo1.maven.org/maven2/org/clojure/tools.nrepl/0.0.5/tools.nrepl-0.0.5.jar
+
+JARK_URL=http://clojars.org/repo/jark/jark/0.4/jark-0.4.jar
+
+STANDALONE_JAR  = yes
+
+DEFAULT_PORT = 9000
+
+SWANK_PORT = 4005
+
+</code></pre>
+

@@ -1,0 +1,24 @@
+---
+layout: clojure
+head: Jark
+---
+
+h1. Writing jark plugins
+
+Jark modules can be written using OCaml, Lua or Bash scripts. 
+The modules reside in ~/.config/jark/plugins/ directory.
+Documentation on the plugin API  ....
+
+
+h2. Ocaml
+
+    TODO
+
+h2. Lua
+
+    TODO
+
+h2. Bash
+
+    TODO
+

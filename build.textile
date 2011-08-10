@@ -3,44 +3,67 @@ layout: clojure
 head: Jark
 ---
 
-h2. Building jark
+h1. Building jark 0.4
 
-make deps
-make && make upx
+h2. Client
 
-h3. Cross-compilation for Windows
+Dependencies: OCaml >= 3.11, camlp5
+    
+<pre class="terminal"><code>git clone https://github.com/icylisper/jark-client.git
+$ cd jark-client
+$ make deps
+$ make 
+$ cp build/jark-0.4-`uname -m` /usr/bin/jark
+</code></pre>
+Ensure that ledit and camlp5 have been installed to /usr/lib/ocaml and not /usr/local/lib/ocaml or /usr/local/share/ocaml
 
-On Arch:
-       packer -S ocaml-mingw32
+h2. Server
+
+Most often, you dont need to build the server. <code>jark install</code> will download the server jar. However, if you still need to, do the following:
+
+Dependencies: JDK/JRE, leiningen
+
+<pre class="terminal"><code>git clone https://github.com/icylisper/jark-server.git
+$ cd jark-server 
+$ lein deps
+$ lein javac
+$ lein compile
+$ lein jar
+$ lein uberjar
+$ cp jark-0.4-standalone.jar ~/.cljr/lib/
+</code></pre>
+
+h2. Cross-compiling client for win32
+
+Dependencies:
+<pre class="terminal"><code>$ packer -S ocaml-mingw32 (on Arch)
+$ apt-get install ocaml-mingw32 (on debian)
+</code></pre>
+On debian add http://debian.glondu.net/mingw32/ to sources.list
        
-Install dependencies:
+<pre class="terminal"><code>camlp5
+    $ wget http://pauillac.inria.fr/~ddr/camlp5/distrib/src/camlp5-6.02.3.tgz 
+    $ tar xzvf camlp5-6.02.3.tgz  && cd camlp5-6.02.3
+    $ ./configure  --no-opt && make world.opt
+    $ rm -rf /usr/lib/ocaml/camlp5
+    $ cp -r lib/  /usr/lib/ocaml/camlp5
+    $ cp main/*.cmxa /usr/lib/ocaml/camlp5/
 
-h4. camlp5
+ledit 
+    Edit Makefile in ledit and set the following variables
 
-$ wget -O - http://pauillac.inria.fr/~ddr/camlp5/distrib/src/camlp5-6.02.3.tgz 2> \
-/dev/null | tar xzvf - && cd camlp5-6.02.3
-$ ./configure --no-opt
+      OCAMLC=i486-mingw32-ocamlc
+      OCAMLOPT=i486-mingw32-ocamlopt
+      OTHER_OBJS=/usr/lib/i486-mingw32-ocaml/unix.cma -I `camlp5 -where` gramlib.cma
+      OTHER_XOBJS=/usr/lib/i486-mingw32-ocaml/unix.cmxa -I `camlp5 -where` gramlib.cmxa
 
-Edit Makefile in ledit and set the following variables <br>
-OCAMLC=i486-mingw32-ocamlc
-OCAMLOPT=i486-mingw32-ocamlopt
-OTHER_OBJS=/usr/lib/i486-mingw32-ocaml/unix.cma -I `camlp5 -where` gramlib.cma
-OTHER_XOBJS=/usr/lib/i486-mingw32-ocaml/unix.cmxa -I `camlp5 -where` gramlib.cmxa
 
-$ make world.opt
-$ rm -rf /usr/lib/ocaml/camlp5
-$ cp -r lib/  /usr/lib/ocaml/camlp5
-$ cp main/*.cmxa /usr/lib/ocaml/camlp5/
-</code></terminal>
+    $ wget http://cristal.inria.fr/~ddr/ledit/distrib/src/ledit-2.02.tgz
+    $ tar xzvf ledit-2.02.tgz && cd ledit-2.02.1
+    $ make && make install && make ledit.cmxa
+    $ cp -r ledit-2.0.2/ /usr/lib/ocaml/ledit
+</code></pre>
 
-h4. ledit  
+Finally generate the binary for the win32 platform:
 
-$ wget -O - http://cristal.inria.fr/~ddr/ledit/distrib/src/ledit-2.02.tgz 2>\
-/dev/null | tar xzvf - && cd ledit-2.02.1
-$ make && make install && make ledit.cmxa
-$ cp -r ledit-2.0.2/ /usr/lib/ocaml/ledit
-
-run `make exe`
-
-ON DEBIAN:
-There is a debian repository for mingw32-ocaml: http://debian.glondu.net/mingw32/
+<pre class="terminal"><code>$ make exe</code></pre>

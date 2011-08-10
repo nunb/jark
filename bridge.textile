@@ -1,0 +1,10 @@
+---
+layout: clojure
+head: Jark
+---
+
+h1. Using jark as a clojure/JVM bridge
+
+h2. Rusk
+
+An Erlang-clojure bridge using jark. Documentation to come ...

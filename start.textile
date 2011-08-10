@@ -5,17 +5,15 @@ head: Jark
 
 h2. Getting started
 
-Download the jark self extracting script "server and client":https://github.com/downloads/icylisper/jark/jark-0.3 or only the "client":https://github.com/downloads/icylisper/jark/jark-0.3-client
 
-<pre class="terminal"><code>server> cp jark-0.3 ~/bin/jark (PATH)
-server> jark install
+Download the appropriate client binary for your platform from "downloads page":/jark/downloads.html
+Untar and copy the jark-0.4-`platform` script to PATH/jark
+
+To install the server:
+<pre class="terminal"><code>server> jark install
 </code></pre>
-or to install just the client
-<pre class="terminal"><code>client> jark-0.3-client ~/bin/jark (PATH)
-client> jark install</code></pre>
 
 The install command extracts relevant files to ~/.cljr and ~/.config/jark
-Mac OSX users: install GNU getopt
 
 The VM can be started on any available port. 
 
@@ -25,12 +23,14 @@ To connect, do
 <pre class="terminal"><code>client> jark vm connect [--host] [--port]
 </code></pre>
 
-In the above, host defaults to localhost and port to 2113. Any number of JVM instances can be started.
+In the above, host defaults to localhost and port to 9000. Any number of JVM instances can be started.
 
 Now, just launch a repl and write some clojure!
-<pre class="terminal"><code>client> jark ns repl NAMESPACE</code></pre>or simply
-<pre class="terminal"><code>client> jark repl [NAMESPACE (default:user)]
+<pre class="terminal"><code>client> jark repl</code></pre>or simply
 </code></pre>
+
+To get the status of the current connection:
+<pre class="terminal"><code>client> jark self status</code></pre>
 
 Jark commands can be run from within the repl, using the '/' prefix:
 <pre class="terminal"><code>user>> /cp list
@@ -46,5 +46,3 @@ got : {u'status': u'done', u'ns': u'user', u'id': u'localhost:9000-repl', u'valu
 4
 user>> /debug off
 </code></pre>
-
-Have a look at the other sections for some useful utilities.

@@ -26,8 +26,6 @@ h3. 0.2 (Scripting)
 * Vimclojure integration
 * Vm utilities - gc, threads, stats
 
-<hr>
-h2. Current release
 
 h3. 0.3 (nrepl protocol)
 
@@ -38,15 +36,21 @@ h3. 0.3 (nrepl protocol)
 ** completions - filenames and symbols on remote JVM
 ** Handle *out*, *err* and value coming from remote JVM
 * License: EPL (that of clojure's)
+* Released : 1 April 2011
 
 <hr>
-h2. Upcoming releases
+
+h2. Current release
 
 h3. 0.4 (platforms)
 
 * Support jark on common OS platforms (Windows, GNU/Linux, Mac)
 * Rewrite jark-client in OCaml to generate native binaries. Has minimum runtime dependencies.
-* Support jark-client to run on the Android
+* Add lein and container modules
+* Released : Not yet
+
+<hr>
+h2. Upcoming releases
 
 h3. 0.5 (security)
 

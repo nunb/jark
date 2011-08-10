@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+   <title>icylisper.in - jark</title>
+   <meta name="author" content="Isaac Praveen" />
+   <link rel="stylesheet" href="/css/master.css" type="text/css" media="screen" charset="utf-8"/>
+   <link rel="stylesheet" href="/css/syntax.css" type="text/css" />
+
+   <script type="text/javascript" src="http://use.typekit.com/hqz1dpo.js"></script>
+   <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+   <script src="/javascripts/jquery.js" type="text/javascript" charset="utf-8"></script>
+   <script src="/javascripts/jquery.github.js" type="text/javascript" charset="utf-8"></script>
+   <link href="http://feeds.feedburner.com/icylisper" rel="alternate" title="Isaac Praveen" type="application/atom+xml"/>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-18936522-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+</head>
+<body>
+
+<div id="site" align="left">
+    <div id="header">
+      <h1>Jark</h1>
+      <div id="menu">
+        <a href="http://github.com/icylisper/jark" id="blog_link">code</a>
+        <a href="https://groups.google.com/group/clojure-jark" id="blog_link">group</a>
+        <a href="/jark/gitlive.html"  id="blog_link">gitlive</a>
+        <img src="/images/clojure-icon.gif" height="55">
+      </div>
+   </div>
+  <h1></h1>
+
+<div class="clearfix"/>
+
+    <table width="100%" valign="top">
+      <tr>
+        <td width="15%" valign="top" align="left">
+
+         <div id="content">
+            <div class="post">
+
+              <div class="body">
+ 
+         <a href="/jark/index.html">why jark</a><br>
+        <a href="/jark/start.html">start</a><br>
+         <a href="/jark/namespace.html">namespace</a><br>
+         <a href="/jark/package.html">package</a><br>
+         <a href="/jark/classpath.html">classpath</a><br>
+         <a href="/jark/doc.html">docs</a><br>
+         <a href="/jark/clients.html">clients</a><br>
+         <a href="/jark/scripting.html">scripting</a><br>
+         <a href="/jark/vm.html">vm</a><br>
+         <br>
+         <a href="/jark/roadmap.html">roadmap</a><br>
+         <a href="https://github.com/icylisper/jark/issues" target="_new">issue
+         tracker</a><br>
+         <a href="/jark/build.html">build</a><br>
+         <a href="/jark/downloads.html">downloads</a><br>
+         <br>
+         <a href="https://groups.google.com/group/clojure-jark" target="_new">mailing list</a><br>
+         <a href="https://groups.google.com/group/clojure-jark-dev"
+         target="_new">dev list</a><br>
+         <br>
+         <a href="/">home</a><br>
+         </div>
+             </div>
+            </div>
+ 
+        </td>
+        <td width="85%" valign="top" align="left">
+          <div id="content">
+            <div class="post">
+
+              <div class="body">
+          <i> A tool to manage classpaths and clojure namespaces on a persistent JVM</i>
+          <h2>Roadmap</h2>
+<hr>
+<h2>Previous releases</h2>
+<h3>0.1 (proof of concept)</h3>
+<ul>
+	<li>Nailgun-based system to manage classpaths and namespaces on a persistent <span class="caps">JVM</span></li>
+	<li>Add classpaths dynamically</li>
+	<li>Install clojure packages from maven repositories with ease (cljr integration)</li>
+	<li>Lookup clojure documentation on the web</li>
+	<li>Command-line interface to <span class="caps">NFA</span> (Namespace Function Args)</li>
+	<li>Build only on <span class="caps">GNU</span>/Linux</li>
+	<li>License   : Apache License 2</li>
+	<li>Released  : 7 March 2011</li>
+</ul>
+<h3>0.2 (Scripting)</h3>
+<ul>
+	<li>Start and connect to multiple <span class="caps">JVM</span> instances</li>
+	<li>Scripting with jark (Connect to a running <span class="caps">JVM</span> or start one when running clojure scripts)</li>
+	<li>Vimclojure integration</li>
+	<li>Vm utilities &#8211; gc, threads, stats</li>
+</ul>
+<hr>
+<h2>Current release</h2>
+<h3>0.3 (nrepl protocol)</h3>
+<ul>
+	<li>jark-nrepl-server that implements the nrepl protocol (replaces nailgun server)</li>
+	<li>Proof-of-concept nrepl-client written in python (replaces the nailgun client)</li>
+	<li>Rich client <span class="caps">REPL</span> (jark repl)
+	<ul>
+		<li>support jark commands within the repl</li>
+		<li>completions &#8211; filenames and symbols on remote <span class="caps">JVM</span></li>
+		<li>Handle <strong>out</strong>, <strong>err</strong> and value coming from remote <span class="caps">JVM</span></li>
+	</ul></li>
+	<li>License: <span class="caps">EPL</span> (that of clojure&#8217;s)</li>
+</ul>
+<hr>
+<h2>Upcoming releases</h2>
+<h3>0.4 (platforms)</h3>
+<ul>
+	<li>Support jark on common OS platforms (Windows, <span class="caps">GNU</span>/Linux, Mac)</li>
+	<li>Rewrite jark-client in OCaml to generate native binaries. Has minimum runtime dependencies.</li>
+	<li>Support jark-client to run on the Android</li>
+</ul>
+<h3>0.5 (security)</h3>
+<ul>
+	<li>Trap System exits</li>
+	<li>Cookie-based authentication</li>
+	<li>Named VM connections</li>
+	<li>Scripts can specify a VM that they can be run on (#!/usr/bin/env jark [&#8212;name])</li>
+	<li>Blacklisting of clients on remote host</li>
+</ul>
+<h3>0.6 (extensions)</h3>
+<ul>
+	<li>Var inspector module</li>
+	<li>Interactive stacktraces in the repl</li>
+	<li>Support slime-nrepl/vim-nrepl (if any) clients</li>
+	<li>APIs to write/extend jark modules</li>
+	<li>monitor module (jark monitor)
+	<ul>
+		<li>monitor resources on all connected JVMs</li>
+		<li><span class="caps">GUI</span> to display the above</li>
+	</ul></li>
+	<li>Display <span class="caps">GUI</span> programs on the client</li>
+</ul>
+          </div>
+             </div>
+            </div>
+        </td>
+      </tr>
+     </table>
+ 
+
+</body>
+</html>

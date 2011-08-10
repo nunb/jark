@@ -5,8 +5,8 @@ head: Jark
 
 h2. Scripting with jark
 
-An alternative to <code>jark ns load FILE</code> is using jark as a command interpreter (the shebang operator).
-Currently, the scripts have to be run only on the server. Future versions of jark will support running scripts securely from a client. Let us see an example of writing a script with command-line args.
+Let us see an example of writing a script with command-line args. 
+Currently, the scripts have to be run only on the server. Future versions of jark will support running scripts securely from a client. 
 
 <u>file: src/test/script.clj</u>
 

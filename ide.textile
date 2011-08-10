@@ -1,0 +1,13 @@
+---
+layout: clojure
+head: Jark
+---
+
+h1. Using jark in IDEs and editors
+
+h2. VimClojure
+
+Clojure development in Vim
+
+h2. Slime and nREPL server
+
