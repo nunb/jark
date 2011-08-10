@@ -5,16 +5,18 @@ head: Jark
 
 h1. Jark modules
 
-# "JVM Management":#vm
-# "Classpath Utilities":#classpath
+# "Controlling the JVM":#vm
+# "Classpath Manager":#classpath
 # "Namespace Utilities":#namespace
 # "Package Management":#package
-# "Doc search":#doc
+# "Documentation Lookup":#doc
+# "Remote Repl":#repl
+# "JVM Instrumentation":#instruments
 
 
 <a name="vm">
 
-h2. JVM management
+h2. Controlling the JVM
 
 We can pass options to the VM, when starting it. For example, the JVM minimum and maximum heap size are set as follows:
 
@@ -27,23 +29,12 @@ To list all the threads that are running on the VM:
 We can switch between different instances of the JVM running on different hosts. By default it connects to localhost on port 2113.
 <pre class="terminal"><code>client> jark vm connect [--host] [--port]</code></pre>
 
-To get the memory usage and other stats of the VM:
-<pre class="terminal"><code>client> jark vm stat
-=> VM port     -   2113
-   swank port  -   4005
-   total mem   -   170 MB
-   used mem    -   20 MB
-   free mem    -   150 MB
-   start time  -   Tue Apr 05 16:24:33 IST 2011
-   uptime      -   1m | 117s
-</code></pre>
-
 To do garbage collection on demand:
 <pre class="terminal"><code>client> jark vm gc</code></pre>
 
 <a name="classpath">
 
-h2. Classpath utilities
+h2. Classpath Manager
 
 To list the available classpaths:
 <pre class="terminal"><code>client> jark cp list
@@ -133,7 +124,7 @@ There is also the <i>repo</i> module to search, list, add or remove maven reposi
 
 <a name="doc">
 
-h2. Doc search
+h2. Documentation lookup
 
 Jark looks up clojuredoc.org and other resources for usage and examples of the clojure API.
 We can lookup the examples for a function:
@@ -147,10 +138,32 @@ user=> (map inc [1 2 3 4 5])
 
 <a name="repl">
 
-h2. repl
+h2. Remote REPL
 
 To launch a repl and write some clojure on the client!
 <pre class="terminal"><code>$ jark repl NAMESPACE</code></pre>or simply
 <pre class="terminal"><code>$ jark repl [NAMESPACE]
+</code></pre>
+
+<a name="instruments">
+
+h2. JVM instrumentation
+
+To list all the available monitored instruments:
+<pre class="terminal"><code>client> jark stat instruments</code></pre>
+
+To get the value of the instrument:
+<pre class="terminal"><code>client>jark stat instrument [--instrument-name NAME]</code></pre>
+
+
+To get the memory usage and other stats of the VM:
+<pre class="terminal"><code>client> jark stat mem
+=> VM port     -   2113
+   swank port  -   4005
+   total mem   -   170 MB
+   used mem    -   20 MB
+   free mem    -   150 MB
+   start time  -   Tue Apr 05 16:24:33 IST 2011
+   uptime      -   1m | 117s
 </code></pre>
 
