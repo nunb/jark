@@ -45,12 +45,16 @@ h2. Downloads
        <span class="big-height"><span class="hide-me"></span>0.4-alpha</span>
     </td>
 
-    <td class="available">
-    <a href="https://github.com/downloads/icylisper/jark-client/jark-0.4-x86_64-macosx.tar.gz">
-       <span class="big-height"><span class="hide-me"></span>
-       0.4-alpha<br>
-      (900 KB)</span></a>
+    <td class="in-progress">
+       <span class="big-height"><span class="hide-me"></span>0.4-alpha</span>
     </td>
+
+    <!-- <td class="available"> -->
+    <!-- <a href="https://github.com/downloads/icylisper/jark-client/jark-0.4-x86_64-macosx.tar.gz"> -->
+    <!--    <span class="big-height"><span class="hide-me"></span> -->
+    <!--    0.4-alpha<br> -->
+    <!--   (900 KB)</span></a> -->
+    <!-- </td> -->
 
      <td class="not-available">
        <span><span class="big-height"><span class="hide-me"></span></span></span>
