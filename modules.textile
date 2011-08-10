@@ -141,7 +141,22 @@ h2. Remote REPL
 
 To launch a repl and write some clojure on the client!
 <pre class="terminal"><code>$ jark repl NAMESPACE</code></pre>or simply
-<pre class="terminal"><code>$ jark repl [NAMESPACE]
+<pre class="terminal"><code>$ jark repl
+</code></pre>
+
+Jark commands can be run from within the repl, using the '/' prefix:
+<pre class="terminal"><code>user>> /cp list
+....
+</code></pre>
+
+We can switch on/off the nrepl debug-mode
+<pre class="terminal"><code>user>> /debug on
+debug is ON
+user>> (+ 2 2)
+put : (+ 2 2)
+got : {'status': 'done', 'ns': 'user', 'id': 'localhost:9000-repl', 'value': '4\n'}
+4
+user>> /debug off
 </code></pre>
 
 <a name="instruments">

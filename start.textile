@@ -42,7 +42,7 @@ We can switch on/off the nrepl debug-mode
 debug is ON
 user>> (+ 2 2)
 put : (+ 2 2)
-got : {u'status': u'done', u'ns': u'user', u'id': u'localhost:9000-repl', u'value': u'4\n'}
+got : {'status': 'done', 'ns': 'user', 'id': 'localhost:9000-repl', 'value': '4\n'}
 4
 user>> /debug off
 </code></pre>
