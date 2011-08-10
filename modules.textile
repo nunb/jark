@@ -44,7 +44,7 @@ To list the available classpaths:
 </code></pre>
 
 To add a jar or directory as the classpath:
-<pre class="terminal"><code>server> jark cp add /path-on-server/to/jar
+<pre class="terminal"><code>server> jark cp add /path-on-server/to/jar /path/to/jar2 /path/to/jar3 ...
 server> jark cp add DIR
 </code></pre>
 

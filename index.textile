@@ -5,7 +5,7 @@ head: Jark
 
 h2. Why Jark
 
-Startup time of the Java Virtual Machine(JVM) is too slow and thereby command-line applications on the JVM are sluggish and very painful to use. And there is no existing simple way for multiple clients to access the same instance of the JVM. Jark is an attempt to run a persistent JVM daemon and provide a set of utilities to control and operate on it. 
+Startup time of the Java Virtual Machine(JVM) is quite slow and thereby command-line applications on the JVM are sluggish and very painful to use. Jark is an attempt to run a persistent JVM daemon and provide a set of utilities to control and operate on it. 
 
 Jark is intended to 
 * deploy, maintain and debug clojure programs on remote hosts
