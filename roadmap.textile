@@ -40,14 +40,14 @@ h3. 0.3 (nrepl protocol)
 
 <hr>
 
-h2. Current release
+h2. Current release 
 
-h3. 0.4 (platforms)
+h3. 0.4 (platforms) 
 
 * Support jark on common OS platforms (Windows, GNU/Linux, Mac)
 * Rewrite jark-client in OCaml to generate native binaries. Has minimum runtime dependencies.
 * Add lein and container modules
-* Released : Not yet
+* Released : Not yet. Alpha
 
 <hr>
 h2. Upcoming releases
