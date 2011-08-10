@@ -52,22 +52,14 @@ h3. 0.4 (platforms)
 <hr>
 h2. Upcoming releases
 
-h3. 0.5 (security)
+h3. 0.5 (security & plugins)
 
 * Trap System exits
 * Cookie-based authentication
 * Named VM connections 
 * Scripts can specify a VM that they can be run on (#!/usr/bin/env jark [--name])
-* Blacklisting of clients on remote host
-
-h3. 0.6 (extensions)
-
-* Var inspector module
+* Var inspector module (jark var)
 * Interactive stacktraces in the repl
-* Support slime-nrepl/vim-nrepl (if any) clients
-* APIs to write/extend jark modules
-* monitor module (jark monitor)
-** monitor resources on all connected JVMs
-** GUI to display the above
+* APIs to write/extend jark plugins
 * Display GUI programs on the client 
 
