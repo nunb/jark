@@ -82,7 +82,7 @@ To output in json, do:
  => {"3" : 6, "2" : 2, "1" : 1}
 </code></pre>
 
-<a name="package">
+<a name="package"></a>
 
 h2. Package manager
 
@@ -121,7 +121,7 @@ To list all the packages that are installed:
 
 There is also the <i>repo</i> module to search, list, add or remove maven repositories.
 
-<a name="doc">
+<a name="doc"></a>
 
 h2. Documentation lookup
 
@@ -135,7 +135,7 @@ user=> (map inc [1 2 3 4 5])
 ...more...
 </code></pre>
 
-<a name="repl">
+<a name="repl"></a>
 
 h2. Remote REPL
 
@@ -159,7 +159,7 @@ got : {'status': 'done', 'ns': 'user', 'id': 'localhost:9000-repl', 'value': '4\
 user>> /debug off
 </code></pre>
 
-<a name="instruments">
+<a name="instruments"></a>
 
 h2. JVM instrumentation
 
