@@ -3,7 +3,7 @@ layout: clojure
 head: Jark
 ---
 
-h1. Jark modules
+h1. Modules
 
 # "Controlling the JVM":#vm
 # "Classpath Manager":#classpath
@@ -13,7 +13,7 @@ h1. Jark modules
 # "Remote REPL":#repl
 # "JVM Instrumentation":#instruments
 
-<a name="vm">
+<a name="vm"></a>
 
 h2. Controlling the JVM
 
@@ -31,7 +31,7 @@ We can switch between different instances of the JVM running on different hosts.
 To do garbage collection on demand:
 <pre class="terminal"><code>client> jark vm gc</code></pre>
 
-<a name="classpath">
+<a name="classpath"></a>
 
 h2. Classpath Manager
 
@@ -49,7 +49,7 @@ server> jark cp add DIR
 
 Note that the path should be that on the server. Adding classpath from client will be supported in the next release.
 
-<a name="namespace">
+<a name="namespace"></a>
 
 h2. Namespace utilities
 
