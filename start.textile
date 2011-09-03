@@ -13,6 +13,8 @@ To install the server:
 <pre class="terminal"><code>server> jark install
 </code></pre>
 
+Ensure that JAVA_HOME is set appropriately.
+
 The install command extracts relevant files to ~/.cljr and ~/.config/jark
 
 The VM can be started on any available port. 
