@@ -186,3 +186,9 @@ h2. Downloads
      ></tr
     ></table
    >
+
+ Older stable versions:
+
+ <br>
+
+  "0.3.1":https://github.com/downloads/icylisper/jark/jark-0.3.1
